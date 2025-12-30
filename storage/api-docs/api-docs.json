@@ -1,0 +1,1940 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "In Abstract Controller",
+        "version": "1"
+    },
+    "paths": {
+        "/admins/admin/{id}": {
+            "parameters": [
+                {
+                    "$ref": "#/components/parameters/ExampleIdPathParameter"
+                }
+            ]
+        },
+        "/files/{id}": {
+            "parameters": [
+                {
+                    "$ref": "#/components/parameters/filesPublicIdPathParameterData"
+                }
+            ]
+        },
+        "/users/mobile-offers/{id}": {
+            "get": {
+                "tags": [
+                    "usersMobileOffers"
+                ],
+                "operationId": "3d2e751f79d7da96b480fc5725c000fe",
+                "responses": {
+                    "200": {
+                        "description": "Item fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserMobileOfferGetMobileOfferResponseGetMobileOfferResponseData"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "storesMobileOffers"
+                ],
+                "operationId": "2d2cc711fb58272f338501af981f9bfa",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateMobileOfferRequestData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            },
+            "parameters": [
+                {
+                    "$ref": "#/components/parameters/usersGetMobileOfferRequestPathParameterData"
+                }
+            ]
+        },
+        "/users/my-mobile-offers/{id}": {
+            "get": {
+                "tags": [
+                    "usersMobileOffers"
+                ],
+                "operationId": "39c80ca668184e0f6fef85b0bbd3ee29",
+                "parameters": [
+                    {
+                        "name": "is_sold",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Item fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserMobileOfferGetMyMobileOfferResponseGetMyMobileOfferResponseData"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "usersMobileOffers"
+                ],
+                "operationId": "9f9492a61c90f144efdb8043837e4ee1",
+                "responses": {
+                    "204": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "usersMobileOffers"
+                ],
+                "operationId": "f92ff16f49154e6c120d8e30d71695c4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "App\\Data\\User\\MobileOffer\\SellMobileOffer\\Request\\SellMobileOfferRequestData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            },
+            "parameters": [
+                {
+                    "$ref": "#/components/parameters/usersGetMyMobileOfferRequestPathParameterData"
+                },
+                {
+                    "name": "is_sold",
+                    "in": "query",
+                    "schema": {
+                        "type": "boolean"
+                    }
+                }
+            ]
+        },
+        "/admin/users": {
+            "get": {
+                "tags": [
+                    "admins"
+                ],
+                "operationId": "60abfa1474bf57a132f8180ff927722f",
+                "responses": {
+                    "200": {
+                        "description": "Item fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "1"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/sanctum/csrf-cookie": {
+            "get": {
+                "tags": [
+                    "sanctum"
+                ],
+                "summary": "Get Token",
+                "operationId": "bdcf16ea76658023991a1a7b0d87f89d",
+                "responses": {
+                    "200": {
+                        "description": "csrf cookie set",
+                        "headers": {
+                            "Set-Cookie": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admins/auth/login": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "operationId": "f3d30614a98200caa463cb61bd615d27",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/adminLogin"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "User logged in successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/adminLoginResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User name and password or incorrect",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginFailedResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admins/auth/logout": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "operationId": "9dd3b099da7d36014f777f653b6affcb",
+                "responses": {
+                    "200": {
+                        "description": "The User was successfully logged out",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admins/tests": {
+            "get": {
+                "tags": [
+                    "tests"
+                ],
+                "summary": "Display a listing of the resource.",
+                "operationId": "e8ef3102acd4dade0e5773dc1dd6cf5b",
+                "responses": {
+                    "200": {
+                        "description": "Item fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "1"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "tests"
+                ],
+                "operationId": "6ef3ba2611b719f2a25eb7de3eef2a7b",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ExampleData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "User created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admins/tests/list": {
+            "get": {
+                "tags": [
+                    "tests"
+                ],
+                "operationId": "8c2f9b1f0dc1bea2d344cf8e0a405a00",
+                "responses": {
+                    "200": {
+                        "description": "Items fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ExampleData"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admins/tests/queryParameters": {
+            "get": {
+                "tags": [
+                    "tests"
+                ],
+                "operationId": "e64bc810712f9ac2749073dc89e94de0",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ids[]",
+                        "in": "query",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Item fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExampleData"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admins/tests/cursorPagination": {
+            "get": {
+                "tags": [
+                    "tests"
+                ],
+                "operationId": "25b7a467b5e23ebdd60e67105be4073e",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Item fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExampleCursorPaginationRequetData"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admins/tests/form_data": {
+            "post": {
+                "tags": [
+                    "tests"
+                ],
+                "operationId": "f069a4fb30080700b93f3cf50a0d6e8d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ExampleData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "User successfully created",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admins/tests/{id}": {
+            "get": {
+                "tags": [
+                    "tests"
+                ],
+                "operationId": "98184e19d9a5a51dcd5aba95b736f03e",
+                "responses": {
+                    "200": {
+                        "description": "Fetched item successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExampleData"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "tests"
+                ],
+                "operationId": "c9d868a4911415e7ccdcd2c2ee4ed58f",
+                "responses": {
+                    "204": {
+                        "description": "Item Deleted Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "tests"
+                ],
+                "operationId": "cb24d1491746201bbfcef1c0b1d46d93",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ExampleData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Update User Successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/files": {
+            "get": {
+                "tags": [
+                    "files"
+                ],
+                "operationId": "5f5d7a9f14764b7a00b1a6d263730e0a",
+                "responses": {
+                    "204": {
+                        "description": "File uploaded successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/files": {
+            "post": {
+                "tags": [
+                    "files"
+                ],
+                "operationId": "08f811d5e879722f476c4451e5d3c8ae",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UploadFileData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "File uploaded successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UploadFileResponseData"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/files/many": {
+            "post": {
+                "tags": [
+                    "files"
+                ],
+                "operationId": "68ff5a9628dc11dee6bb9ad96dc0ab0b",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UploadFileListData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Files uploaded successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UploadFileListData"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/files/{public_id}": {
+            "delete": {
+                "tags": [
+                    "files"
+                ],
+                "operationId": "b52d1e9d72aaaf50eb426fd91728e567",
+                "responses": {
+                    "204": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/files/cloudinary-presigned-url": {
+            "get": {
+                "tags": [
+                    "files"
+                ],
+                "operationId": "18fdf9a846765be9a51420f555dad6b5",
+                "responses": {
+                    "200": {
+                        "description": "Fetched presigned upload successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/files/cloudinary-presigned-urls": {
+            "get": {
+                "tags": [
+                    "files"
+                ],
+                "operationId": "22b816cd72ad2ba9d78556d2fbbac7f0",
+                "parameters": [
+                    {
+                        "name": "urls_count",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "resource",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Fetched presigned upload successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/files/mobile-offer-cloudinary-notifications-url": {
+            "post": {
+                "tags": [
+                    "files"
+                ],
+                "operationId": "13fe86509b52d8ad5602ddcd77465e14",
+                "requestBody": {
+                    "$ref": "#/components/schemas/CloudinaryNotificationUrlRequestData"
+                },
+                "responses": {
+                    "204": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/auth/get-user-phone-number": {
+            "get": {
+                "tags": [
+                    "usersAuth"
+                ],
+                "operationId": "2a243712b221a1e18407249addacf1f8",
+                "responses": {
+                    "200": {
+                        "description": "Item fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "App\\Data\\User\\Auth\\GetUserPhoneNumberResponseData"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/auth/login/phone-number-step": {
+            "post": {
+                "tags": [
+                    "usersAuth"
+                ],
+                "operationId": "0651e2f5e5607320fb47d4170ef96913",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AddPhoneNumberRegisterationStepRequestData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Item fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AddPhoneNumberLoginStepResponseData"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/auth/login/login": {
+            "post": {
+                "tags": [
+                    "usersAuth"
+                ],
+                "operationId": "ef47ca2825fc9ac67f7a6fae28934542",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequestData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Item fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResponseData"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/auth/registeration/phone-number-step": {
+            "post": {
+                "tags": [
+                    "usersAuth"
+                ],
+                "operationId": "aefe4cf7655ae7cc7f4a98206a67d6c4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AddPhoneNumberRegisterationStepRequestData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Item fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AddPhoneNumberRegisterationStepResponseData"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/auth/registeration/register": {
+            "post": {
+                "tags": [
+                    "usersAuth"
+                ],
+                "operationId": "53aa0f155cba344144e2c95ad44fa4b0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterRequestData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Item fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RegisterResponseData"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/mobile-offer-features": {
+            "get": {
+                "tags": [
+                    "usersMobileOfferFeatures"
+                ],
+                "operationId": "6a1659370009e7f9081d6574599b867c",
+                "responses": {
+                    "200": {
+                        "description": "Items fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserMobileOfferFeatureGetMobileOfferFeaturesListResponseGetMobileOfferFeaturesListResponseData"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/mobile-offers": {
+            "post": {
+                "tags": [
+                    "usersMobileOffers"
+                ],
+                "operationId": "efa9d6357f0f68596212f4a73ef4d56b",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserMobileOfferCreateMobileOfferRequestCreateMobileOfferRequestData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/mobile-offers/{id}/favourite": {
+            "patch": {
+                "tags": [
+                    "usersMobileOffers"
+                ],
+                "operationId": "7653556c983493f1f859f70bb27b1ca3",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "App\\Data\\User\\MobileOffer\\favouriteMobileOffer\\Request\\favouriteMobileOfferRequestData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/mobile-offers/favourites": {
+            "get": {
+                "tags": [
+                    "usersMobileOffers"
+                ],
+                "operationId": "67adc3523a0b772cf8e94b87b94c765f",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Item fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserMobileOfferGetFavouriteMobileOffersResponseGetFavouriteMobileOffersResponsePaginationResultData"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/my-mobile-offers": {
+            "get": {
+                "tags": [
+                    "usersMobileOffers"
+                ],
+                "operationId": "56e5d1bb889fb2f5cba18b83aa347181",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Item fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserMobileOfferGetMyMobileOffersResponseGetMyMobileOffersResponsePaginationResultData"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/mobile-offers/search": {
+            "get": {
+                "tags": [
+                    "usersMobileOffers"
+                ],
+                "operationId": "fec18736f99472eb1ed31a07b9b29741",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Item fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserMobileOfferSearchMobilesOffersResponseSearchMobilesOffersResponsePaginationResultData"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "adminLogin": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "default": "admin"
+                    },
+                    "password": {
+                        "type": "string",
+                        "default": "admin"
+                    }
+                },
+                "type": "object"
+            },
+            "adminLoginResponse": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "ExampleCursorPaginationRequetData": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/adminCursorPaginatedAbstract"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/ExampleData"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "ExampleData": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "ids": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "CloudinaryEagerUploadData": {
+                "properties": {
+                    "transformation": {
+                        "$ref": "#/components/schemas/CloudinaryTransformationEnum"
+                    },
+                    "width": {
+                        "type": "string"
+                    },
+                    "height": {
+                        "type": "string"
+                    },
+                    "bytes": {
+                        "type": "string"
+                    },
+                    "format": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "secure_url": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "CloudinaryNotificationUrlRequestData": {
+                "properties": {
+                    "public_id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "bytes": {
+                        "type": "integer"
+                    },
+                    "eager": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CloudinaryEagerUploadData"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "CreateFilePathData": {
+                "properties": {
+                    "url": {
+                        "type": "string"
+                    },
+                    "public_id": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "DeleteFileData": {
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "FilePathData": {
+                "properties": {
+                    "url": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "FilePublicIdPathParameterData": {},
+            "ShowFileData": {
+                "properties": {
+                    "uid": {
+                        "type": "integer"
+                    },
+                    "url": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateFileData": {
+                "properties": {
+                    "uid": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "url": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "UploadFileData": {
+                "properties": {
+                    "file": {
+                        "type": "string",
+                        "format": "binary"
+                    }
+                },
+                "type": "object"
+            },
+            "UploadFileListData": {
+                "properties": {
+                    "files": {
+                        "type": "array",
+                        "items": {
+                            "type": "Illuminate\\Http\\UploadedFile"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "UploadFileListResponseData": {
+                "properties": {
+                    "files": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/UploadFileResponseData"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "UploadFileResponseData": {
+                "properties": {
+                    "url": {
+                        "type": "string"
+                    },
+                    "public_id": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "ListData": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "LoginFailedResponse": {
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "MediaData": {
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "file_url": {
+                        "type": "string"
+                    },
+                    "thumbnail_url": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "SingleMedia": {
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "file_url": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "adminCursorPaginatedAbstract": {
+                "properties": {
+                    "per_page": {
+                        "type": "integer"
+                    },
+                    "next_cursor": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "adminPaginatedAbstract": {
+                "properties": {
+                    "current_page": {
+                        "type": "integer"
+                    },
+                    "per_page": {
+                        "type": "integer"
+                    },
+                    "total": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "UserMobileOfferCreateMobileOfferRequestCreateMobileOfferRequestData": {
+                "properties": {
+                    "name_in_english": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "price_in_usd": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "ram": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "storage": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "battery_health": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "features": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/UserMobileOfferCreateMobileOfferRequestCreateMobileOfferRequestDataFeatureData"
+                        },
+                        "nullable": true
+                    },
+                    "temporary_uploaded_images_ids": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UserMobileOfferCreateMobileOfferRequestCreateMobileOfferRequestDataFeatureData": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreMobileOfferGetMobileOfferResponseGetMobileOfferResponseData": {},
+            "GetMobileOffersRequestData": {},
+            "StoreMobileOfferGetMobileOffersResponseGetMobileOffersResponseData": {},
+            "StoreMobileOfferGetMobileOffersResponseGetMobileOffersResponsePaginationResultData": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/adminPaginatedAbstract"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/StoreMobileOfferGetMobileOffersResponseGetMobileOffersResponseData"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "GetUserPhoneNumberResponseData": {
+                "properties": {
+                    "phone_number": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "AddPhoneNumberLoginStepRequestData": {
+                "properties": {
+                    "phone_number": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "AddPhoneNumberLoginStepResponseData": {
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "LoginRequestData": {
+                "properties": {
+                    "phone_number": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "LoginResponseData": {
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "AddPhoneNumberRegisterationStepRequestData": {
+                "properties": {
+                    "phone_number": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "AddPhoneNumberRegisterationStepResponseData": {
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "RegisterRequestData": {
+                "properties": {
+                    "phone_number": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "RegisterResponseData": {
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "UserMobileOfferFeatureGetMobileOfferFeaturesListResponseGetMobileOfferFeaturesListResponseData": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreMobileOfferCreateMobileOfferRequestCreateMobileOfferRequestData": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "price_in_usd": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "ram": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "storage": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "battery_health": {
+                        "type": "integer",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "GetFavouriteMobileOffersRequestData": {
+                "properties": {
+                    "search": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UserMobileOfferGetFavouriteMobileOffersResponseGetFavouriteMobileOffersResponseData": {},
+            "UserMobileOfferGetFavouriteMobileOffersResponseGetFavouriteMobileOffersResponsePaginationResultData": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/adminPaginatedAbstract"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/UserMobileOfferGetFavouriteMobileOffersResponseGetFavouriteMobileOffersResponseData"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "UserMyMobileOfferGetMobileOfferRequestFeatuerDataGetMobileOfferResponseData": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "UserMobileOfferGetMobileOfferResponseGetMobileOfferResponseData": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name_in_english": {
+                        "type": "string"
+                    },
+                    "name_in_arabic": {
+                        "type": "string"
+                    },
+                    "price_in_usd": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "ram": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "storage": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "battery_health": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "features": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/UserMyMobileOfferGetMobileOfferRequestFeatuerDataGetMobileOfferResponseData"
+                        }
+                    },
+                    "images": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MediaData"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "GetMyMobileOfferRequestData": {
+                "properties": {
+                    "is_sold": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UserMobileOfferGetMobileOfferRequestFeatuerDataGetMobileOfferResponseData": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "UserMobileOfferGetMyMobileOfferResponseGetMyMobileOfferResponseData": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name_in_english": {
+                        "type": "string"
+                    },
+                    "name_in_arabic": {
+                        "type": "string"
+                    },
+                    "price_in_usd": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "ram": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "storage": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "battery_health": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "features": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/UserMobileOfferCreateMobileOfferRequestCreateMobileOfferRequestDataFeatureData"
+                        }
+                    },
+                    "medially": {
+                        "type": "array",
+                        "items": {
+                            "type": "App\\Models\\Media"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "GetMyMobileOffersRequestData": {
+                "properties": {
+                    "search": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UserMobileOfferGetMyMobileOffersResponseGetMyMobileOffersResponseData": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name_in_english": {
+                        "type": "string"
+                    },
+                    "name_in_arabic": {
+                        "type": "string"
+                    },
+                    "price_in_usd": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "ram": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "storage": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "battery_health": {
+                        "type": "integer",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UserMobileOfferGetMyMobileOffersResponseGetMyMobileOffersResponsePaginationResultData": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/adminPaginatedAbstract"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/UserMobileOfferGetMyMobileOffersResponseGetMyMobileOffersResponseData"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "SearchMobilesOffersRequestData": {
+                "properties": {
+                    "search": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UserMobileOfferSearchMobilesOffersResponseSearchMobilesOffersResponseData": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name_in_english": {
+                        "type": "string"
+                    },
+                    "name_in_arabic": {
+                        "type": "string"
+                    },
+                    "price_in_usd": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "ram": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "storage": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "battery_health": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "mainImage": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/MediaData"
+                            }
+                        ],
+                        "nullable": true
+                    },
+                    "is_favourite": {
+                        "type": "boolean",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UserMobileOfferSearchMobilesOffersResponseSearchMobilesOffersResponsePaginationResultData": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/adminPaginatedAbstract"
+                    },
+                    {
+                        "properties": {
+                            "data": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/UserMobileOfferSearchMobilesOffersResponseSearchMobilesOffersResponseData"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "UpdateMobileOfferRequestData": {
+                "properties": {
+                    "name_in_english": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "price_in_usd": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "ram": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "storage": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "battery_health": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "temporary_uploaded_images_ids": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "CloudinaryTransformationEnum": {
+                "type": "string",
+                "enum": [
+                    "THUMBNAIL",
+                    "MAIN"
+                ]
+            },
+            "Gender": {
+                "description": "[0 => Male, 1 => Female]",
+                "type": "integer",
+                "enum": [
+                    0,
+                    1
+                ]
+            },
+            "UserMobileOfferController": {}
+        },
+        "responses": {
+            "200": {
+                "description": "Item fetched successfully",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/UserMobileOfferGetMyMobileOfferResponseGetMyMobileOfferResponseData"
+                        }
+                    }
+                }
+            }
+        },
+        "parameters": {
+            "ExampleIdPathParameter": {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "filesPublicIdPathParameterData": {
+                "name": "public_id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "localeQueryParameter": {
+                "name": "locale",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "storesDeleteMobileOfferRequestPathParameterData": {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "storesGetMobileOfferRequestPathParameterData": {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "usersdeleteMobileOfferRequestPathParameterData": {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "usersfavouriteMobileOfferRequestPathParameterData": {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "usersGetMobileOfferRequestPathParameterData": {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "usersGetMyMobileOfferRequestPathParameterData": {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "usersSellMobileOfferRequestPathParameterData": {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "storesUpdateMobileOfferRequestPathParameterData": {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            }
+        },
+        "securitySchemes": {
+            "ref_to_be_used_below_csrf": {
+                "type": "apiKey",
+                "name": "X-XSRF-TOKEN",
+                "in": "header"
+            }
+        }
+    },
+    "security": [
+        {
+            "ref_to_be_used_below_csrf": []
+        }
+    ],
+    "tags": [
+        {
+            "name": "auth"
+        },
+        {
+            "name": "admins",
+            "description": "admins"
+        },
+        {
+            "name": "sanctum",
+            "description": "sanctum"
+        },
+        {
+            "name": "tests",
+            "description": "tests"
+        },
+        {
+            "name": "files",
+            "description": "files"
+        },
+        {
+            "name": "usersAuth",
+            "description": "usersAuth"
+        },
+        {
+            "name": "usersMobileOfferFeatures",
+            "description": "usersMobileOfferFeatures"
+        },
+        {
+            "name": "usersMobileOffers",
+            "description": "usersMobileOffers"
+        },
+        {
+            "name": "storesMobileOffers",
+            "description": "storesMobileOffers"
+        }
+    ]
+}
