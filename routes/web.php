@@ -32,7 +32,7 @@ Route::prefix('files')
         ]
     )
     ->group(function () {
-        Route::get('', ExampleController::class);
+        Route::get('', [ExampleController::class, 'get_success_item']);
     });
 
 Route::prefix('files')
