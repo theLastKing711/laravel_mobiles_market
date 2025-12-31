@@ -2,6 +2,7 @@
 
 use App\Enum\Auth\RolesEnum;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\User\Auth\ChangePasswordController;
 use App\Http\Controllers\User\Auth\ChangePhoneNumberController;
@@ -22,6 +23,17 @@ use App\Http\Controllers\User\MobileOffer\SellMobileOfferController;
 use App\Http\Controllers\User\MobileOffer\UpdateMobileOfferController;
 use App\Http\Controllers\User\MobileOfferFeature\GetMobileOfferFeaturesListController;
 use Illuminate\Support\Facades\Route;
+
+Route::prefix('files')
+    ->middleware(
+        [
+            'api',
+
+        ]
+    )
+    ->group(function () {
+        Route::get('', ExampleController::class);
+    });
 
 Route::prefix('files')
     ->middleware(
