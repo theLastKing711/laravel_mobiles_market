@@ -28,4 +28,5 @@
               cd /var/www/html/laravel_mobiles_market
               git pull origin main
               composer install --no-dev --optimize-autoloader
-
+              php artisan optimize
+              sudo supervisorctl restart laravel-worker:*
