@@ -24,7 +24,7 @@ use App\Http\Controllers\User\MobileOffer\UpdateMobileOfferController;
 use App\Http\Controllers\User\MobileOfferFeature\GetMobileOfferFeaturesListController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('files')
+Route::prefix('')
     ->middleware(
         [
             'api',
