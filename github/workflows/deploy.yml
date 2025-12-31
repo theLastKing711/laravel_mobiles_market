@@ -38,7 +38,7 @@
             username: ${{ secrets.VPS_USER }}
             key: ${{ secrets.SSH_PRIVATE_KEY }}
             script: |
-              cd /var/www/your-app
+              cd /var/www/html/laravel_mobiles_market
               git pull origin main
               composer install --no-dev --optimize-autoloader
               php artisan migrate --force
