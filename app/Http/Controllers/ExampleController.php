@@ -36,8 +36,8 @@ class ExampleController extends Controller
     public function get_success_item()
     {
         return [
-            'items'
-        ]
+            'items',
+        ];
     }
 
     #[OAT\Get(path: '/admins/tests/list', tags: ['tests'])]
