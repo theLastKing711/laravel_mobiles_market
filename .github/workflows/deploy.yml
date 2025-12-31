@@ -30,4 +30,5 @@
               composer install --no-dev --optimize-autoloader
               php artisan migrate --force
               php artisan optimize
+              php artisan queue:restart
 
