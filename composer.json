@@ -12,6 +12,7 @@
         "cloudinary-labs/cloudinary-laravel": "^2.2",
         "darkaonline/l5-swagger": "^8.6",
         "datlechin/laravel-google-translate": "dev-main",
+        "fakerphp/faker": "^1.23",
         "kirschbaum-development/eloquent-power-joins": "^4.0",
         "laravel/framework": "^12.9",
         "laravel/pulse": "^1.4",

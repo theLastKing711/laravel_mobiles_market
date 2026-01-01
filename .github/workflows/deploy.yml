@@ -31,4 +31,4 @@
               php artisan migrate:fresh --force
               php artisan optimize
               php artisan queue:restart
-               php artisan db:seed --force
+              php artisan db:seed --force
