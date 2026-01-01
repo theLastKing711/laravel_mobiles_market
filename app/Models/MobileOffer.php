@@ -112,7 +112,6 @@ class MobileOffer extends Model
         //         ->map(function ($data) {
         //             return $data['id'];
         //         });
-
         return $index_attributes_array;
     }
 
