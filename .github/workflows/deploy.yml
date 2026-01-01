@@ -28,6 +28,7 @@
               cd /var/www/html/laravel_mobiles_market
               git pull origin main
               composer install --no-dev --optimize-autoloader
-              php artisan migrate:fresh --force --seed
+              php artisan migrate:fresh --force
+              php artisan db:seed --force
               php artisan optimize
               php artisan queue:restart
