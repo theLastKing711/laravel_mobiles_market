@@ -131,11 +131,19 @@ class MobileOfferSeeder extends Seeder
                ->user()
                ->first();
 
-        $store
-            ->mobileOffers()
-            ->createMany(
-                MobileOfferSeeder::MOBILE_OFFERS
-            );
+        // $store
+        //     ->mobileOffers()
+        //     ->createMany(
+        //         MobileOfferSeeder::MOBILE_OFFERS
+        //     );
+
+        foreach (MobileOfferSeeder::MOBILE_OFFERS as $key => $value) {
+            $store
+                ->mobileOffers()
+                ->create(
+                    $value
+                );
+        }
 
         Context::add(
             'mobile_offers',
