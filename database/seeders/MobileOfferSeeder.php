@@ -136,7 +136,6 @@ class MobileOfferSeeder extends Seeder
         //     ->createMany(
         //         MobileOfferSeeder::MOBILE_OFFERS
         //     );
-
         foreach (MobileOfferSeeder::MOBILE_OFFERS as $key => $value) {
             $store
                 ->mobileOffers()
