@@ -54,6 +54,7 @@
         "phpdocs": "php artisan ide-helper:generate && php artisan ide-helper:models  && php artisan ide-helper:meta",
         "github": "git add . && git commit -m 'a' && git push origin main",
         "typescript": "php artisan typescript:transform",
+        "seed": "php artisan migrate:fresh -seed",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
