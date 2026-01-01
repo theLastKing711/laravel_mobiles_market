@@ -77,7 +77,8 @@ class MobileOffer extends Model
                 // $this->toArray(),
                 [
                     'id' => (string) $this->id,
-                    'user_id' => $this->user_id ?? Auth::User()->id,
+                    // 'user_id' => $this->user_id ?? Auth::User()->id,
+                    'user_id' => 1,
                     'name_in_english' => $this->name_in_english,
                     'name_in_arabic' => $this->name_in_arabic,
                     'mobile_name_language_when_uploaded' => $this->mobile_name_language_when_uploaded,
