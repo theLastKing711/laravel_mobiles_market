@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             StoreSeeder::class,
             UserSeeder::class,
-            MobileOfferSeeder::class,
+            // MobileOfferSeeder::class,
             MobileOfferFeatureSeeder::class,
             MobileFeatureSeeder::class,
         ]);
