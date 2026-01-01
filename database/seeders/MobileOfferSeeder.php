@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Enum\Language;
-use App\Models\MobileOffer;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Context;
@@ -132,20 +131,11 @@ class MobileOfferSeeder extends Seeder
                ->user()
                ->first();
 
-        // $store
-        //     ->mobileOffers()
-        //     ->createMany(
-        //         MobileOfferSeeder::MOBILE_OFFERS
-        //     );
-        foreach (MobileOfferSeeder::MOBILE_OFFERS as $key => $value) {
-            $store
-                ->mobileOffers()
-                ->save(
-                    new MobileOffer(
-                        $value
-                    )
-                );
-        }
+        $store
+            ->mobileOffers()
+            ->createMany(
+                MobileOfferSeeder::MOBILE_OFFERS
+            );
 
         Context::add(
             'mobile_offers',

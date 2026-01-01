@@ -28,8 +28,8 @@
               cd /var/www/html/laravel_mobiles_market
               git pull origin main
               composer install --no-dev --optimize-autoloader
-              php artisan migrate:fresh --force
               php artisan scout:flush "App\Models\MobileOffer"
+              php artisan migrate:fresh --force
               php artisan db:seed --force
               php artisan scout:import "App\Models\MobileOffer"
               php artisan optimize
