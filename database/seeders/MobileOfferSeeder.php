@@ -112,6 +112,7 @@ class MobileOfferSeeder extends Seeder
             'number_of_esims' => 2,
             'color' => 'pink',
         ],
+
     ];
 
     /**
