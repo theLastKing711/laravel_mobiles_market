@@ -14,11 +14,11 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             RolesAndPermissionsSeeder::class,
-            // AdminSeeder::class,
+            AdminSeeder::class,
             UserSeeder::class,
-            // MobileOfferSeeder::class,
-            // MobileOfferFeatureSeeder::class,
-            // MobileFeatureSeeder::class,
+            MobileOfferSeeder::class,
+            MobileOfferFeatureSeeder::class,
+            MobileFeatureSeeder::class,
         ]);
     }
 }
