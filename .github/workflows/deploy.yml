@@ -31,5 +31,6 @@
               php artisan migrate:fresh --force
               php artisan scout:flush "App\Models\MobileOffer"
               php artisan db:seed --force
+              php artisan scout:import
               php artisan optimize
               php artisan queue:restart
