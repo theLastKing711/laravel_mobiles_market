@@ -102,7 +102,7 @@ class User extends Authenticatable implements IUploadable
         $query->role(RolesEnum::STORE);
     }
 
-    public function scoeUser($query)
+    public function scopeUser($query)
     {
         $query->role(RolesEnum::USER);
     }
