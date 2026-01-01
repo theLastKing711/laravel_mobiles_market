@@ -32,3 +32,4 @@
 
               php artisan queue:restart
               php artisan db:seed --force
+              php artisan optimize
