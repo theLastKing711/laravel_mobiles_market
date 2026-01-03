@@ -82,7 +82,7 @@ class MobileOffer extends Model
                     'name_in_arabic' => $this->name_in_arabic,
                     'mobile_name_language_when_uploaded' => $this->mobile_name_language_when_uploaded->value,
                     'price_in_usd' => $this->price_in_usd,
-                    // 'is_sold' => $this->is_sold,
+                    'is_sold' => $this->is_sold,
                     // 'screen_size' => $this->screen_size,
                     // 'screen_type' => $this->screen_type,
                     // 'cpu' => $this->cpu,
