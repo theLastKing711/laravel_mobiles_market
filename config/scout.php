@@ -210,10 +210,10 @@ return [
                             'name' => 'price_in_usd',
                             'type' => 'int32',
                         ],
-                        // [
-                        //     'name' => 'is_sold',
-                        //     'type' => 'int32',
-                        // ],
+                        [
+                            'name' => 'is_sold',
+                            'type' => 'int32',
+                        ],
                         // [
                         //     'name' => 'ram',
                         //     'type' => 'string',
