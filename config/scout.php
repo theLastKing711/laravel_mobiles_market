@@ -225,7 +225,7 @@ return [
                             'optional' => true,
                         ],
                         [
-                            'name' => 'battery_health',
+                            'name' => 'battery_size',
                             'type' => 'int32',
                         ],
                         // [
