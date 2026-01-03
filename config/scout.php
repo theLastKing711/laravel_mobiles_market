@@ -227,7 +227,7 @@ return [
                         [
                             'name' => 'battery_health',
                             'type' => 'int32',
-                            'optional' => true,
+                            // 'optional' => true,
                         ],
                         // [
                         //     'name' => 'number_of_sims',
