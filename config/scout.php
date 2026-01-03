@@ -196,7 +196,7 @@ return [
                         ],
                         [
                             'name' => 'mobile_name_language_when_uploaded',
-                            'type' => 'integer',
+                            'type' => 'int32',
                         ],
                         // [
                         //     'name' => 'name_in_english',
