@@ -13,7 +13,7 @@ class MobileOfferSeeder extends Seeder
         [
             'name_in_english' => 'iPhone XR',
             'name_in_arabic' => 'أيفون إكس أر',
-            'mobile_name_language_when_uploaded' => Language::EN,
+            'mobile_name_language_when_uploaded' => 2,
             'price_in_usd' => 300,
             'is_sold' => false,
             'screen_size' => '6.1',
@@ -30,7 +30,7 @@ class MobileOfferSeeder extends Seeder
         [
             'name_in_english' => 'iPhone 11',
             'name_in_arabic' => 'أيفون 11',
-            'mobile_name_language_when_uploaded' => Language::EN,
+            'mobile_name_language_when_uploaded' => 2,
             'price_in_usd' => 400,
             'is_sold' => false,
             'screen_size' => '6.1',
