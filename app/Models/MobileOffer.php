@@ -88,7 +88,7 @@ class MobileOffer extends Model
                     'cpu' => $this->cpu,
                     'ram' => $this->ram,
                     'storage' => $this->storage,
-                    // 'battery_size' => $this->battery_size,
+                    'battery_size' => $this->battery_size,
                     'battery_health' => $this->battery_health,
                     'number_of_sims' => $this->number_of_sims,
                     'number_of_esims' => $this->number_of_esims,
