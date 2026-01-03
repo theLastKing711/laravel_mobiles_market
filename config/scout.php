@@ -194,10 +194,10 @@ return [
                             'name' => 'user_id',
                             'type' => 'int64',
                         ],
-                        // [
-                        //     'name' => 'mobile_name_language_when_uploaded',
-                        //     'type' => 'integer',
-                        // ],
+                        [
+                            'name' => 'mobile_name_language_when_uploaded',
+                            'type' => 'integer',
+                        ],
                         // [
                         //     'name' => 'name_in_english',
                         //     'type' => 'string',
