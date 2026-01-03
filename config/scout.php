@@ -198,52 +198,52 @@ return [
                             'name' => 'mobile_name_language_when_uploaded',
                             'type' => 'int32',
                         ],
-                        // [
-                        //     'name' => 'name_in_english',
-                        //     'type' => 'string',
-                        // ],
-                        // [
-                        //     'name' => 'name_in_arabic',
-                        //     'type' => 'string',
-                        // ],
-                        // [
-                        //     'name' => 'price_in_usd',
-                        //     'type' => 'int32',
-                        // ],
-                        // [
-                        //     'name' => 'is_sold',
-                        //     'type' => 'int32',
-                        // ],
-                        // [
-                        //     'name' => 'ram',
-                        //     'type' => 'string',
-                        //     'optional' => true,
-                        // ],
-                        // [
-                        //     'name' => 'storage',
-                        //     'type' => 'string',
-                        //     'optional' => true,
-                        // ],
-                        // [
-                        //     'name' => 'battery_health',
-                        //     'type' => 'int32',
-                        // ],
-                        // [
-                        //     'name' => ' ',
-                        //     'type' => 'int32',
-                        //     'optional' => true,
-                        // ],
-                        // [
-                        //     'name' => 'color',
-                        //     'type' => 'string',
-                        //     'optional' => true,
-                        // ],
-                        // [
-                        //     'name' => 'created_at',
-                        //     'type' => 'int64',
-                        // ],
+                        [
+                            'name' => 'name_in_english',
+                            'type' => 'string',
+                        ],
+                        [
+                            'name' => 'name_in_arabic',
+                            'type' => 'string',
+                        ],
+                        [
+                            'name' => 'price_in_usd',
+                            'type' => 'int32',
+                        ],
+                        [
+                            'name' => 'is_sold',
+                            'type' => 'int32',
+                        ],
+                        [
+                            'name' => 'ram',
+                            'type' => 'string',
+                            'optional' => true,
+                        ],
+                        [
+                            'name' => 'storage',
+                            'type' => 'string',
+                            'optional' => true,
+                        ],
+                        [
+                            'name' => 'battery_health',
+                            'type' => 'int32',
+                        ],
+                        [
+                            'name' => ' ',
+                            'type' => 'int32',
+                            'optional' => true,
+                        ],
+                        [
+                            'name' => 'color',
+                            'type' => 'string',
+                            'optional' => true,
+                        ],
+                        [
+                            'name' => 'created_at',
+                            'type' => 'int64',
+                        ],
                     ],
-                    // 'default_sorting_field' => 'created_at',
+                    'default_sorting_field' => 'created_at',
                 ],
                 // what to filter by when using Model::search($string);
                 // it has nothing to do with index storage(data that get stored)
