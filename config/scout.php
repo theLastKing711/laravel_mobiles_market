@@ -219,11 +219,11 @@ return [
                             'type' => 'string',
                             'optional' => true,
                         ],
-                        // [
-                        //     'name' => 'storage',
-                        //     'type' => 'string',
-                        //     'optional' => true,
-                        // ],
+                        [
+                            'name' => 'storage',
+                            'type' => 'string',
+                            'optional' => true,
+                        ],
                         // [
                         //     'name' => 'battery_health',
                         //     'type' => 'int32',
