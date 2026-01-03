@@ -206,10 +206,10 @@ return [
                             'name' => 'mobile_name_language_when_uploaded',
                             'type' => 'int32',
                         ],
-                        // [
-                        //     'name' => 'price_in_usd',
-                        //     'type' => 'int32',
-                        // ],
+                        [
+                            'name' => 'price_in_usd',
+                            'type' => 'int32',
+                        ],
                         // [
                         //     'name' => 'is_sold',
                         //     'type' => 'int32',
