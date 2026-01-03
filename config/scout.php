@@ -229,20 +229,21 @@ return [
                             'type' => 'int32',
                             // 'optional' => true,
                         ],
-                        // [
-                        //     'name' => 'number_of_sims',
-                        //     'type' => 'int32',
-                        //     'optional' => true,
-                        // ],
-                        //     'name' => 'number_of_esims',
-                        //     'type' => 'int32',
-                        //     'optional' => true,
-                        // ],
-                        // [
-                        //     'name' => 'color',
-                        //     'type' => 'string',
-                        //     'optional' => true,
-                        // ],
+                        [
+                            'name' => 'number_of_sims',
+                            'type' => 'int32',
+                            'optional' => true,
+                        ],
+                        [
+                            'name' => 'number_of_esims',
+                            'type' => 'int32',
+                            'optional' => true,
+                        ],
+                        [
+                            'name' => 'color',
+                            'type' => 'string',
+                            'optional' => true,
+                        ],
                         [
                             'name' => 'created_at',
                             'type' => 'int64',
