@@ -391,7 +391,7 @@ class FileController extends Controller
 
         return [
             ...$paramsToSign,
-            'api_key' => config('cloudinary.api_key'),
+            'api_key' => config('app.url'),
             'folder' => 'mobiles_market',
             'cloud_name' => config('cloudinary.cloud_name'),
         ];
