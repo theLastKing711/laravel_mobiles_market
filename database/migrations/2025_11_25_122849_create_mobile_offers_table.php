@@ -17,9 +17,9 @@ return new class extends Migration
                 ->foreignId('user_id')
                 ->constrained()
                 ->cascadeOnDelete();
-            $table->integer('mobile_name_language_when_uploaded');
-            $table->string('name_in_english');
-            $table->string('name_in_arabic');
+            $table->integer('mobile_name_language_when_uploaded')->nullable();
+            $table->string('name_in_english')->nullable();
+            $table->string('name_in_arabic')->nullable();
             $table
                 ->integer('price_in_usd')
                 ->nullable();
