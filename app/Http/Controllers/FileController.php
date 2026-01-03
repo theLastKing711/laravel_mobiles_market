@@ -374,8 +374,6 @@ class FileController extends Controller
     public function getCloudinaryPresignedUrl()
     {
 
-        return config('cloudinary.api_key');
-
         $paramsToSign = [
             'timeStamp' => time(),
             'folder' => 'mobiles_market',
@@ -406,6 +404,8 @@ class FileController extends Controller
     #[SuccessItemResponse('string', 'Fetched presigned upload successfully')]
     public function getCloudinaryPresignedUrls(Request $request)
     {
+
+        return config('cloudinary.api_key');
 
         $urls_list =
             Collection::times($request->urls_count, fn ($number) => $number); // [1, 2, 3, 4, 5]
