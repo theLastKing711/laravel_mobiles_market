@@ -219,15 +219,15 @@ return [
                             'type' => 'string',
                             'optional' => true,
                         ],
-                        [
-                            'name' => 'storage',
-                            'type' => 'string',
-                            'optional' => true,
-                        ],
-                        [
-                            'name' => 'battery_health',
-                            'type' => 'int32',
-                        ],
+                        // [
+                        //     'name' => 'storage',
+                        //     'type' => 'string',
+                        //     'optional' => true,
+                        // ],
+                        // [
+                        //     'name' => 'battery_health',
+                        //     'type' => 'int32',
+                        // ],
                         // [
                         //     'name' => 'number_of_sims',
                         //     'type' => 'int32',
