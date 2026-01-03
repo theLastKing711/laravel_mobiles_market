@@ -210,10 +210,10 @@ return [
                             'name' => 'price_in_usd',
                             'type' => 'int32',
                         ],
-                        [
-                            'name' => 'is_sold',
-                            'type' => 'int32',
-                        ],
+                        // [
+                        //     'name' => 'is_sold',
+                        //     'type' => 'int32',
+                        // ],
                         // [
                         //     'name' => 'ram',
                         //     'type' => 'string',
@@ -229,7 +229,11 @@ return [
                         //     'type' => 'int32',
                         // ],
                         // [
-                        //     'name' => ' ',
+                        //     'name' => 'number_of_sims',
+                        //     'type' => 'int32',
+                        //     'optional' => true,
+                        // ],
+                        //     'name' => 'number_of_esims',
                         //     'type' => 'int32',
                         //     'optional' => true,
                         // ],
