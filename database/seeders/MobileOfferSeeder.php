@@ -26,6 +26,7 @@ class MobileOfferSeeder extends Seeder
             // 'number_of_sims' => 1,
             // 'number_of_esims' => 0,
             // 'color' => 'blue',
+            // 'created_at' => now(),
         ],
         // [
         //     'name_in_english' => 'iPhone 11',
