@@ -405,7 +405,7 @@ class FileController extends Controller
     public function getCloudinaryPresignedUrls(Request $request)
     {
 
-        return config('cloudinary.api_key');
+        // return config('cloudinary.api_key');
 
         $urls_list =
             Collection::times($request->urls_count, fn ($number) => $number); // [1, 2, 3, 4, 5]
