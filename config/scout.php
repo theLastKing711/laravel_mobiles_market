@@ -212,7 +212,7 @@ return [
                         ],
                         [
                             'name' => 'is_sold',
-                            'type' => 'int32',
+                            'type' => 'bool',
                         ],
                         // [
                         //     'name' => 'ram',
