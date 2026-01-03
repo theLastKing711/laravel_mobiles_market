@@ -374,6 +374,8 @@ class FileController extends Controller
     public function getCloudinaryPresignedUrl()
     {
 
+        return config('cloudinary.api_key');
+
         $paramsToSign = [
             'timeStamp' => time(),
             'folder' => 'mobiles_market',
