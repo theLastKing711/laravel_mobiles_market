@@ -230,6 +230,11 @@ return [
                             // 'optional' => true,
                         ],
                         [
+                            'name' => 'battery_size',
+                            'type' => 'int32',
+                            'optional' => true,
+                        ],
+                        [
                             'name' => 'number_of_sims',
                             'type' => 'int32',
                             'optional' => true,
