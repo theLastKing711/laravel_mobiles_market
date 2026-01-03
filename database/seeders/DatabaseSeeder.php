@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             MobileOfferFeatureSeeder::class,
             MobileOfferSeeder::class,
-            // MobileFeatureSeeder::class,
+            MobileFeatureSeeder::class,
         ]);
     }
 }
