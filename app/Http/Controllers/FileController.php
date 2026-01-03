@@ -396,8 +396,6 @@ class FileController extends Controller
             'cloud_name' => config('cloudinary.cloud_name'),
         ];
 
-        return $signed_url;
-
     }
 
     #[OAT\Get(path: '/files/cloudinary-presigned-urls', tags: ['files'])]

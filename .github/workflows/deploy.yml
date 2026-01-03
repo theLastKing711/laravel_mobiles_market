@@ -32,4 +32,5 @@
               php artisan optimize
               php artisan scout:flush "App\Models\MobileOffer"
               php artisan db:seed --force
-              php artisan queue:restart
+              php artisan reload
+              # php artisan queue:restart
