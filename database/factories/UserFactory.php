@@ -59,7 +59,7 @@ class UserFactory extends Factory
             'name' => 'store',
             'email' => 'store@admin.com',
             'phone_number' => '0968259851',
-            'password' => Hash::make('store'),
+            'password' => Hash::make('2280'),
         ])->afterCreating(function (User $user) {
             $user->assignRole(RolesEnum::STORE);
         });
@@ -70,7 +70,8 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'name' => 'user',
             'email' => 'user@user.com',
-            'password' => Hash::make('user'),
+            'phone_number' => '0968259852',
+            'password' => Hash::make('2280'),
         ])->afterCreating(function (User $user) {
             $user->assignRole(RolesEnum::USER);
         });
