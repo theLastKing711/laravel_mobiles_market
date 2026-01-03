@@ -78,8 +78,8 @@ class MobileOffer extends Model
                 [
                     'id' => (string) $this->id,
                     // 'user_id' => $this->user_id ?? Auth::User()->id,
-                    // 'name_in_english' => $this->name_in_english,
-                    // 'name_in_arabic' => $this->name_in_arabic,
+                    'name_in_english' => $this->name_in_english,
+                    'name_in_arabic' => $this->name_in_arabic,
                     // 'mobile_name_language_when_uploaded' => $this->mobile_name_language_when_uploaded,
                     // 'price_in_usd' => $this->price_in_usd,
                     // 'is_sold' => $this->is_sold,
@@ -123,10 +123,10 @@ class MobileOffer extends Model
     }
 
     // add to remote search index if it does return true
-    public function shouldBeSearchable()
-    {
-        $is_mobile_not_sold = ! $this->is_sold;
+    // public function shouldBeSearchable()
+    // {
+    //     $is_mobile_not_sold = ! $this->is_sold;
 
-        return $is_mobile_not_sold;
-    }
+    //     return $is_mobile_not_sold;
+    // }
 }
