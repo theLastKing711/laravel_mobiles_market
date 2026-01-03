@@ -224,10 +224,10 @@ return [
                             'type' => 'string',
                             'optional' => true,
                         ],
-                        // [
-                        //     'name' => 'battery_health',
-                        //     'type' => 'int32',
-                        // ],
+                        [
+                            'name' => 'battery_health',
+                            'type' => 'int32',
+                        ],
                         // [
                         //     'name' => 'number_of_sims',
                         //     'type' => 'int32',
