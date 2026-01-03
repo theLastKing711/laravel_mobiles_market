@@ -30,6 +30,7 @@
               composer install --no-dev --optimize-autoloader
               php artisan migrate:fresh --force
               php artisan clear-compiled
+              composer dump-autoload
               php artisan config:clear
               php artisan config:cache
               php artisan scout:flush "App\Models\MobileOffer"
