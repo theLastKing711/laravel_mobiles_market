@@ -80,7 +80,7 @@ class MobileOffer extends Model
                     'user_id' => $this->user_id ?? Auth::User()->id,
                     'name_in_english' => $this->name_in_english,
                     'name_in_arabic' => $this->name_in_arabic,
-                    'mobile_name_language_when_uploaded' => $this->mobile_name_language_when_uploaded,
+                    'mobile_name_language_when_uploaded' => $this->mobile_name_language_when_uploaded->value,
                     // 'price_in_usd' => $this->price_in_usd,
                     // 'is_sold' => $this->is_sold,
                     // // 'screen_size' => $this->screen_size,
