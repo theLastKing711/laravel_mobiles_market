@@ -238,12 +238,12 @@ return [
                         //     'type' => 'string',
                         //     'optional' => true,
                         // ],
-                        // [
-                        //     'name' => 'created_at',
-                        //     'type' => 'int64',
-                        // ],
+                        [
+                            'name' => 'created_at',
+                            'type' => 'int64',
+                        ],
                     ],
-                    // 'default_sorting_field' => 'created_at',
+                    'default_sorting_field' => 'created_at',
                 ],
                 // what to filter by when using Model::search($string);
                 // it has nothing to do with index storage(data that get stored)
