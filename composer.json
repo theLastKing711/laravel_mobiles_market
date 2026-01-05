@@ -15,6 +15,7 @@
         "fakerphp/faker": "^1.24",
         "kirschbaum-development/eloquent-power-joins": "^4.0",
         "laravel/framework": "^12.9",
+        "laravel/nightwatch": "^1.21",
         "laravel/pulse": "^1.4",
         "laravel/sanctum": "^4.0",
         "laravel/scout": "^10.22",
