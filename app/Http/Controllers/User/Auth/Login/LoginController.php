@@ -21,6 +21,8 @@ class LoginController extends Controller
     public function __invoke(LoginRequestData $request)
     {
 
+        abort(404);
+
         $request_phone_number =
             $request
                 ->phone_number;
