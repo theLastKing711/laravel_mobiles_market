@@ -34,6 +34,15 @@ class LoginController extends Controller
                     ]
                 );
 
+        if (! $authenticated_user) {
+            return response(
+                [
+                    'message' => 'كلمة المرور لرقم الهاتف غير صحيحة',
+                ],
+                HttpStatusCode::UNAUTHORIZED
+            );
+        }
+
         if ($authenticated_user && ! Hash::check($request->password, $authenticated_user->password)) {
 
             // if ($authenticated_user === null) {
