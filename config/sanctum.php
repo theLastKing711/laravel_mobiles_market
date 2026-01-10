@@ -24,6 +24,9 @@ return [
     // we should remove '*' from array in localhost development
     // and replace it with 'http://localhost:8000' and 'https://localhost:8000'
     // or host and port of php artisan serve if it is different
+    // The SANCTUM_STATEFUL_DOMAINS environment variable in Laravel Sanctum is a security configuration
+    // that defines which frontend domains are allowed to make authenticated requests using session cookies.
+    // This is essential for Single Page Application (SPA) authentication to work correctly across different subdomains or ports in a secure manner.
     'stateful' => [
         // '*',
         'http://localhost:8000',
