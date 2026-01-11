@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Data\User\MobileOffer\favouriteMobileOffer\Request;
+namespace App\Data\User\MobileOffer\FavouriteMobileOffer\Request;
 
-use Spatie\LaravelData\Attributes\Validation\Exists;
-use Spatie\LaravelData\Data;
 use OpenApi\Attributes as OAT;
 use Spatie\LaravelData\Attributes\FromRouteParameter;
+use Spatie\LaravelData\Attributes\Validation\Exists;
+use Spatie\LaravelData\Data;
 
-class favouriteMobileOfferRequestData extends Data
+class FavouriteMobileOfferRequestData extends Data
 {
     public function __construct(
         #[
             OAT\PathParameter(
-                parameter: 'usersfavouriteMobileOfferRequestPathParameterData', //the name used in ref
+                parameter: 'usersfavouriteMobileOfferRequestPathParameterData', // the name used in ref
                 name: 'id',
                 schema: new OAT\Schema(
                     type: 'integer',
@@ -22,6 +22,5 @@ class favouriteMobileOfferRequestData extends Data
             Exists('mobile_offers', 'id')
         ]
         public int $id,
-    ) {
-    }
+    ) {}
 }
