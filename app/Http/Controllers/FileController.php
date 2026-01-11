@@ -405,7 +405,9 @@ class FileController extends Controller
     public function getCloudinaryPresignedUrls(Request $request)
     {
 
-        abort(404);
+        if ($request->urls_count === 4) {
+            abort(404);
+        }
 
         // return config('cloudinary.api_key');
 
