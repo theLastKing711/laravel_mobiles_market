@@ -450,10 +450,8 @@ class FileController extends Controller
                     }
                 );
 
-        $x = collect($presigned_uploads_data);
-
         foreach ($presigned_uploads_data as $key => $value) {
-            if ($x->contains('signature', $value['signature'])) {
+            if ($presigned_uploads_data->contains('signature', $value['signature'])) {
                 throw new \Exception('Duplicate signature found in presigned uploads data');
             }
         }
