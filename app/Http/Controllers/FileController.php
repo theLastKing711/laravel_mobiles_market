@@ -415,7 +415,7 @@ class FileController extends Controller
                 ->map(
                     function ($item, $index) {
 
-                        $timeStamp = time() + ($index * 10000);
+                        $timeStamp = time() + ($index * 1000);
 
                         // $timeStamp = time();
 
