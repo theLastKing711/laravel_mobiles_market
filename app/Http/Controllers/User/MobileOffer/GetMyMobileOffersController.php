@@ -38,6 +38,13 @@ class GetMyMobileOffersController extends MobileOfferController
     // gets called on client side after remote query success
                 ->query(
                     fn (Builder $query) => $query
+                        ->selectRaw(
+                            '
+                                    *,
+                                    (select exists (select 1 from user_favourites_mobile_offer where user_id=? AND mobile_offer_id=mobile_offers.id)) as is_favourite,
+                                ',
+                            [Auth::User()->id]
+                        )
                         ->with([
                             'features',
                             'mainImage',

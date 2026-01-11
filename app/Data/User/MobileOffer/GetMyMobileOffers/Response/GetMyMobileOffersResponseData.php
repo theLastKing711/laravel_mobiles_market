@@ -34,6 +34,10 @@ class GetMyMobileOffersResponseData extends Data
         //     public ?int $battery_size,
         #[OAT\Property]
         public ?int $battery_health,
+        #[
+            OAT\Property,
+        ]
+        public ?bool $is_favourite,
         // #[OAT\Property]
         // public ?MediaData $mainImage,
         //     #[OAT\Property]

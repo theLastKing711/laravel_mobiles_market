@@ -31,10 +31,11 @@ class GetMyMobileOfferResponseData extends Data
         public ?string $storage,
         #[OAT\Property]
         public ?int $battery_health,
+
         #[
             OAT\Property,
         ]
-        public bool $is_favourite,
+        public ?bool $is_favourite,
 
         #[ArrayProperty(FeatureData::class)]
         /** @var Collection<FeatureData> */
@@ -45,37 +46,37 @@ class GetMyMobileOfferResponseData extends Data
         public Collection $medially,
     ) {}
 
-    public static function fromModel(MobileOffer $mobile_offer, string $search): self
-    {
-        $name =
-            static::contains_arabic(
-                $search
-            )
-            ?
-            $mobile_offer->name_in_arabic
-            :
-            $mobile_offer->name_in_english;
+    // public static function fromModel(MobileOffer $mobile_offer, string $search): self
+    // {
+    //     $name =
+    //         static::contains_arabic(
+    //             $search
+    //         )
+    //         ?
+    //         $mobile_offer->name_in_arabic
+    //         :
+    //         $mobile_offer->name_in_english;
 
-        return new self(
-            $mobile_offer->id,
-            $name,
-            $name,
-            $mobile_offer->price_in_usd,
-            $mobile_offer->ram,
-            $mobile_offer->storage,
-            $mobile_offer->battery_health,
-            FeatureData::collect($mobile_offer->features),
-            $mobile_offer->medially
-        );
-    }
+    //     return new self(
+    //         $mobile_offer->id,
+    //         $name,
+    //         $name,
+    //         $mobile_offer->price_in_usd,
+    //         $mobile_offer->ram,
+    //         $mobile_offer->storage,
+    //         $mobile_offer->battery_health,
+    //         FeatureData::collect($mobile_offer->features),
+    //         $mobile_offer->medially
+    //     );
+    // }
 
-    public static function contains_arabic(?string $text)
-    {
-        if (! $text || Str::length($text) === 0) {
-            return false;
-        }
+    // public static function contains_arabic(?string $text)
+    // {
+    //     if (! $text || Str::length($text) === 0) {
+    //         return false;
+    //     }
 
-        // Returns 1 if Arabic characters are found, 0 otherwise, or false on error
-        return preg_match('/\p{Arabic}/u', $text[0]);
-    }
+    //     // Returns 1 if Arabic characters are found, 0 otherwise, or false on error
+    //     return preg_match('/\p{Arabic}/u', $text[0]);
+    // }
 }
