@@ -50,7 +50,7 @@ class GetMyMobileOffersController extends MobileOfferController
                             'mainImage',
                         ])
                 )
-    // also get called on client side
+    // also get called on client side after remote query success
                 ->paginate(7);
 
         // return $remote_mobiles_offers_search->total();
