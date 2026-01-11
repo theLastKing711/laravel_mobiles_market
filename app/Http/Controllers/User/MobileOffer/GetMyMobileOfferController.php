@@ -8,6 +8,7 @@ use App\Data\User\MobileOffer\GetMyMobileOffer\Request\GetMyMobileOfferRequestDa
 use App\Data\User\MobileOffer\GetMyMobileOffer\Response\GetMyMobileOfferResponseData;
 use App\Http\Controllers\User\MobileOffer\Abstract\MobileOfferController;
 use App\Models\MobileOffer;
+use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
 class GetMyMobileOfferController extends MobileOfferController
@@ -35,6 +36,13 @@ class GetMyMobileOfferController extends MobileOfferController
                         'features',
                         'medially',
                     ]
+                )
+                ->selectRaw(
+                    '
+                            *,
+                            (select exists (select 1 from user_favourites_mobile_offer where user_id=? AND mobile_offer_id=mobile_offers.id)) as is_favourite,
+                        ',
+                    [Auth::User()->id]
                 )
                 ->when(
                     $request->is_sold,

@@ -31,6 +31,10 @@ class GetMyMobileOfferResponseData extends Data
         public ?string $storage,
         #[OAT\Property]
         public ?int $battery_health,
+        #[
+            OAT\Property,
+        ]
+        public bool $is_favourite,
 
         #[ArrayProperty(FeatureData::class)]
         /** @var Collection<FeatureData> */
