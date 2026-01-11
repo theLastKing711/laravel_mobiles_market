@@ -38,8 +38,8 @@ class GetMyMobileOffersResponseData extends Data
             OAT\Property,
         ]
         public ?bool $is_favourite,
-        // #[OAT\Property]
-        // public ?MediaData $mainImage,
+        #[OAT\Property]
+        public ?MediaData $mainImage,
         //     #[OAT\Property]
         //     public ?int $number_of_sims,
         //     #[OAT\Property]
