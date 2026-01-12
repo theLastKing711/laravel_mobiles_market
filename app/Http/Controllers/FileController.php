@@ -405,11 +405,9 @@ class FileController extends Controller
     public function getCloudinaryPresignedUrls(Request $request)
     {
 
-        if ($request->query('urls_count') == 4) {
-            abort(404);
-        }
-
-        // return config('cloudinary.api_key');
+        // if ($request->query('urls_count') == 4) {
+        //     abort(404);
+        // }
 
         $urls_list =
             Collection::times($request->urls_count, fn ($number) => $number); // [1, 2, 3, 4, 5]
@@ -419,7 +417,7 @@ class FileController extends Controller
                 ->map(
                     function ($item, $index) {
 
-                        $timeStamp = time() + ($index * 1000);
+                        $timeStamp = time() + ($index * 10000);
 
                         // $timeStamp = time();
 
