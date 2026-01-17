@@ -16,9 +16,9 @@ use App\Enum\FileUploadDirectory;
 use App\Models\Media;
 use App\Models\TemporaryUploadedImages;
 use App\Models\User;
+use App\Services\CloudinaryService;
 use Cloudinary\Api\ApiUtils;
 use Cloudinary\Asset\Image;
-use Cloudinary\Configuration\CloudConfig;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -374,27 +374,11 @@ class FileController extends Controller
     public function getCloudinaryPresignedUrl()
     {
 
-        $paramsToSign = [
-            'timeStamp' => time(),
-            'folder' => 'mobiles_market',
-        ];
-
-        // https://cloudinary.com/documentation/authentication_signatures
-        ApiUtils::signRequest(
-            $paramsToSign,
-            new CloudConfig()
-                ->setCloudConfig(
-                    CloudConfig::API_SECRET,
-                    config('cloudinary.api_secret')
-                )
-        );
-
-        return [
-            ...$paramsToSign,
-            'api_key' => config('app.url'),
-            'folder' => 'mobiles_market',
-            'cloud_name' => config('cloudinary.cloud_name'),
-        ];
+        return
+         $this
+             ->cloudinarySignRequest(
+                 FileUploadDirectory::MOBILE_OFFERS
+             );
 
     }
 
@@ -402,7 +386,7 @@ class FileController extends Controller
     #[QueryParameter('urls_count')]
     #[QueryParameter('resource')]
     #[SuccessItemResponse('string', 'Fetched presigned upload successfully')]
-    public function getCloudinaryPresignedUrls(Request $request)
+    public function getCloudinaryPresignedUrls(Request $request, CloudinaryService $cloudinaryService)
     {
 
         // if ($request->query('urls_count') == 4) {
@@ -415,39 +399,46 @@ class FileController extends Controller
         $presigned_uploads_data =
             $urls_list
                 ->map(
-                    function ($item, $index) {
+                    function ($item, $index) use ($cloudinaryService) {
 
-                        $timeStamp = time() + ($index * 10000);
-
-                        // $timeStamp = time();
-
-                        // to make sure signature is unique since paramsToSign are same in loop
-                        // $timeStamp = time() + $index;
-                        // sleep(0.1);
-
-                        $paramsToSign = [
-                            'timestamp' => $timeStamp,
-                            // 'public_id' => 'sample_image',
-                            'eager' => 't_thumbnail|t_main',
-                            'folder' => FileUploadDirectory::MOBILE_OFFERS->value,
-                            // 'tags' => FileUploadDirectory::MOBILE_OFFERS->value,
-                            // 'context' => "resourse={$request->resource}",
-                            // 'context' => 'caption=My new image|author=John Doe',
-                            // 'eager_async' => true,
-                        ];
-
-                        // https://cloudinary.com/documentation/authentication_signatures
-                        $signature = ApiUtils::signParameters(
-                            $paramsToSign,
-                            config('cloudinary.api_secret')
+                        return $cloudinaryService->signRequest(
+                            FileUploadDirectory::MOBILE_OFFERS,
+                            $index
                         );
 
-                        return [
-                            ...$paramsToSign,
-                            'signature' => $signature,
-                            'api_key' => config('cloudinary.api_key'),
-                            'cloud_name' => config('cloudinary.cloud_name'),
-                        ];
+                        // return $this->cloudinarySignRequest(FileUploadDirectory::MOBILE_OFFERS, $index);
+
+                        // $timeStamp = time() + ($index * 10000);
+
+                        // // $timeStamp = time();
+
+                        // // to make sure signature is unique since paramsToSign are same in loop
+                        // // $timeStamp = time() + $index;
+                        // // sleep(0.1);
+
+                        // $paramsToSign = [
+                        //     'timestamp' => $timeStamp,
+                        //     // 'public_id' => 'sample_image',
+                        //     'eager' => 't_thumbnail|t_main',
+                        //     'folder' => FileUploadDirectory::MOBILE_OFFERS->value,
+                        //     // 'tags' => FileUploadDirectory::MOBILE_OFFERS->value,
+                        //     // 'context' => "resourse={$request->resource}",
+                        //     // 'context' => 'caption=My new image|author=John Doe',
+                        //     // 'eager_async' => true,
+                        // ];
+
+                        // // https://cloudinary.com/documentation/authentication_signatures
+                        // $signature = ApiUtils::signParameters(
+                        //     $paramsToSign,
+                        //     config('cloudinary.api_secret')
+                        // );
+
+                        // return [
+                        //     ...$paramsToSign,
+                        //     'signature' => $signature,
+                        //     'api_key' => config('cloudinary.api_key'),
+                        //     'cloud_name' => config('cloudinary.cloud_name'),
+                        // ];
 
                     }
                 );
@@ -471,6 +462,43 @@ class FileController extends Controller
                ->temporaryUploadMobileOfferImageFromCloudinaryNotification(
                    $request
                );
+
+    }
+
+    private function cloudinarySignRequest(FileUploadDirectory $directory, ?int $index = 0): array
+    {
+
+        $timeStamp = time() + ($index * 10000);
+
+        // $timeStamp = time();
+
+        // to make sure signature is unique since paramsToSign are same in loop
+        // $timeStamp = time() + $index;
+        // sleep(0.1);
+
+        $paramsToSign = [
+            'timestamp' => $timeStamp,
+            // 'public_id' => 'sample_image',
+            'eager' => 't_thumbnail|t_main',
+            'folder' => $directory,
+            // 'tags' => FileUploadDirectory::MOBILE_OFFERS->value,
+            // 'context' => "resourse={$request->resource}",
+            // 'context' => 'caption=My new image|author=John Doe',
+            // 'eager_async' => true,
+        ];
+
+        // https://cloudinary.com/documentation/authentication_signatures
+        $signature = ApiUtils::signParameters(
+            $paramsToSign,
+            config('cloudinary.api_secret')
+        );
+
+        return [
+            ...$paramsToSign,
+            'signature' => $signature,
+            'api_key' => config('cloudinary.api_key'),
+            'cloud_name' => config('cloudinary.cloud_name'),
+        ];
 
     }
 }
