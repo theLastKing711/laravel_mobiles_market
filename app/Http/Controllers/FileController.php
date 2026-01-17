@@ -394,9 +394,6 @@ class FileController extends Controller
         //     abort(404);
         // }
 
-        $urls_list =
-            Collection::times($request->urls_count, fn ($number) => $number); // [1, 2, 3, 4, 5]
-
         $presigned_uploads_data =
             $cloudinaryService->signRequests(
                 $request->urls_count,
@@ -436,9 +433,9 @@ class FileController extends Controller
     private function cloudinarySignRequest(FileUploadDirectory $directory, ?int $index = 0): array
     {
 
-        $timeStamp = time() + ($index * 10000);
+        // $timeStamp = time() + ($index * 10000);
 
-        // $timeStamp = time();
+        $timeStamp = time();
 
         // to make sure signature is unique since paramsToSign are same in loop
         // $timeStamp = time() + $index;
