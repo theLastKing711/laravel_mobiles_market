@@ -397,13 +397,19 @@ class FileController extends Controller
 
         if ($presigned_uploads_data->unique('signature')->count() != $presigned_uploads_data->count()) {
 
-            return
-                response()->json(
-                    [
-                        'message' => 'خطأ في الخادم الداخلي. يرجى المحاولة مرة أخرى لاحقًا.',
-                    ],
-                    HttpStatusCode::INTERNAL_SERVER_ERROR
-                );
+            abort(
+                500,
+                'خطأ في الخادم الداخلي. يرجى المحاولة مرة أخرى لاحقًا.',
+
+            )
+
+            // return
+            //     response()->json(
+            //         [
+            //             'message' => 'خطأ في الخادم الداخلي. يرجى المحاولة مرة أخرى لاحقًا.',
+            //         ],
+            //         HttpStatusCode::INTERNAL_SERVER_ERROR
+            //     );
 
         }
 
