@@ -18,6 +18,7 @@ use App\Models\TemporaryUploadedImages;
 use App\Models\User;
 use App\Services\CloudinaryService;
 use Cloudinary\Api\ApiUtils;
+use Cloudinary\Api\HttpStatusCode;
 use Cloudinary\Asset\Image;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
@@ -397,54 +398,21 @@ class FileController extends Controller
             Collection::times($request->urls_count, fn ($number) => $number); // [1, 2, 3, 4, 5]
 
         $presigned_uploads_data =
-            $urls_list
-                ->map(
-                    function ($item, $index) use ($cloudinaryService) {
-
-                        return $cloudinaryService->signRequest(
-                            FileUploadDirectory::MOBILE_OFFERS,
-                            $index
-                        );
-
-                        // return $this->cloudinarySignRequest(FileUploadDirectory::MOBILE_OFFERS, $index);
-
-                        // $timeStamp = time() + ($index * 10000);
-
-                        // // $timeStamp = time();
-
-                        // // to make sure signature is unique since paramsToSign are same in loop
-                        // // $timeStamp = time() + $index;
-                        // // sleep(0.1);
-
-                        // $paramsToSign = [
-                        //     'timestamp' => $timeStamp,
-                        //     // 'public_id' => 'sample_image',
-                        //     'eager' => 't_thumbnail|t_main',
-                        //     'folder' => FileUploadDirectory::MOBILE_OFFERS->value,
-                        //     // 'tags' => FileUploadDirectory::MOBILE_OFFERS->value,
-                        //     // 'context' => "resourse={$request->resource}",
-                        //     // 'context' => 'caption=My new image|author=John Doe',
-                        //     // 'eager_async' => true,
-                        // ];
-
-                        // // https://cloudinary.com/documentation/authentication_signatures
-                        // $signature = ApiUtils::signParameters(
-                        //     $paramsToSign,
-                        //     config('cloudinary.api_secret')
-                        // );
-
-                        // return [
-                        //     ...$paramsToSign,
-                        //     'signature' => $signature,
-                        //     'api_key' => config('cloudinary.api_key'),
-                        //     'cloud_name' => config('cloudinary.cloud_name'),
-                        // ];
-
-                    }
-                );
+            $cloudinaryService->signRequests(
+                $request->urls_count,
+                FileUploadDirectory::MOBILE_OFFERS,
+            );
 
         if ($presigned_uploads_data->unique('signature')->count() != $presigned_uploads_data->count()) {
-            throw new \Exception('Duplicate signature found in presigned uploads data');
+
+            return
+                response()->json(
+                    [
+                        'message' => 'خطأ في الخادم الداخلي. يرجى المحاولة مرة أخرى لاحقًا.',
+                    ],
+                    HttpStatusCode::INTERNAL_SERVER_ERROR
+                );
+
         }
 
         return $presigned_uploads_data;
