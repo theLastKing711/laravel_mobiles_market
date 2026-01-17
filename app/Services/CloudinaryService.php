@@ -38,9 +38,9 @@ class CloudinaryService
     public function signRequest(FileUploadDirectory $directory, ?int $index = 0)
     {
 
-        $timeStamp = time() + ($index * 10000);
+        // $timeStamp = time() + ($index * 10000);
 
-        // $timeStamp = time();
+        $timeStamp = time();
 
         // to make sure signature is unique since paramsToSign are same in loop
         // $timeStamp = time() + $index;

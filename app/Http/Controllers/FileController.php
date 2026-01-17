@@ -17,7 +17,6 @@ use App\Models\Media;
 use App\Models\TemporaryUploadedImages;
 use App\Models\User;
 use App\Services\CloudinaryService;
-use Cloudinary\Api\ApiUtils;
 use Cloudinary\Api\HttpStatusCode;
 use Cloudinary\Asset\Image;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -372,12 +371,12 @@ class FileController extends Controller
 
     #[OAT\Get(path: '/files/cloudinary-presigned-url', tags: ['files'])]
     #[SuccessItemResponse('string', 'Fetched presigned upload successfully')]
-    public function getCloudinaryPresignedUrl()
+    public function getCloudinaryPresignedUrl(CloudinaryService $cloudinaryService)
     {
 
         return
-         $this
-             ->cloudinarySignRequest(
+         $cloudinaryService
+             ->signRequest(
                  FileUploadDirectory::MOBILE_OFFERS
              );
 
@@ -389,10 +388,6 @@ class FileController extends Controller
     #[SuccessItemResponse('string', 'Fetched presigned upload successfully')]
     public function getCloudinaryPresignedUrls(Request $request, CloudinaryService $cloudinaryService)
     {
-
-        // if ($request->query('urls_count') == 4) {
-        //     abort(404);
-        // }
 
         $presigned_uploads_data =
             $cloudinaryService->signRequests(
@@ -427,43 +422,6 @@ class FileController extends Controller
                ->temporaryUploadMobileOfferImageFromCloudinaryNotification(
                    $request
                );
-
-    }
-
-    private function cloudinarySignRequest(FileUploadDirectory $directory, ?int $index = 0): array
-    {
-
-        // $timeStamp = time() + ($index * 10000);
-
-        $timeStamp = time();
-
-        // to make sure signature is unique since paramsToSign are same in loop
-        // $timeStamp = time() + $index;
-        // sleep(0.1);
-
-        $paramsToSign = [
-            'timestamp' => $timeStamp,
-            // 'public_id' => 'sample_image',
-            'eager' => 't_thumbnail|t_main',
-            'folder' => $directory,
-            // 'tags' => FileUploadDirectory::MOBILE_OFFERS->value,
-            // 'context' => "resourse={$request->resource}",
-            // 'context' => 'caption=My new image|author=John Doe',
-            // 'eager_async' => true,
-        ];
-
-        // https://cloudinary.com/documentation/authentication_signatures
-        $signature = ApiUtils::signParameters(
-            $paramsToSign,
-            config('cloudinary.api_secret')
-        );
-
-        return [
-            ...$paramsToSign,
-            'signature' => $signature,
-            'api_key' => config('cloudinary.api_key'),
-            'cloud_name' => config('cloudinary.cloud_name'),
-        ];
 
     }
 }
