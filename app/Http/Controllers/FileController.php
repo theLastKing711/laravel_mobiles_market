@@ -400,7 +400,6 @@ class FileController extends Controller
             abort(
                 500,
                 'خطأ في الخادم الداخلي. يرجى المحاولة مرة أخرى لاحقًا.',
-
             );
 
             // return
