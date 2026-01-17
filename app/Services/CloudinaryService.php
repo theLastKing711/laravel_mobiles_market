@@ -25,7 +25,7 @@ class CloudinaryService
             'timestamp' => $timeStamp,
             // 'public_id' => 'sample_image',
             'eager' => 't_thumbnail|t_main',
-            'folder' => $directory,
+            'folder' => $directory->value,
             // 'tags' => FileUploadDirectory::MOBILE_OFFERS->value,
             // 'context' => "resourse={$request->resource}",
             // 'context' => 'caption=My new image|author=John Doe',
