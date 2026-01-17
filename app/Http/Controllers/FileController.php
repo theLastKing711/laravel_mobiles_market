@@ -401,7 +401,7 @@ class FileController extends Controller
                 500,
                 'خطأ في الخادم الداخلي. يرجى المحاولة مرة أخرى لاحقًا.',
 
-            )
+            );
 
             // return
             //     response()->json(
