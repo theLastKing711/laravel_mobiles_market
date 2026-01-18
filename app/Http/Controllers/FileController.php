@@ -319,6 +319,7 @@ class FileController extends Controller
     #[SuccessNoContentResponse]
     public function delete(FilePublicIdPathParameterData $deleteFileData, Request $request)
     {
+
         Log::info('file public id  {data}', ['data' => $deleteFileData->public_id]);
 
         $public_id =
@@ -348,6 +349,7 @@ class FileController extends Controller
         //     ?->delete();
 
         // return $public_id;
+        return $public_id;
 
         return CloudUploadService::destroy($public_id); // sample/public/id
 
