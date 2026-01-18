@@ -56,4 +56,9 @@ return [
         'mobile_offers' => MobileOffer::class,
         'users' => User::class,
     ],
+    'store_users_numbers' => [
+        '0968316079',
+        '0968259851',
+        // '0968316079',
+    ],
 ];

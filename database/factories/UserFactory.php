@@ -76,4 +76,14 @@ class UserFactory extends Factory
             $user->assignRole(RolesEnum::USER);
         });
     }
+
+    public function withPhoneAndPasswordAuth(string $phone_number, string $password): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'phone_number' => $phone_number,
+            'password' => Hash::make($password),
+        ])->afterCreating(function (User $user) {
+            $user->assignRole(RolesEnum::USER);
+        });
+    }
 }

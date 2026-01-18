@@ -20,11 +20,8 @@ class RegisterController extends Controller
     public function __invoke(RegisterRequestData $createPasswordRequestData)
     {
 
-        $store_users_numbers = [
-            '0968316079',
-            '0968259851',
-            '0968316079',
-        ];
+        /** @var array<string> $store_users_numbers */
+        $store_users_numbers = config('constants.store_users_numbers');
 
         $request_phone_number = $createPasswordRequestData->phone_number;
 

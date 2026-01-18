@@ -342,28 +342,6 @@ class FileController extends Controller
             $public_id
         )
             ?->delete();
-
-        // $uploaded_car_images_session_key = config('constants.session.upload_car_images');
-        // /** @var Collection<int, Media> $user_car_medias */
-        // $user_car_medias =
-        //    $request
-        //        ->session()
-        //        ->get($uploaded_car_images_session_key);
-
-        // if ($user_car_medias) {
-
-        //     Log::info('session data {session_data}', ['session_data' => $user_car_medias]);
-
-        // $updated_user_car_medias =
-        //     $user_car_medias
-        //         ->filter(function ($item) use ($deleteFileData) {
-        //             return $item->file_name != $deleteFileData->public_id;
-        //         });
-
-        // $request->session()->forget($uploaded_car_images_session_key);
-
-        // }
-
         Cloudinary::destroy($deleteFileData->public_id);
 
         return true;
@@ -398,18 +376,9 @@ class FileController extends Controller
         if ($presigned_uploads_data->unique('signature')->count() != $presigned_uploads_data->count()) {
 
             abort(
-                500,
+                HttpStatusCode::INTERNAL_SERVER_ERROR,
                 'خطأ في الخادم الداخلي. يرجى المحاولة مرة أخرى لاحقًا.',
             );
-
-            // return
-            //     response()->json(
-            //         [
-            //             'message' => 'خطأ في الخادم الداخلي. يرجى المحاولة مرة أخرى لاحقًا.',
-            //         ],
-            //         HttpStatusCode::INTERNAL_SERVER_ERROR
-            //     );
-
         }
 
         return $presigned_uploads_data;
