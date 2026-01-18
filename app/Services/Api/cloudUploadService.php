@@ -3,7 +3,7 @@
 namespace App\Services\API;
 
 use Cloudinary\Api\Exception\ApiError;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Cloudinary\Cloudinary;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
