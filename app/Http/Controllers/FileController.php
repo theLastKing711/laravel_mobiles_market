@@ -30,7 +30,7 @@ use OpenApi\Attributes\RequestBody;
 
 #[
     OAT\PathItem(
-        path: '/files/{id}',
+        path: '/files/{public_id}',
         parameters: [
             new OAT\PathParameter(
                 ref: '#/components/parameters/filesPublicIdPathParameterData',
