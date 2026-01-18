@@ -347,7 +347,7 @@ class FileController extends Controller
         )
             ?->delete();
 
-        CloudUploadService::destroy($public_id);
+        CloudUploadService::destroy('qeiycp3bgjiv7oajufht'); // sample/public/id
 
         return true;
     }
