@@ -3,7 +3,7 @@
 namespace App\Services\API;
 
 use Cloudinary\Api\Exception\ApiError;
-use Cloudinary\Cloudinary;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
@@ -41,7 +41,7 @@ class cloudUploadService
     public function destroy(string $public_id)
     {
 
-        Cloudinary::destroy($public_id);
+        return Cloudinary::destroy($public_id);
 
     }
 

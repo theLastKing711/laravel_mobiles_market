@@ -333,21 +333,23 @@ class FileController extends Controller
         // }
 
         // if image is created before parent model is created (i.e on create page)
-        TemporaryUploadedImages::query()
-            ->firstWhere(
-                'public_id',
-                $public_id
-            )
-            ?->delete();
+        // TemporaryUploadedImages::query()
+        //     ->firstWhere(
+        //         'public_id',
+        //         $public_id
+        //     )
+        //     ?->delete();
 
-        // if image is created after parent model is created(i.e on update page)
-        Media::firstWhere(
-            'public_id',
-            $public_id
-        )
-            ?->delete();
+        // // if image is created after parent model is created(i.e on update page)
+        // Media::firstWhere(
+        //     'public_id',
+        //     $public_id
+        // )
+        //     ?->delete();
 
-        CloudUploadService::destroy('qeiycp3bgjiv7oajufht'); // sample/public/id
+        // return $public_id;
+
+        return CloudUploadService::destroy($public_id); // sample/public/id
 
         return true;
     }

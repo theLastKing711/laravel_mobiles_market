@@ -12,7 +12,23 @@
                 }
             ]
         },
-        "/files/{id}": {
+        "/files/{public_id}": {
+            "delete": {
+                "tags": [
+                    "files"
+                ],
+                "operationId": "b52d1e9d72aaaf50eb426fd91728e567",
+                "responses": {
+                    "204": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            },
             "parameters": [
                 {
                     "$ref": "#/components/parameters/filesPublicIdPathParameterData"
@@ -563,24 +579,6 @@
                 }
             }
         },
-        "/files/{public_id}": {
-            "delete": {
-                "tags": [
-                    "files"
-                ],
-                "operationId": "b52d1e9d72aaaf50eb426fd91728e567",
-                "responses": {
-                    "204": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/files/cloudinary-presigned-url": {
             "get": {
                 "tags": [
@@ -658,6 +656,62 @@
                 }
             }
         },
+        "/users/auth/change-password": {
+            "patch": {
+                "tags": [
+                    "usersAuth"
+                ],
+                "operationId": "de23c7e1b49a5f0a152b76cd34122c85",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChangePasswordRequestData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/auth/change-phone-number": {
+            "patch": {
+                "tags": [
+                    "usersAuth"
+                ],
+                "operationId": "303201988d4de35bdcf19bc125758023",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChangePhoneNumberRequestData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/users/auth/get-user-phone-number": {
             "get": {
                 "tags": [
@@ -670,7 +724,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "App\\Data\\User\\Auth\\GetUserPhoneNumberResponseData"
+                                    "$ref": "#/components/schemas/GetUserPhoneNumberResponseData"
                                 }
                             }
                         }
@@ -860,7 +914,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type": "App\\Data\\User\\MobileOffer\\favouriteMobileOffer\\Request\\favouriteMobileOfferRequestData"
+                                "type": "App\\Data\\User\\MobileOffer\\FavouriteMobileOffer\\Request\\FavouriteMobileOfferRequestData"
                             }
                         }
                     }
@@ -1344,6 +1398,22 @@
                     }
                 ]
             },
+            "ChangePasswordRequestData": {
+                "properties": {
+                    "password": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "ChangePhoneNumberRequestData": {
+                "properties": {
+                    "phone_number": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "GetUserPhoneNumberResponseData": {
                 "properties": {
                     "phone_number": {
@@ -1473,7 +1543,48 @@
                 },
                 "type": "object"
             },
-            "UserMobileOfferGetFavouriteMobileOffersResponseGetFavouriteMobileOffersResponseData": {},
+            "UserMobileOfferGetFavouriteMobileOffersResponseGetFavouriteMobileOffersResponseData": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name_in_english": {
+                        "type": "string"
+                    },
+                    "name_in_arabic": {
+                        "type": "string"
+                    },
+                    "price_in_usd": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "ram": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "storage": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "battery_health": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "mainImage": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/MediaData"
+                            }
+                        ],
+                        "nullable": true
+                    },
+                    "is_favourite": {
+                        "type": "boolean",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
             "UserMobileOfferGetFavouriteMobileOffersResponseGetFavouriteMobileOffersResponsePaginationResultData": {
                 "type": "object",
                 "allOf": [
@@ -1542,6 +1653,9 @@
                         "items": {
                             "$ref": "#/components/schemas/MediaData"
                         }
+                    },
+                    "phone_number": {
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -1593,6 +1707,10 @@
                         "type": "integer",
                         "nullable": true
                     },
+                    "is_favourite": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
                     "features": {
                         "type": "array",
                         "items": {
@@ -1642,6 +1760,18 @@
                     },
                     "battery_health": {
                         "type": "integer",
+                        "nullable": true
+                    },
+                    "is_favourite": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "mainImage": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/MediaData"
+                            }
+                        ],
                         "nullable": true
                     }
                 },
