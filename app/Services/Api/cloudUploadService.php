@@ -4,8 +4,6 @@ namespace App\Services\Api;
 
 use Cloudinary\Api\Exception\ApiError;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Http;
 
 class cloudUploadService
 {

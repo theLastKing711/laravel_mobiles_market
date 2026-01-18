@@ -320,8 +320,6 @@ class FileController extends Controller
     public function delete(FilePublicIdPathParameterData $deleteFileData, Request $request)
     {
 
-        Log::info('file public id  {data}', ['data' => $deleteFileData->public_id]);
-
         $public_id =
               str_replace(
                   '-',
@@ -329,31 +327,35 @@ class FileController extends Controller
                   $deleteFileData->public_id,
               );
 
-        // if ($public_id !== 'sample/public/id') {
-        //     abort(404);
-        // }
-
         // if image is created before parent model is created (i.e on create page)
-        // TemporaryUploadedImages::query()
-        //     ->firstWhere(
-        //         'public_id',
-        //         $public_id
-        //     )
-        //     ?->delete();
+        TemporaryUploadedImages::query()
+            ->firstWhere(
+                'public_id',
+                $public_id
+            )
+            ?->delete();
 
         // // if image is created after parent model is created(i.e on update page)
-        // Media::firstWhere(
-        //     'public_id',
-        //     $public_id
-        // )
-        //     ?->delete();
+        Media::query()
+            ->firstWhere(
+                'public_id',
+                $public_id
+            )
+            ?->delete();
 
-        // return $public_id;
-        // return $public_id;
+        // return {resut: "ok"} in success
+        // and {result: "not found"} in failure
+        $delete_response = CloudUploadService::destroy($public_id);
 
-        return CloudUploadService::destroy($public_id); // sample/public/id
+        if ($delete_response['result'] != 'ok') {
+            abort(
+                HttpStatusCode::INTERNAL_SERVER_ERROR,
+                'خطأ في الخادم الداخلي. يرجى المحاولة مرة أخرى لاحقًا.',
+            );
+        }
 
         return true;
+
     }
 
     #[OAT\Get(path: '/files/cloudinary-presigned-url', tags: ['files'])]
