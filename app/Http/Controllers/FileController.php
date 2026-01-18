@@ -349,7 +349,7 @@ class FileController extends Controller
         //     ?->delete();
 
         // return $public_id;
-        return $public_id;
+        // return $public_id;
 
         return CloudUploadService::destroy($public_id); // sample/public/id
 
