@@ -1,19 +1,18 @@
 <?php
 
-namespace Tests\Feature\User\Abstractions;
+namespace Tests\Feature\File\Abstractions;
 
 use App\Helpers\RotueBuilder\RouteBuilder;
 use App\Models\User;
 use Database\Seeders\RolesAndPermissionsSeeder;
-use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class UserTestCase extends TestCase
+class FileTestCase extends TestCase
 {
     use RefreshDatabase;
 
-    public User $student;
+    public User $user;
 
     protected function setUp(): void
     {
@@ -21,12 +20,17 @@ class UserTestCase extends TestCase
 
         $this
             ->route_builder =
-                RouteBuilder::withMainRoute('users');
+                RouteBuilder::withMainRoute('files');
 
         $this->seed([
             RolesAndPermissionsSeeder::class,
-            UserSeeder::class,
         ]);
+
+        // $this->createStudent();
+
+        $this->user = $this->getUser();
+
+        $this->actingAs($this->user);
     }
 
     public function getUser(): User

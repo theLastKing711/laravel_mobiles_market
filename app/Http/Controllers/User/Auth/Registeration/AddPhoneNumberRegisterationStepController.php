@@ -22,7 +22,8 @@ class AddPhoneNumberRegisterationStepController extends Controller
         $request_phone_number = $request->phone_number;
 
         $is_phone_number_duplicated =
-                User::where('phone_number', $request_phone_number)
+                User::query()
+                    ->where('phone_number', $request_phone_number)
                     ->exists();
 
         if ($is_phone_number_duplicated) {

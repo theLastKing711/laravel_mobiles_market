@@ -25,7 +25,7 @@ class RegisterationTest extends UserTestCase
     }
 
     #[Test]
-    public function create_phone_number_in_registeration_with_200_response(): void
+    public function create_phone_number_in_registeration_success_with_200_response(): void
     {
 
         $this
@@ -87,7 +87,7 @@ class RegisterationTest extends UserTestCase
     }
 
     #[Test]
-    public function register_user_with_201_response(): void
+    public function register_user_success_with_201_response(): void
     {
 
         $this
@@ -135,7 +135,7 @@ class RegisterationTest extends UserTestCase
     }
 
     #[Test]
-    public function register_store_with_201_response(): void
+    public function register_store_success_with_201_response(): void
     {
 
         /** @var array<string> $store_users_numbers */
@@ -175,11 +175,10 @@ class RegisterationTest extends UserTestCase
 
         $created_user_is_user =
             User::query()
-                ->where(
+                ->firstWhere(
                     'phone_number',
                     $registeration_request_data->phone_number
                 )
-                ->first()
                 ->hasRole(RolesEnum::STORE);
 
         $this

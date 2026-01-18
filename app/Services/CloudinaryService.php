@@ -8,33 +8,6 @@ use Illuminate\Support\Collection;
 
 class CloudinaryService
 {
-    /**
-     * Delete all/one/multiple file(s) associated with a particular Model record
-     */
-    public function signRequests(int $count, FileUploadDirectory $directory, ?int $index = 0)
-    {
-
-        $urls_list =
-            Collection::times($count, fn ($number) => $number); // [1, 2, 3, 4, 5]
-
-        $presigned_uploads_data =
-            $urls_list
-                ->map(
-                    function ($item, $index) use ($directory) {
-
-                        return $this->signRequest(
-                            $directory,
-                            $index
-                        );
-                    }
-                );
-
-        return $presigned_uploads_data;
-    }
-
-    /**
-     * Delete all/one/multiple file(s) associated with a particular Model record
-     */
     public function signRequest(FileUploadDirectory $directory, ?int $index = 0)
     {
 
@@ -70,5 +43,26 @@ class CloudinaryService
             'cloud_name' => config('cloudinary.cloud_name'),
         ];
 
+    }
+
+    public function signRequests(int $count, FileUploadDirectory $directory, ?int $index = 0)
+    {
+
+        $urls_list =
+            Collection::times($count, fn ($number) => $number); // [1, 2, 3, 4, 5]
+
+        $presigned_uploads_data =
+            $urls_list
+                ->map(
+                    function ($item, $index) use ($directory) {
+
+                        return $this->signRequest(
+                            $directory,
+                            $index
+                        );
+                    }
+                );
+
+        return $presigned_uploads_data;
     }
 }

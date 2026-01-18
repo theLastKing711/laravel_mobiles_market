@@ -13,6 +13,7 @@ use App\Data\Shared\Swagger\Response\SuccessItemResponse;
 use App\Data\Shared\Swagger\Response\SuccessListResponse;
 use App\Data\Shared\Swagger\Response\SuccessNoContentResponse;
 use App\Enum\FileUploadDirectory;
+use App\Facades\CloudUploadService;
 use App\Models\Media;
 use App\Models\TemporaryUploadedImages;
 use App\Models\User;
@@ -318,7 +319,6 @@ class FileController extends Controller
     #[SuccessNoContentResponse]
     public function delete(FilePublicIdPathParameterData $deleteFileData, Request $request)
     {
-
         Log::info('file public id  {data}', ['data' => $deleteFileData->public_id]);
 
         $public_id =
@@ -327,6 +327,10 @@ class FileController extends Controller
                   '/',
                   $deleteFileData->public_id,
               );
+
+        // if ($public_id !== 'sample/public/id') {
+        //     abort(404);
+        // }
 
         // if image is created before parent model is created (i.e on create page)
         TemporaryUploadedImages::query()
@@ -342,7 +346,8 @@ class FileController extends Controller
             $public_id
         )
             ?->delete();
-        Cloudinary::destroy($deleteFileData->public_id);
+
+        CloudUploadService::destroy($public_id);
 
         return true;
     }
