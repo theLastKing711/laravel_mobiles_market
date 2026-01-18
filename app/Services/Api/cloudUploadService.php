@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\API;
+namespace App\Services\Api;
 
 use Cloudinary\Api\Exception\ApiError;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
