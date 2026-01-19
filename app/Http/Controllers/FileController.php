@@ -24,6 +24,7 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use OpenApi\Attributes as OAT;
 use OpenApi\Attributes\RequestBody;
@@ -320,12 +321,17 @@ class FileController extends Controller
     public function delete(FilePublicIdPathParameterData $deleteFileData, Request $request)
     {
 
+        abort(404);
+
         $public_id =
               str_replace(
                   '-',
                   '/',
-                  $deleteFileData->public_id,
+                  $deleteFileData
+                      ->public_id,
               );
+
+        DB::beginTransaction();
 
         // if image is created before parent model is created (i.e on create page)
         TemporaryUploadedImages::query()
@@ -345,14 +351,21 @@ class FileController extends Controller
 
         // return {resut: "ok"} in success
         // and {result: "not found"} in failure
-        $delete_response = CloudUploadService::destroy($public_id);
+        $delete_response =
+            CloudUploadService::destroy(
+                $public_id
+            );
 
-        if ($delete_response['result'] != 'ok') {
+        if ($delete_response['result'] == 'not_found') {
+
+            DB::rollBack();
             abort(
                 HttpStatusCode::INTERNAL_SERVER_ERROR,
                 'خطأ في الخادم الداخلي. يرجى المحاولة مرة أخرى لاحقًا.',
             );
         }
+
+        DB::commit();
 
         return true;
 

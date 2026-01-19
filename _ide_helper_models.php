@@ -129,9 +129,9 @@ namespace App\Models{
 /**
  * @property int $id
  * @property int $user_id
- * @property \App\Enum\Language $mobile_name_language_when_uploaded
- * @property string $name_in_english
- * @property string $name_in_arabic
+ * @property \App\Enum\Language|null $mobile_name_language_when_uploaded
+ * @property string|null $name_in_english
+ * @property string|null $name_in_arabic
  * @property int|null $price_in_usd
  * @property int $is_sold
  * @property string|null $ram
@@ -346,6 +346,7 @@ namespace App\Models{
  * @property-read int|null $tokens_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User admin()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User store()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User user()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePhoneNumber($value)
  */
 	class User extends \Eloquent implements \App\Interfaces\IUploadable, \App\Interfaces\Mediable {}
@@ -353,6 +354,11 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * @property int $id
+ * @property int $user_id
+ * @property int $mobile_offer_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static Illuminate\Database\Eloquent\Builder<static> joinRelationship(string $relations, \Closure(Illuminate\Database\Query\JoinClause $join)|array $join_callback_or_array)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserFavouritesMobileOffer newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserFavouritesMobileOffer newQuery()
@@ -371,6 +377,11 @@ namespace App\Models{
  * @method static Illuminate\Database\Eloquent\Builder<static> powerJoinHas(string $relations, mixed operater, mixed value)
  * @method static Illuminate\Database\Eloquent\Builder<static> powerJoinWhereHas(string $relations, \Closure(Illuminate\Database\Query\JoinClause $join)|array $join_callback_or_array)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserFavouritesMobileOffer query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserFavouritesMobileOffer whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserFavouritesMobileOffer whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserFavouritesMobileOffer whereMobileOfferId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserFavouritesMobileOffer whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserFavouritesMobileOffer whereUserId($value)
  */
 	class UserFavouritesMobileOffer extends \Eloquent {}
 }

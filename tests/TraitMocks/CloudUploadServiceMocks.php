@@ -126,12 +126,26 @@ trait CloudUploadServiceMocks
     }
 
     // public id is also $media->file_name
-    public function mockDestroy(string $public_id, $times = 1)
+    public function mockDestroySuccess(string $public_id, $times = 1)
     {
 
         CloudUploadService::shouldReceive('destroy')
             ->with($public_id)
-            ->times($times);
+            ->times($times)
+            ->andReturn([
+                'result' => 'ok',
+            ]);
+    }
+
+    public function mockDestroyFailure(string $public_id, $times = 1)
+    {
+
+        CloudUploadService::shouldReceive('destroy')
+            ->with($public_id)
+            ->times($times)
+            ->andReturn([
+                'result' => 'not_found',
+            ]);
     }
 
     public function mockDestroyMultiple(Collection $images)

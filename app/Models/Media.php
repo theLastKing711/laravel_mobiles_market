@@ -7,6 +7,7 @@ use CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * @property int $id
@@ -60,7 +61,16 @@ class Media extends \CloudinaryLabs\CloudinaryLaravel\Model\Media
     // we did made this custom media class that ovveride cloudinary's
     // to allow usage of factory for the model
     // and possibly add more features for the model in the future
+    /** @use HasFactory<\Database\Factories\MediaFactory> */
     use HasFactory;
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo<MobileOffer | User, $this>
+     */
+    public function medially(): MorphTo
+    {
+        return $this->morphTo();
+    }
 
     public static function fromCloudinaryUploadResponse(CloudinaryEngine $response_file): self
     {

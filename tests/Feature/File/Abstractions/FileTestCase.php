@@ -20,7 +20,9 @@ class FileTestCase extends TestCase
 
         $this
             ->route_builder =
-                RouteBuilder::withMainRoute('files');
+                RouteBuilder::withMainRoute(
+                    'files'
+                );
 
         $this->seed([
             RolesAndPermissionsSeeder::class,
