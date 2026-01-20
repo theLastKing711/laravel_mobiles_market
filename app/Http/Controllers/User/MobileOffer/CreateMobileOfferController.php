@@ -16,7 +16,7 @@ use OpenApi\Attributes as OAT;
 
 class CreateMobileOfferController extends MobileOfferController
 {
-    #[OAT\Post(path: '/users/mobile-offers', tags: ['usersMobileOffers'])]
+    #[OAT\Post(path: '/users/my-mobile-offers', tags: ['usersMobileOffers'])]
     #[JsonRequestBody(CreateMobileOfferRequestData::class)]
     #[SuccessNoContentResponse]
     public function __invoke(CreateMobileOfferRequestData $request, TranslationService $translationService)

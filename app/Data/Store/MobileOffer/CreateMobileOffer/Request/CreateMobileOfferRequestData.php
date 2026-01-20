@@ -14,9 +14,9 @@ class CreateMobileOfferRequestData extends Data
 {
     public function __construct(
         #[OAT\Property]
-        public ?string $name_in_english,
+        public string $name_in_english,
         #[OAT\Property]
-        public ?int $price_in_usd,
+        public int $price_in_usd,
         // #[OAT\Property]
         // public ?string $screen_size,
         // #[OAT\Property]
@@ -30,7 +30,7 @@ class CreateMobileOfferRequestData extends Data
         // #[OAT\Property]
         // public ?int $battery_size,
         #[OAT\Property]
-        public ?int $battery_health,
+        public int $battery_health,
         // #[OAT\Property]
         // public ?int $number_of_sims,
         // #[OAT\Property]

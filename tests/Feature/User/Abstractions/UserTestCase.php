@@ -5,7 +5,6 @@ namespace Tests\Feature\User\Abstractions;
 use App\Helpers\RotueBuilder\RouteBuilder;
 use App\Models\User;
 use Database\Seeders\RolesAndPermissionsSeeder;
-use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -13,7 +12,7 @@ class UserTestCase extends TestCase
 {
     use RefreshDatabase;
 
-    public User $student;
+    public User $user;
 
     protected function setUp(): void
     {
@@ -25,7 +24,6 @@ class UserTestCase extends TestCase
 
         $this->seed([
             RolesAndPermissionsSeeder::class,
-            UserSeeder::class,
         ]);
     }
 
@@ -36,5 +34,15 @@ class UserTestCase extends TestCase
                 ->user()
                 ->create();
 
+    }
+
+    public function initializeUser()
+    {
+
+        $this->user =
+           $this
+               ->getUser();
+
+        $this->actingAs($this->user);
     }
 }

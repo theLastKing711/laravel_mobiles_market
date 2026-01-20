@@ -93,6 +93,8 @@ Route::prefix('users')
 
                         Route::get('{id}', GetMyMobileOfferController::class);
 
+                        Route::post('', CreateMobileOfferController::class);
+
                         Route::patch('/{id}/sold', SellMobileOfferController::class);
 
                         Route::patch('{id}', UpdateMobileOfferController::class);
@@ -107,7 +109,6 @@ Route::prefix('users')
                         Route::get('favourites', GetFavouriteMobileOffersController::class);
                         Route::get('{id}', GetMobileOfferController::class);
 
-                        Route::post('', CreateMobileOfferController::class);
                         Route::patch('{id}/favourite', FavouriteMobileOfferController::class);
 
                     });

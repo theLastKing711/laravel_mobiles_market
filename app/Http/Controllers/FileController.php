@@ -321,7 +321,8 @@ class FileController extends Controller
     public function delete(FilePublicIdPathParameterData $deleteFileData, Request $request)
     {
 
-        abort(404);
+        // it works on frontend but might need more testing there on error
+        // abort(404);
 
         $public_id =
               str_replace(
