@@ -112,6 +112,23 @@ class MobileOfferSeeder extends Seeder
             'number_of_esims' => 2,
             'color' => 'pink',
         ],
+        [
+            'name_in_english' => 'first name',
+            'name_in_arabic' => 'أونور 500 برو',
+            'mobile_name_language_when_uploaded' => Language::EN,
+            'price_in_usd' => 440,
+            'is_sold' => false,
+            'screen_size' => '6.55',
+            'screen_type' => 'OLED',
+            'cpu' => 'Qualcomm SM8750-AB Snapdragon 8 Elite',
+            'ram' => '12GB',
+            'storage' => '1TB',
+            'battery_size' => 8000,
+            'battery_health' => 100,
+            'number_of_sims' => 2,
+            'number_of_esims' => 2,
+            'color' => 'pink',
+        ],
 
     ];
 

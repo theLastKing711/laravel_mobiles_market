@@ -51,7 +51,7 @@ class GetMyMobileOffersController extends MobileOfferController
                         ])
                 )
     // also get called on client side after remote query success
-                ->paginate(7);
+                ->paginate(perPage: $request->perPage ?? 7);
 
         // return $remote_mobiles_offers_search->total();
 

@@ -47,7 +47,7 @@ class SearchMobilesOffersController extends Controller
                         )
                 )
     // also get called on client side
-                ->paginate(5);
+                ->paginate($request->perPage ?? 5);
 
         return SearchMobilesOffersResponseData::collect(
             $remote_mobiles_offers_search

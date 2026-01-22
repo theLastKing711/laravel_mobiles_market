@@ -166,7 +166,7 @@ class FileTest extends FileTestCase
 
         $mobile_offer =
             MobileOffer::factory()
-                ->forUserWithId($this->user->id)
+                ->forUserWithId($this->store->id)
                 ->has(
                     Media::factory(),
                     'mainImage'
@@ -211,7 +211,7 @@ class FileTest extends FileTestCase
 
         $mobile_offer =
             MobileOffer::factory()
-                ->forUserWithId($this->user->id)
+                ->forUserWithId($this->store->id)
                 ->has(
                     Media::factory(),
                     'mainImage'
@@ -259,7 +259,7 @@ class FileTest extends FileTestCase
             Media::factory()
                 ->for(
                     MobileOffer::factory()
-                        ->forUserWithId($this->user->id),
+                        ->forUserWithId($this->store->id),
                     'medially'
 
                 )

@@ -16,6 +16,7 @@ use OpenApi\Attributes as OAT;
 class GetFavouriteMobileOffersController extends MobileOfferController
 {
     #[OAT\Get(path: '/users/mobile-offers/favourites', tags: ['usersMobileOffers'])]
+    #[QueryParameter('search')]
     #[QueryParameter('page', 'integer')]
     #[QueryParameter('perPage', 'integer')]
     #[SuccessItemResponse(GetFavouriteMobileOffersResponsePaginationResultData::class)]
@@ -35,9 +36,9 @@ class GetFavouriteMobileOffersController extends MobileOfferController
                         ])
                         ->selectRaw(
                             '
-                            *,
-                            true is_favourite
-                        ',
+                        *,
+                        true is_favourite
+                    ',
                         )
                         ->whereRelation(
                             'favouriteByUsers',
@@ -46,7 +47,8 @@ class GetFavouriteMobileOffersController extends MobileOfferController
                         )
                 )
                 // also get called on client side
-                ->paginate(5)
+                ->paginate($request->perPage ?? 5)
         );
+
     }
 }

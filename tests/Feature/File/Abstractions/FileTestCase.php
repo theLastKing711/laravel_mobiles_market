@@ -3,16 +3,14 @@
 namespace Tests\Feature\File\Abstractions;
 
 use App\Helpers\RotueBuilder\RouteBuilder;
-use App\Models\User;
 use Database\Seeders\RolesAndPermissionsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Tests\Traits\StoreTrait;
 
 class FileTestCase extends TestCase
 {
-    use RefreshDatabase;
-
-    public User $user;
+    use RefreshDatabase, StoreTrait;
 
     protected function setUp(): void
     {
@@ -28,19 +26,7 @@ class FileTestCase extends TestCase
             RolesAndPermissionsSeeder::class,
         ]);
 
-        // $this->createStudent();
-
-        $this->user = $this->getUser();
-
-        $this->actingAs($this->user);
-    }
-
-    public function getUser(): User
-    {
-        return
-            User::factory()
-                ->user()
-                ->create();
+        $this->initializeStore();
 
     }
 }

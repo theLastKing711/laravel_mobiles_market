@@ -60,6 +60,13 @@ class UserFactory extends Factory
         });
     }
 
+    public function storeUser(): static
+    {
+        return $this->afterCreating(function (User $user) {
+            $user->assignRole(RolesEnum::STORE);
+        });
+    }
+
     public function staticStore(): static
     {
         return $this->state(fn (array $attributes) => [

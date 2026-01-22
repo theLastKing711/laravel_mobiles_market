@@ -42,4 +42,21 @@ class MobileOfferFactory extends Factory
             'user_id' => $id,
         ]);
     }
+
+    public function withEnglishName(string $name): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'name_in_english' => $name,
+            'mobile_name_language_when_uploaded' => Language::EN,
+        ]);
+    }
+
+    public function withArabicNamwe(string $name): static
+    {
+
+        return $this->state(fn (array $attributes) => [
+            'name_in_english' => $name,
+            'mobile_name_language_when_uploaded' => Language::AR,
+        ]);
+    }
 }

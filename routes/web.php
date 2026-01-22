@@ -28,7 +28,6 @@ Route::prefix('')
     ->middleware(
         [
             'api',
-
         ]
     )
     ->group(function () {

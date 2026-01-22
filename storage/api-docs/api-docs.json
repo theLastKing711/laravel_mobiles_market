@@ -875,12 +875,53 @@
                 }
             }
         },
-        "/users/mobile-offers": {
+        "/users/my-mobile-offers": {
+            "get": {
+                "tags": [
+                    "usersMobileOffers"
+                ],
+                "operationId": "56e5d1bb889fb2f5cba18b83aa347181",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Item fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserMobileOfferGetMyMobileOffersResponseGetMyMobileOffersResponsePaginationResultData"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "post": {
                 "tags": [
                     "usersMobileOffers"
                 ],
-                "operationId": "efa9d6357f0f68596212f4a73ef4d56b",
+                "operationId": "799c50a535484012620da6cb5d13f86f",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -939,42 +980,6 @@
                 "operationId": "67adc3523a0b772cf8e94b87b94c765f",
                 "parameters": [
                     {
-                        "name": "page",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "perPage",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Item fetched successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/UserMobileOfferGetFavouriteMobileOffersResponseGetFavouriteMobileOffersResponsePaginationResultData"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/users/my-mobile-offers": {
-            "get": {
-                "tags": [
-                    "usersMobileOffers"
-                ],
-                "operationId": "56e5d1bb889fb2f5cba18b83aa347181",
-                "parameters": [
-                    {
                         "name": "search",
                         "in": "query",
                         "schema": {
@@ -1002,7 +1007,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/UserMobileOfferGetMyMobileOffersResponseGetMyMobileOffersResponsePaginationResultData"
+                                    "$ref": "#/components/schemas/UserMobileOfferGetFavouriteMobileOffersResponseGetFavouriteMobileOffersResponsePaginationResultData"
                                 }
                             }
                         }
@@ -1332,12 +1337,10 @@
             "UserMobileOfferCreateMobileOfferRequestCreateMobileOfferRequestData": {
                 "properties": {
                     "name_in_english": {
-                        "type": "string",
-                        "nullable": true
+                        "type": "string"
                     },
                     "price_in_usd": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": "integer"
                     },
                     "ram": {
                         "type": "string",
@@ -1348,8 +1351,7 @@
                         "nullable": true
                     },
                     "battery_health": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": "integer"
                     },
                     "features": {
                         "type": "array",

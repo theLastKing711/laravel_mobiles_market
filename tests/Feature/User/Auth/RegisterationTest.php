@@ -33,13 +33,6 @@ class RegisterationTest extends UserTestCase
                 'phone-number-step'
             );
 
-        // $logged_in_user = $this
-        //     ->getUser();
-
-        // $this->actingAs(
-        //     $logged_in_user
-        // );
-
         $registeration_step_request_data =
             new AddPhoneNumberRegisterationStepRequestData(
                 phone_number: fake()->phoneNumber()

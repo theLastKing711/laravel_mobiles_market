@@ -23,4 +23,14 @@ enum Language: int
             return self::AR;
         }
     }
+
+    public static function isEnglishWord(string $string)
+    {
+        return self::getWordLanguage($string) === self::EN;
+    }
+
+    public static function isArabicWord(string $string)
+    {
+        return self::getWordLanguage($string) === self::AR;
+    }
 }
