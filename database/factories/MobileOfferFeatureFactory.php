@@ -21,3 +21,26 @@ class MobileOfferFeatureFactory extends Factory
         ];
     }
 }
+
+// return [
+//             'exam_students.*.student_id' => [
+//                 function (string $attribute, mixed $value, Closure $fail) use ($exam_course_students_ids) {
+
+//                     $student_has_registered_in_exam_course =
+//                         $exam_course_students_ids
+//                             ->contains($value);
+
+//                     if (! $student_has_registered_in_exam_course) {
+//                         $fail($attribute,
+//                             __(
+//                                 'messages.exam_students.student unregistered in course',
+//                                 [
+//                                     'id' => $value,
+//                                 ]
+//                             )
+//                         );
+//                     }
+
+//                 },
+//             ],
+//         ];

@@ -201,14 +201,6 @@ class MyMobileOfferTest extends UserTestCase
                     1,
                 ),
             ],
-            'with zero images' => [
-                new CreateMyMobileOfferProviderParameters(
-                    'english name',
-                    'اسم عربي',
-                    1,
-                    0,
-                ),
-            ],
             'with arabic name' => [
                 new CreateMyMobileOfferProviderParameters(
                     'اسم عربي',
@@ -218,7 +210,6 @@ class MyMobileOfferTest extends UserTestCase
                 ),
             ],
         ];
-
     }
 
     #[
@@ -244,9 +235,8 @@ class MyMobileOfferTest extends UserTestCase
         $random_features_data =
             collect(
                 $features
-
             )
-                ->map(fn ($feature) => new FeatureData($feature['id']));
+                ->map(fn ($feature) => new FeatureData($feature->id));
 
         $request =
            new CreateMobileOfferRequestData(
@@ -514,6 +504,106 @@ class MyMobileOfferTest extends UserTestCase
             ->assertDatabaseCount(
                 Media::class,
                 count($request->temporary_uploaded_images_ids) + $data_provider->mobile_offer_old_number_of_images
+            );
+
+    }
+
+    #[
+        Test,
+    ]
+    public function create_my_mobile_offer_wit_no_uploaded_images_errors_with_422_status(): void
+    {
+        $features =
+            MobileOfferFeature::query()
+                ->take(2)
+                ->get('id');
+
+        $random_features_data =
+            collect(
+                $features
+            )
+                ->map(fn ($feature) => new FeatureData($feature->id));
+
+        $request =
+           new CreateMobileOfferRequestData(
+               'testing',
+               fake()->numberBetween(100, 2000),
+               fake()->word(),
+               fake()->word(),
+               fake()->numberBetween(80, 100),
+
+               $random_features_data,
+               []
+           );
+
+        $response =
+            $this
+                ->postJsonData(
+                    $request
+                        ->toArray()
+                );
+
+        $response
+            ->assertStatus(
+                status: 422
+            );
+
+        $response
+            ->assertOnlyJsonValidationErrors(
+                [
+                    'temporary_uploaded_images_ids' => __(
+                        'messages.users.my-mobile-offers.empty_number_of_images'
+                    ),
+                ]
+            );
+
+    }
+
+    #[
+        Test,
+    ]
+    public function update_my_mobile_offer_with_no_uploaded_images_and_no_existing_images_errors_with_422_status(): void
+    {
+
+        $new_mobile_offer =
+            MobileOffer::factory()
+                ->forUserWithId($this->store->id)
+                ->create();
+
+        $request =
+           new UpdateMobileOfferRequestData(
+               'test name',
+               fake()->numberBetween(100, 2000),
+               fake()->word(),
+               fake()->word(),
+               fake()->numberBetween(80, 100),
+               [],
+               [],
+               $new_mobile_offer->id
+           );
+
+        $response =
+            $this
+                ->withRoutePaths(
+                    $new_mobile_offer->id
+                )
+                ->patchJsonData(
+                    $request
+                        ->toArray()
+                );
+
+        $response
+            ->assertStatus(
+                422
+            );
+
+        $response
+            ->assertOnlyJsonValidationErrors(
+                [
+                    'temporary_uploaded_images_ids' => __(
+                        'messages.users.my-mobile-offers.empty_number_of_images'
+                    ),
+                ]
             );
 
     }

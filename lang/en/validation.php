@@ -29,8 +29,8 @@ return [
     'between' => [
         'array' => 'The :attribute field must have between :min and :max items.',
         'file' => 'The :attribute field must be between :min and :max kilobytes.',
-        'numeric' => 'The :attribute field must be between :min and :max.',
-        'string' => 'The :attribute field must be between :min and :max characters.',
+        'numeric' => ':attribute يجب أن يكون بين :min و :max',
+        'string' => ':attribute يجب أن يكون بين :min و :max',
     ],
     'boolean' => 'The :attribute field must be true or false.',
     'can' => 'The :attribute field contains an unauthorized value.',
@@ -60,14 +60,14 @@ return [
     'gt' => [
         'array' => 'The :attribute field must have more than :value items.',
         'file' => 'The :attribute field must be greater than :value kilobytes.',
-        'numeric' => 'The :attribute field must be greater than :value.',
-        'string' => 'The :attribute field must be greater than :value characters.',
+        'numeric' => 'حقل :attribute يجب أن يكون أكبر من :value.',
+        'string' => 'حقل :attribute يجب أن يكون أكبر من :value.',
     ],
     'gte' => [
         'array' => 'The :attribute field must have :value items or more.',
         'file' => 'The :attribute field must be greater than or equal to :value kilobytes.',
-        'numeric' => 'The :attribute field must be greater than or equal to :value.',
-        'string' => 'The :attribute field must be greater than or equal to :value characters.',
+        'numeric' => 'حقل :attribute يجب أن يكون أكبر أو يساوي :value.',
+        'string' => 'حقل :attribute يجب أن يكون أكبر أو يساوي :value.',
     ],
     'hex_color' => 'The :attribute field must be a valid hexadecimal color.',
     'image' => 'The :attribute field must be an image.',
@@ -117,7 +117,7 @@ return [
     'multiple_of' => 'The :attribute field must be a multiple of :value.',
     'not_in' => 'The selected :attribute is invalid.',
     'not_regex' => 'The :attribute field format is invalid.',
-    'numeric' => 'The :attribute field must be a number.',
+    'numeric' => 'حقل :attribute يجب أن يكون رقم.',
     'password' => [
         'letters' => 'The :attribute field must contain at least one letter.',
         'mixed' => 'The :attribute field must contain at least one uppercase and one lowercase letter.',
@@ -137,7 +137,7 @@ return [
     'prohibited_unless' => 'The :attribute field is prohibited unless :other is in :values.',
     'prohibits' => 'The :attribute field prohibits :other from being present.',
     'regex' => 'The :attribute field format is invalid.',
-    'required' => 'The :attribute field is required.',
+    'required' => 'حقل :attribute مطلوب.',
     'required_array_keys' => 'The :attribute field must contain entries for: :values.',
     'required_if' => 'The :attribute field is required when :other is :value.',
     'required_if_accepted' => 'The :attribute field is required when :other is accepted.',
@@ -176,8 +176,8 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'temporary_uploaded_images_ids' => [
+            'required' => __('messages.users.my-mobile-offers.empty_number_of_images'),
         ],
     ],
 
@@ -192,6 +192,12 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'name_in_english' => 'الاسم',
+        'battery_health' => 'عمر البطارية',
+        'ram' => 'الرامات',
+        'storage' => 'التخزين',
+        'price_in_usd' => 'السعر بالدولار',
+    ],
 
 ];

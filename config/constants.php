@@ -3,6 +3,7 @@
 // user validation
 // user product valdiation
 
+use App\Enum\Auth\StorageUnit;
 use App\Models\MobileOffer;
 use App\Models\User;
 
@@ -61,4 +62,5 @@ return [
         '0968259851',
         // '0968316079',
     ],
+    'storage_units' => StorageUnit::cases(),
 ];
