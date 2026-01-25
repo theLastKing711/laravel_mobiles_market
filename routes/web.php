@@ -43,7 +43,6 @@ Route::prefix('files')
         ]
     )
     ->group(function () {
-        Route::get('', [FileController::class, 'index']);
         Route::post('', [FileController::class, 'store']);
         Route::delete('{public_id}', [FileController::class, 'delete']);
         Route::get('cloudinary-presigned-url', [FileController::class, 'getCloudinaryPresignedUrl']);

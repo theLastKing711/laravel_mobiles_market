@@ -359,6 +359,7 @@ namespace App\Models{
  * @property int $mobile_offer_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\MobileOffer $moblieOffer
  * @method static Illuminate\Database\Eloquent\Builder<static> joinRelationship(string $relations, \Closure(Illuminate\Database\Query\JoinClause $join)|array $join_callback_or_array)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserFavouritesMobileOffer newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserFavouritesMobileOffer newQuery()

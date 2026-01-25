@@ -5,8 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Enum\Auth\RolesEnum;
-use App\Interfaces\IUploadable;
-use App\Trait\Uploadable;
+use App\Trait\UploadableMobileOffer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -66,10 +65,10 @@ use Spatie\Permission\Traits\HasRoles;
  *
  * @mixin \Eloquent
  */
-class User extends Authenticatable implements IUploadable
+class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasApiTokens, HasFactory, HasRoles, Notifiable, Uploadable;
+    use HasApiTokens, HasFactory, HasRoles, Notifiable, UploadableMobileOffer;
 
     /**
      * The attributes that are mass assignable.

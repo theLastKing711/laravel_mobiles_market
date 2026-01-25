@@ -10,6 +10,8 @@ enum FileUploadDirectory: string
 
     case MOBILE_OFFERS = 'mobiles_market/mobile_offers';
 
+    case TEST_FOLDER = 'test_folder';
+
     // case DRIVER = 'driver';
 
     // case STORE = 'store';

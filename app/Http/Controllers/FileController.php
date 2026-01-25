@@ -41,13 +41,6 @@ use OpenApi\Attributes\RequestBody;
 ]
 class FileController extends Controller
 {
-    #[OAT\Get(path: '/admin/files', tags: ['files'])]
-    #[SuccessNoContentResponse('File uploaded successfully')]
-    public function index()
-    {
-        return [];
-    }
-
     #[OAT\Post(path: '/files', tags: ['files'])]
     #[FormDataRequestBody(UploadFileData::class)]
     #[SuccessItemResponse(UploadFileResponseData::class, 'File uploaded successfully')]
