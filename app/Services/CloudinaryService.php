@@ -8,6 +8,9 @@ use Illuminate\Support\Collection;
 
 class CloudinaryService
 {
+    /**
+     * @return array{timestamp: string, eager: string, folder: string, api_key: string, cloud_name: string, signature: string}
+     **/
     public function signRequest(FileUploadDirectory $directory, ?int $index = 0)
     {
 

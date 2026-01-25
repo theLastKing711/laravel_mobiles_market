@@ -82,12 +82,45 @@ trait Uploadable
      */
     public function temporaryUploadMobileOfferImageFromCloudinaryNotification(CloudinaryNotificationUrlRequestData $cloudinaryNotificationUrlRequestData)
     {
+
+        return
+            $this
+                ->temporaryUploadImageToFolderFromCloudinaryNotification(
+                    $cloudinaryNotificationUrlRequestData,
+                    FileUploadDirectory::MOBILE_OFFERS
+                );
+
+        // return $request;
+
+        // $temporary_uploaded_image =
+        //     TemporaryUploadedImages::fromCloudinaryEagerUploadedImage(
+        //         $cloudinaryNotificationUrlRequestData,
+        //         FileUploadDirectory::MOBILE_OFFERS
+        //     );
+
+        // return
+        //    $this
+        //        ->temporaryUploadedImages()
+        //        ->create(
+        //            $temporary_uploaded_image
+        //                ->toArray()
+        //        );
+
+    }
+
+    /**
+     * Summary of temporaryUploadedByCollectionName
+     *
+     * @return TemporaryUploadedImages
+     */
+    private function temporaryUploadImageToFolderFromCloudinaryNotification(CloudinaryNotificationUrlRequestData $cloudinaryNotificationUrlRequestData, FileUploadDirectory $file_upload_directory)
+    {
         // return $request;
 
         $temporary_uploaded_image =
             TemporaryUploadedImages::fromCloudinaryEagerUploadedImage(
                 $cloudinaryNotificationUrlRequestData,
-                FileUploadDirectory::MOBILE_OFFERS
+                $file_upload_directory
             );
 
         return
