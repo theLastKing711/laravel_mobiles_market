@@ -2,12 +2,20 @@
 
 namespace App\Services;
 
+use App\Data\Shared\File\CloudinaryNotificationUrlRequestData;
 use App\Data\Shared\File\UpdateFileData;
 use App\Data\Shared\Media\ModelAndMediable;
+use App\Enum\FileUploadDirectory;
+use App\Exceptions\Api\Cloudinary\FailedToDeleteImageException;
+use App\Facades\CloudUploadService;
 use App\Models\Media;
+use App\Models\TemporaryUploadedImages;
 use Cloudinary;
 use Cloudinary\Api\Exception\ApiError;
+use Cloudinary\Api\HttpStatusCode;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class mediaService
@@ -79,5 +87,91 @@ class mediaService
     {
         FacadesLog::info('hello world');
         $model->detachMedia();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection<int, TemporaryUploadedImages>
+     */
+    public function temporaryUploadImageToFolderFromCloudinaryNotification(
+        CloudinaryNotificationUrlRequestData $cloudinaryNotificationUrlRequestData,
+        FileUploadDirectory $file_upload_directory
+    ): TemporaryUploadedImages {
+
+        return
+            Auth::User()
+                ->temporaryUploadImageToFolderFromCloudinaryNotification(
+                    $cloudinaryNotificationUrlRequestData,
+                    $file_upload_directory
+                );
+
+    }
+
+    /**
+     * @return TemporaryUploadedImages
+     */
+    public function temporaryUploadMobileOfferImageFromCloudinaryNotification(CloudinaryNotificationUrlRequestData $cloudinaryNotificationUrlRequestData)
+    {
+
+        return
+            Auth::user()
+                ->temporaryUploadImageToFolderFromCloudinaryNotification(
+                    $cloudinaryNotificationUrlRequestData,
+                    FileUploadDirectory::MOBILE_OFFERS
+                );
+
+    }
+
+    /**
+     * @return TemporaryUploadedImages
+     *
+     * @throws FailedToDeleteImageException
+     */
+    public function deleteFileByPublicId(string $public_id)
+    {
+
+        $public_id =
+             str_replace(
+                 '-',
+                 '/',
+                 $public_id
+             );
+
+        DB::beginTransaction();
+
+        // if image is created before parent model is created (i.e on create page)
+        TemporaryUploadedImages::query()
+            ->firstWhere(
+                'public_id',
+                $public_id
+            )
+            ?->delete();
+
+        // // if image is created after parent model is created(i.e on update page)
+        Media::query()
+            ->firstWhere(
+                'public_id',
+                $public_id
+            )
+            ?->delete();
+
+        // return {resut: "ok"} in success
+        // and {result: "not found"} in failure
+        $delete_response =
+            CloudUploadService::destroy(
+                $public_id
+            );
+
+        if ($delete_response['result'] == 'not_found') {
+
+            DB::rollBack();
+            throw new FailedToDeleteImageException;
+            // abort(
+            //     HttpStatusCode::INTERNAL_SERVER_ERROR,
+            //     'خطأ في الخادم الداخلي. يرجى المحاولة مرة أخرى لاحقًا.',
+            // );
+        }
+
+        DB::commit();
+
     }
 }

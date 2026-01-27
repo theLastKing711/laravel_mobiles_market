@@ -14,6 +14,7 @@ use App\Http\Controllers\User\Auth\Registeration\RegisterController;
 use App\Http\Controllers\User\MobileOffer\CreateMobileOfferController;
 use App\Http\Controllers\User\MobileOffer\DeleteMobileOfferController;
 use App\Http\Controllers\User\MobileOffer\FavouriteMobileOfferController;
+use App\Http\Controllers\User\MobileOffer\File\MyMobileOfferFileController;
 use App\Http\Controllers\User\MobileOffer\GetFavouriteMobileOffersController;
 use App\Http\Controllers\User\MobileOffer\GetMobileOfferController;
 use App\Http\Controllers\User\MobileOffer\GetMyMobileOfferController;
@@ -45,9 +46,10 @@ Route::prefix('files')
     ->group(function () {
         Route::post('', [FileController::class, 'store']);
         Route::delete('{public_id}', [FileController::class, 'delete']);
-        Route::get('cloudinary-presigned-url', [FileController::class, 'getCloudinaryPresignedUrl']);
-        Route::get('cloudinary-presigned-urls', [FileController::class, 'getCloudinaryPresignedUrls']);
-        Route::post('mobile-offer-cloudinary-notifications-url', [FileController::class, 'mobileOfferCloudinaryNotificationUrl']);
+        Route::get('cloudinary-presigned-urls', [FileController::class, 'getTestCloudinaryPresignedUrls']);
+        Route::post('cloudinary-notifications-url', [FileController::class, 'cloudinaryNotificationUrl']);
+        // Route::get('mobile-offer-cloudinary-presigned-urls', [FileController::class, 'getMobileOfferCloudinaryPresignedUrls']);
+        // Route::post('mobile-offer-cloudinary-notifications-url', [FileController::class, 'mobileOfferCloudinaryNotificationUrl']);
     });
 
 Route::prefix('admins')
@@ -88,6 +90,13 @@ Route::prefix('users')
                 route::prefix('my-mobile-offers')
                     ->group(function () {
                         Route::get('', GetMyMobileOffersController::class);
+
+                        Route::prefix('files')->group(function () {
+                            Route::get('cloudinary-presigned-urls', [MyMobileOfferFileController::class, 'getCloudinaryPresignedUrls']);
+                            Route::post('cloudinary-notifications-url', [MyMobileOfferFileController::class, 'getCloudinaryNotificationUrl']);
+                            Route::delete('{public_id}', [MyMobileOfferFileController::class, 'delete']);
+
+                        });
 
                         Route::get('{id}', GetMyMobileOfferController::class);
 

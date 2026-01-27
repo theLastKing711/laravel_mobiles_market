@@ -28,7 +28,7 @@ trait Uploadable
     /**
      * @return MorphMany<TemporaryUploadedImages, $this>|MorphMany<TemporaryUploadedImages, \Eloquent>
      */
-    private function temporaryUploadedImages(): MorphMany
+    public function temporaryUploadedImages(): MorphMany
     {
         return $this->morphMany(TemporaryUploadedImages::class, 'uploadable');
     }

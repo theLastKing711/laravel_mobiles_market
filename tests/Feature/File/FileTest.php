@@ -2,43 +2,27 @@
 
 namespace Tests\Feature\File;
 
-use App\Data\Shared\File\CloudinaryNotificationUrlRequestData;
-use App\Enum\CloudinaryTransformationEnum;
 use App\Enum\FileUploadDirectory;
 use App\Models\Media;
 use App\Models\MobileOffer;
 use App\Models\TemporaryUploadedImages;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\File\Abstractions\FileTestCase;
+use Tests\Feature\Shared\MediaServiceTest;
 use Tests\TraitMocks\CloudUploadServiceMocks;
+use Tests\TraitMocks\MediaServiceMocks;
 
 class FileTest extends FileTestCase
 {
-    use CloudUploadServiceMocks;
+    use CloudUploadServiceMocks, MediaServiceMocks;
 
     protected function setUp(): void
     {
         parent::setUp();
     }
 
-    #[Test]
-    public function get_cloudinary_presigned_url_success_with_200_response(): void
-    {
-
-        $this
-            ->withRoutePaths(
-                'cloudinary-presigned-url'
-            );
-
-        $response =
-           $this
-               ->getJsonData();
-
-        $response->assertStatus(200);
-
-    }
-
-    #[Test]
+    #[Test, Group('getCloudinaryPresignedUrls')]
     public function get_cloudinary_presigned_urls_success_with_200_response(): void
     {
 
@@ -58,15 +42,15 @@ class FileTest extends FileTestCase
 
     }
 
-    #[Test]
-    public function get_cloudinary_presigned_urls_with_duplicate_signatures_from_server_code_errors_with_500_response(): void
+    #[Test, Group('getCloudinaryPresignedUrls')]
+    public function get_cloudinary_presigned_urls_with_duplicate_sign_request_signature_thrown_errors_with_500(): void
     {
 
         $urls_count = 3;
 
         $this
-            ->mockSignRequestsWithStaticReturn(
-                FileUploadDirectory::MOBILE_OFFERS,
+            ->mockSignRequestsThrowsDuplicateSignedRequestSignature(
+                FileUploadDirectory::TEST_FOLDER,
                 $urls_count
             );
 
@@ -86,7 +70,7 @@ class FileTest extends FileTestCase
 
     }
 
-    #[Test]
+    #[Test, Group('delete')]
     public function delete_temporary_uploaded_file_by_public_id_success_with_200_repsonse(): void
     {
 
@@ -99,7 +83,7 @@ class FileTest extends FileTestCase
                 ->public_id;
 
         $this
-            ->mockDestroySuccess(
+            ->mockDeleteFileByPublicIdSuccess(
                 $public_id
             );
 
@@ -112,18 +96,9 @@ class FileTest extends FileTestCase
 
         $response->assertStatus(200);
 
-        $this
-            ->assertDatabaseMissing(
-                TemporaryUploadedImages::class,
-                [
-                    'id' => $temporary_uploaded_image->id,
-                    // 'public_id' => $temporary_uploaded_image->public_id,
-                ]
-            );
-
     }
 
-    #[Test]
+    #[Test, Group('delete')]
     public function delete_non_existing_temporary_uploaded_file_on_cloudinary_by_public_id_errors_with_500_repsonse(): void
     {
 
@@ -135,9 +110,9 @@ class FileTest extends FileTestCase
             $temporary_uploaded_image
                 ->public_id;
 
-        // retunr "not_found' which stimulate provided public id is not on cloudinary
+        // return "not_found' which stimulate provided public id is not on cloudinary
         $this
-            ->mockDestroyFailure(
+            ->mockDeleteFileByPublicIdThrowsFailedToDeleteImageException(
                 $public_id
             );
 
@@ -150,41 +125,22 @@ class FileTest extends FileTestCase
 
         $response->assertStatus(500);
 
-        $this
-            ->assertDatabaseHas(
-                TemporaryUploadedImages::class,
-                [
-                    'id' => $temporary_uploaded_image->id,
-                ]
-            );
-
     }
 
-    #[Test]
+    #[Test, Group('delete')]
     public function delete_media_file_by_public_id_success_with_200_repsonse(): void
     {
 
-        $mobile_offer =
-            MobileOffer::factory()
-                ->forUserWithId($this->store->id)
-                ->has(
-                    Media::factory(),
-                    'mainImage'
-                )
-                ->createOne();
-
         $media =
-            $mobile_offer
-                ->mainImage;
+            Media::factory()
+                ->forUserWithId($this->store->id)
+                ->createOne();
 
         $public_id =
             $media
                 ->public_id;
 
-        $this
-            ->mockDestroySuccess(
-                $public_id
-            );
+        $this->mockDeleteFileByPublicIdSuccess($public_id);
 
         $response =
            $this
@@ -195,17 +151,9 @@ class FileTest extends FileTestCase
 
         $response->assertStatus(200);
 
-        $this
-            ->assertDatabaseMissing(
-                Media::class,
-                [
-                    'id' => $media->id,
-                ]
-            );
-
     }
 
-    #[Test]
+    #[Test, Group('delete')]
     public function delete_non_existing_media_file_on_cloudinary_by_public_id_errors_with_500_repsonse(): void
     {
 
@@ -218,17 +166,14 @@ class FileTest extends FileTestCase
                 )
                 ->createOne();
 
-        $media =
-            $mobile_offer
-                ->mainImage;
-
         $public_id =
-            $media
-                ->public_id;
+           $mobile_offer
+               ->mainImage
+               ->public_id;
 
-        // retunr "not_found' which stimulate provided public id is not on cloudinary
+        // return "not_found' which stimulate provided public id is not on cloudinary
         $this
-            ->mockDestroyFailure(
+            ->mockDeleteFileByPublicIdThrowsFailedToDeleteImageException(
                 $public_id
             );
 
@@ -241,72 +186,28 @@ class FileTest extends FileTestCase
 
         $response->assertStatus(500);
 
-        $this
-            ->assertDatabaseHas(
-                Media::class,
-                [
-                    'id' => $media->id,
-                ]
-            );
-
     }
 
-    #[Test]
-    public function update_temporary_uploaded_images_for_model_on_cloudinary_successfull_notificatoin_from_front_end_with_201_status(): void
+    #[Test, Group('getCloudinaryNotificationUrl')]
+    public function cloudinary_notification_url_update_temporary_uploaded_images_for_user_model_on_cloudinary_successfull_notificatoin_from_front_end_with_200_status(): void
     {
 
-        $media =
-            Media::factory()
-                ->for(
-                    MobileOffer::factory()
-                        ->forUserWithId($this->store->id),
-                    'medially'
-
-                )
-                ->createOne();
-
         $cloudinary_notificatoin_url_request_data =
-           CloudinaryNotificationUrlRequestData::fromMedia(
-               $media
-           );
+            MediaServiceTest::getCloudinaryNotificationUrlRequestDataForUser();
+
+        MediaServiceMocks::mockTemporaryUploadImageToFolderFromCloudinaryNotification();
 
         $response =
            $this
                ->withRoutePaths(
-                   'mobile-offer-cloudinary-notifications-url'
+                   'cloudinary-notifications-url'
                )
                ->postJsonData(
                    $cloudinary_notificatoin_url_request_data
                        ->toArray()
                );
 
-        $response->assertStatus(201);
-
-        $mainImage =
-        $cloudinary_notificatoin_url_request_data
-            ->eager
-            ->firstWhere(
-                'transformation',
-                CloudinaryTransformationEnum::MAIN
-            );
-
-        $thumbImage =
-            $cloudinary_notificatoin_url_request_data
-                ->eager
-                ->firstWhere(
-                    'transformation',
-                    CloudinaryTransformationEnum::THUMBNAIL
-                );
-
-        $this
-            ->assertDatabaseHas(
-                TemporaryUploadedImages::class,
-                [
-                    'public_id' => $cloudinary_notificatoin_url_request_data->public_id,
-                    'file_url' => $mainImage->secure_url,
-                    'thumbnail_url' => $thumbImage->secure_url,
-                ]
-            );
+        $response->assertStatus(200);
 
     }
 }

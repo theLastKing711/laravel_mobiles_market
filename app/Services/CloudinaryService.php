@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enum\FileUploadDirectory;
+use App\Exceptions\Api\Cloudinary\DuplicateSignedRequestSignature;
 use Cloudinary\Api\ApiUtils;
 use Illuminate\Support\Collection;
 
@@ -48,7 +49,17 @@ class CloudinaryService
 
     }
 
-    public function signRequests(int $count, FileUploadDirectory $directory, ?int $index = 0)
+    private function signedUrlsHaveDuplicateSignature(Collection $signed_urls)
+    {
+        if ($signed_urls->unique('signature')->count() != $signed_urls->count()) {
+            return true;
+        }
+    }
+
+    /**
+     * @throws DuplicateSignedRequestSignature
+     **/
+    public function signRequests(FileUploadDirectory $directory, int $count, ?int $index = 0)
     {
 
         $urls_list =
@@ -66,6 +77,37 @@ class CloudinaryService
                     }
                 );
 
+        if ($this->signedUrlsHaveDuplicateSignature($presigned_uploads_data)) {
+
+            throw new DuplicateSignedRequestSignature;
+        }
+
         return $presigned_uploads_data;
+    }
+
+    /**
+     * @throws DuplicateSignedRequestSignature
+     **/
+    public function signMobileOffersRequests(int $count, ?int $index = 0)
+    {
+
+        return $this
+            ->signRequests(FileUploadDirectory::MOBILE_OFFERS, $count);
+    }
+
+    public function signTestRequests(int $count, ?int $index = 0)
+    {
+
+        $presigned_uploads_data = $this
+            ->signRequests(
+                FileUploadDirectory::TEST_FOLDER,
+                $count
+            );
+
+        if ($this->signedUrlsHaveDuplicateSignature($presigned_uploads_data)) {
+
+            throw new DuplicateSignedRequestSignature;
+        }
+
     }
 }

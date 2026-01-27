@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Enum\FileUploadDirectory;
 use App\Models\MobileOffer;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -36,10 +37,18 @@ class MediaFactory extends Factory
         ]);
     }
 
-    public function forMobileOffer(int $id): static
+    public function forMobileOfferWithId(int $id): static
     {
         return $this->state(fn (array $attributes) => [
             'medially_type' => MobileOffer::class,
+            'medially_id' => $id,
+        ]);
+    }
+
+    public function forUserWithId(int $id): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'medially_type' => User::class,
             'medially_id' => $id,
         ]);
     }

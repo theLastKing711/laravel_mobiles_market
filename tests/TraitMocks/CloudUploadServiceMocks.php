@@ -2,91 +2,173 @@
 
 namespace Tests\TraitMocks;
 
+use App\Data\Shared\File\SignedRequestData;
 use App\Enum\FileUploadDirectory;
+use App\Exceptions\Api\Cloudinary\DuplicateSignedRequestSignature;
 use App\Facades\CloudUploadService;
-use App\Services\CloudinaryService;
 use Illuminate\Support\Collection;
-use Mockery;
-use Mockery\MockInterface;
 
 trait CloudUploadServiceMocks
 {
-    public function mockSignRequest()
+    public function mockSignRequest(SignedRequestData $item, FileUploadDirectory $directory, int $count = 0)
     {
-        $this->instance(
-            CloudinaryService::class,
-            Mockery::mock(CloudinaryService::class, function (MockInterface $mock) {
-                $mock
-                    ->expects('signRequest')
-                    ->andReturn(
-                        [
-                            'signature' => fake()->sha1(),
-                            'api_key' => config('cloudinary.api_key'),
-                            'cloud_name' => config('cloudinary.cloud_name'),
-                            'timestamp' => fake()->time(),
-                            'eager' => 't_thumbnail|t_main',
-                            'folder' => fake()->word(),
-                        ]
-                    );
-            })
+
+        CloudUploadService::partialMock()
+            ->expects('signRequest')
+            ->with($directory, $count)
+            ->andReturn(
+                $item
+            );
+
+    }
+
+    private function genereateSignRequestWithUniqueSignature(?array $partial_sign_request = [])
+    {
+
+        $base_sign_request = new SignedRequestData(
+            timestamp: time(),
+            eager: config('cloudinary.api_key'),
+            folder: FileUploadDirectory::TEST_FOLDER,
+            signature: fake()->sha1(),
+            api_key: config('cloudinary.api_key'),
+            cloud_name: config('cloudinary.cloud_name'),
+        );
+
+        return clone (
+            $base_sign_request,
+            $partial_sign_request
         );
 
     }
 
-    public function mockSignRequestWithStaticReturn(FileUploadDirectory $directory, $index = 0)
+    private function genereateSignRequestsWithUniqueSignatures(FileUploadDirectory $directory, int $count, ?array $partial_sign_request = [])
     {
-        $this->instance(
-            CloudinaryService::class,
-            Mockery::mock(CloudinaryService::class, function (MockInterface $mock) use ($directory, $index) {
-                $mock
-                    ->expects('signRequest')
-                    ->with($directory, $index)
-                    ->andReturn(
-                        [
-                            'signature' => 'static_signature_for_tests',
-                            'api_key' => config('cloudinary.api_key'),
-                            'cloud_name' => config('cloudinary.cloud_name'),
-                            'timestamp' => 'static_time_stamp',
-                            'eager' => 't_thumbnail|t_main',
-                            'folder' => fake()->word(),
-                        ]
-                    );
-            })
+        return
+            Collection::times($count, fn ($number) => $number)
+                ->map(
+                    fn ($value) => $this->genereateSignRequestWithUniqueSignature($partial_sign_request),
+                );
+
+    }
+
+    private function genereateSignRequestWtihStaticSignature(?array $partial_sign_request = [])
+    {
+
+        $base_sign_request = new SignedRequestData(
+            timestamp: time(),
+            eager: config('cloudinary.api_key'),
+            folder: FileUploadDirectory::TEST_FOLDER,
+            signature: 'static signature',
+            api_key: config('cloudinary.api_key'),
+            cloud_name: config('cloudinary.cloud_name'),
+        );
+
+        return clone (
+            $base_sign_request,
+            $partial_sign_request
         );
 
     }
 
-    public function mockSignRequestsWithStaticReturn(FileUploadDirectory $directory, int $urls_count)
+    private function genereateSignRequestsWithStaticSignatures(FileUploadDirectory $directory, int $count, ?array $partial_sign_request = [])
+    {
+        return
+            Collection::times($count, fn ($number) => $number)
+                ->map(
+                    fn ($value) => $this->genereateSignRequestWtihStaticSignature($partial_sign_request),
+                );
+
+    }
+
+    public function mockSignRequestWithUniqueSignatueNTimes(FileUploadDirectory $directory, int $count)
     {
 
-        // Collection::times($urls_count, fn ($number) => $number)
-        //     ->each(
-        //         fn ($value) => $this->mockSignRequestStatic($directory, $value)
-        //     );
+        $items =
+            $this
+                ->genereateSignRequestsWithUniqueSignatures(
+                    $directory,
+                    $count,
+                    [
+                        'folder' => $directory,
+                    ]
+                )
+                ->each(function ($item, $index) use ($directory) {
+                    $this
+                        ->mockSignRequest(
+                            $item,
+                            $directory,
+                            $index
+                        );
+                });
+
+        return $items;
+
+    }
+
+    public function mockSignRequestWithStaticSignatueNTimes(FileUploadDirectory $directory, int $count)
+    {
+
+        $items =
+            $this
+                ->genereateSignRequestsWithStaticSignatures(
+                    $directory,
+                    $count,
+                    [
+                        'folder' => $directory,
+                    ]
+                )
+                ->each(function ($item, $index) use ($directory) {
+                    $this
+                        ->mockSignRequest(
+                            $item,
+                            $directory,
+                            $index
+                        );
+                });
+
+        return $items;
+
+    }
+
+    private function mockSignRequests(FileUploadDirectory $directory, int $urls_count)
+    {
+        return
+            CloudUploadService::partialMock()
+                ->expects('signRequests')
+                ->with($directory, $urls_count);
+    }
+
+    public function mockSignRequestsWithUniqueSignRequestSignatures(FileUploadDirectory $directory, int $urls_count)
+    {
 
         $urls = Collection::times($urls_count, fn ($number) => $number)
             ->map(
-                fn ($value) => [
-                    'signature' => 'static_signature_for_tests',
-                    'api_key' => config('cloudinary.api_key'),
-                    'cloud_name' => config('cloudinary.cloud_name'),
-                    'timestamp' => 'static_time_stamp',
-                    'eager' => 't_thumbnail|t_main',
+                fn ($value) => $this->genereateSignRequestWtihStaticSignature([
                     'folder' => $directory,
-                ],
+                ]),
             );
 
-        $this->instance(
-            CloudinaryService::class,
-            Mockery::mock(CloudinaryService::class, function (MockInterface $mock) use ($directory, $urls, $urls_count) {
-                $mock
-                    ->expects('signRequests')
-                    ->with($urls_count, $directory)
-                    ->andReturn(
-                        $urls
-                    );
-            })
-        );
+        $this
+            ->mockSignRequests($directory, $urls_count)
+            ->andReturn($urls);
+
+    }
+
+    public function mockSignRequestsThrowsDuplicateSignedRequestSignature(FileUploadDirectory $directory, int $urls_count)
+    {
+
+        $this
+            ->genereateSignRequestsWithStaticSignatures(
+                $directory,
+                $urls_count,
+                [
+                    'folder' => $directory,
+                ]
+            );
+
+        $this
+            ->mockSignRequests($directory, $urls_count)
+            ->andThrow(DuplicateSignedRequestSignature::class);
 
     }
 
@@ -116,7 +198,8 @@ trait CloudUploadServiceMocks
                     fn ($value) => $this->getUploadMockResponse()
                 );
 
-        CloudUploadService::shouldReceive('upload')
+        CloudUploadService::partialMock()
+            ->shouldReceive('upload')
             ->times($times)
             ->andReturn(
                 ...$upload_mock_response->toArray()
@@ -125,13 +208,19 @@ trait CloudUploadServiceMocks
         return collect($upload_mock_response);
     }
 
-    // public id is also $media->file_name
+    private function mockDestroy(string $public_id, $times = 1)
+    {
+        return
+            CloudUploadService::partialMock()
+                ->shouldReceive('destroy')
+                ->with($public_id)
+                ->times($times);
+    }
+
     public function mockDestroySuccess(string $public_id, $times = 1)
     {
 
-        CloudUploadService::shouldReceive('destroy')
-            ->with($public_id)
-            ->times($times)
+        $this->mockDestroy($public_id, $times)
             ->andReturn([
                 'result' => 'ok',
             ]);
@@ -140,9 +229,7 @@ trait CloudUploadServiceMocks
     public function mockDestroyFailure(string $public_id, $times = 1)
     {
 
-        CloudUploadService::shouldReceive('destroy')
-            ->with($public_id)
-            ->times($times)
+        $this->mockDestroy($public_id, $times)
             ->andReturn([
                 'result' => 'not_found',
             ]);
@@ -203,5 +290,27 @@ trait CloudUploadServiceMocks
             ],
             'api_key' => '379721987165773',
         ];
+    }
+
+    // mobile-offer specific mocks
+    public function mockSignMobileOffersRequestsWithStaticSignatures(int $urls_count)
+    {
+
+        $urls =
+            $this
+                ->genereateSignRequestsWithStaticSignatures(
+                    FileUploadDirectory::MOBILE_OFFERS,
+                    $urls_count,
+                    [
+                        'folder' => FileUploadDirectory::MOBILE_OFFERS,
+                    ]
+                );
+
+        CloudUploadService::partialMock()
+            ->expects('signMobileOffersRequests')
+            ->with($urls_count)
+            ->andReturn(
+                $urls
+            );
     }
 }

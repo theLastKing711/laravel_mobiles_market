@@ -18,12 +18,11 @@ use Illuminate\Database\Eloquent\Collection;
  */
 trait UploadableMobileOffer
 {
-    use Uploadable {
-        temporaryUploadedImagesByFolder as private;
-        temporaryUploadImageToFolderFromCloudinaryNotification as private;
-    }
-
-    // use Uploadable;
+    // use Uploadable {
+    //     temporaryUploadedImagesByFolder as private;
+    //     temporaryUploadImageToFolderFromCloudinaryNotification as private;
+    // }
+    use Uploadable;
 
     /**
      * @return \Illuminate\Database\Eloquent\Collection<int, TemporaryUploadedImages>
