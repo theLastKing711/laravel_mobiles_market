@@ -304,54 +304,54 @@ class MediaServiceTest extends TestCase
            );
     }
 
-    #[Test, Group('temporaryUploadMobileOfferImageFromCloudinaryNotification')]
-    public function media_service_updates_mobile_offer_temporary_uploaded_images_to_mobile_offers_folder_on_cloudinary_notification_success(): void
-    {
+    // #[Test, Group('temporaryUploadMobileOfferImageFromCloudinaryNotification')]
+    // public function media_service_updates_mobile_offer_temporary_uploaded_images_to_mobile_offers_folder_on_cloudinary_notification_success(): void
+    // {
 
-        // arrange
-        $cloudinary_notificatoin_url_request_data =
-           static::getCloudinaryNotificationUrlRequestDataForMobileOffer(
-               $this->admin->id
-           );
+    //     // arrange
+    //     $cloudinary_notificatoin_url_request_data =
+    //        static::getCloudinaryNotificationUrlRequestDataForMobileOffer(
+    //            $this->admin->id
+    //        );
 
-        // act
-        MediaService::temporaryUploadMobileOfferImageFromCloudinaryNotification(
-            $cloudinary_notificatoin_url_request_data,
-        );
+    //     // act
+    //     MediaService::temporaryUploadMobileOfferImageFromCloudinaryNotification(
+    //         $cloudinary_notificatoin_url_request_data,
+    //     );
 
-        $mainImage =
-            $cloudinary_notificatoin_url_request_data
-                ->eager
-                ->firstWhere(
-                    'transformation',
-                    CloudinaryTransformationEnum::MAIN
-                );
+    //     $mainImage =
+    //         $cloudinary_notificatoin_url_request_data
+    //             ->eager
+    //             ->firstWhere(
+    //                 'transformation',
+    //                 CloudinaryTransformationEnum::MAIN
+    //             );
 
-        $thumbImage =
-            $cloudinary_notificatoin_url_request_data
-                ->eager
-                ->firstWhere(
-                    'transformation',
-                    CloudinaryTransformationEnum::THUMBNAIL
-                );
+    //     $thumbImage =
+    //         $cloudinary_notificatoin_url_request_data
+    //             ->eager
+    //             ->firstWhere(
+    //                 'transformation',
+    //                 CloudinaryTransformationEnum::THUMBNAIL
+    //             );
 
-        // assert
-        $this
-            ->assertDatabaseCount(
-                TemporaryUploadedImages::class,
-                1
-            );
+    //     // assert
+    //     $this
+    //         ->assertDatabaseCount(
+    //             TemporaryUploadedImages::class,
+    //             1
+    //         );
 
-        $this
-            ->assertDatabaseHas(
-                TemporaryUploadedImages::class,
-                [
-                    'public_id' => $cloudinary_notificatoin_url_request_data->public_id,
-                    'file_url' => $mainImage->secure_url,
-                    'thumbnail_url' => $thumbImage->secure_url,
-                    'collection_name' => FileUploadDirectory::MOBILE_OFFERS,
-                ]
-            );
+    //     $this
+    //         ->assertDatabaseHas(
+    //             TemporaryUploadedImages::class,
+    //             [
+    //                 'public_id' => $cloudinary_notificatoin_url_request_data->public_id,
+    //                 'file_url' => $mainImage->secure_url,
+    //                 'thumbnail_url' => $thumbImage->secure_url,
+    //                 'collection_name' => FileUploadDirectory::MOBILE_OFFERS,
+    //             ]
+    //         );
 
-    }
+    // }
 }

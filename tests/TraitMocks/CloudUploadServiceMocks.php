@@ -293,24 +293,49 @@ trait CloudUploadServiceMocks
     }
 
     // mobile-offer specific mocks
-    public function mockSignMobileOffersRequestsWithStaticSignatures(int $urls_count)
-    {
+    // private function mockSignMobileOfferRequests(int $urls_count)
+    // {
+    //     return
+    //         CloudUploadService::partialMock()
+    //             ->expects(something: 'signMobileOffersRequests')
+    //             ->with($urls_count);
+    // }
 
-        $urls =
-            $this
-                ->genereateSignRequestsWithStaticSignatures(
-                    FileUploadDirectory::MOBILE_OFFERS,
-                    $urls_count,
-                    [
-                        'folder' => FileUploadDirectory::MOBILE_OFFERS,
-                    ]
-                );
+    // public function mockSignMobileOffersRequestsWithStaticSignatures(int $urls_count)
+    // {
 
-        CloudUploadService::partialMock()
-            ->expects('signMobileOffersRequests')
-            ->with($urls_count)
-            ->andReturn(
-                $urls
-            );
-    }
+    //     $urls =
+    //         $this
+    //             ->genereateSignRequestsWithStaticSignatures(
+    //                 FileUploadDirectory::MOBILE_OFFERS,
+    //                 $urls_count,
+    //                 [
+    //                     'folder' => FileUploadDirectory::MOBILE_OFFERS,
+    //                 ]
+    //             );
+
+    //     $this
+    //         ->mockSignMobileOfferRequests($urls_count)
+    //         ->andReturn(
+    //             $urls
+    //         );
+    // }
+
+    // public function mockSignMobileOffersRequestsWithUniqueSignatures(int $urls_count)
+    // {
+
+    //     $urls =
+    //         $this
+    //             ->genereateSignRequestsWithUniqueSignatures(
+    //                 FileUploadDirectory::MOBILE_OFFERS,
+    //                 $urls_count,
+    //                 [
+    //                     'folder' => FileUploadDirectory::MOBILE_OFFERS,
+    //                 ]
+    //             );
+
+    //     $this
+    //         ->mockSignMobileOfferRequests($urls_count)
+    //         ->andThrow(DuplicateSignedRequestSignature::class)
+    // }
 }

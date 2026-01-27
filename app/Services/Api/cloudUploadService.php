@@ -143,6 +143,14 @@ class cloudUploadService
     }
 
     // mobile-offer specific methods
+
+    public function signMobileOffersRequest()
+    {
+
+        return $this
+            ->signRequest(FileUploadDirectory::MOBILE_OFFERS);
+    }
+
     /**
      * @throws DuplicateSignedRequestSignature
      **/

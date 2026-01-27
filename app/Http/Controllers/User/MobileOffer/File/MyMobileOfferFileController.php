@@ -10,7 +10,8 @@ use App\Data\Shared\Swagger\Response\SuccessNoContentResponse;
 use App\Facades\CloudUploadService;
 use App\Facades\MediaService;
 use App\Http\Controllers\User\MobileOffer\File\Abstract\MyMobileOfferFileControllerAbstract;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use OpenApi\Attributes as OAT;
 use OpenApi\Attributes\RequestBody;
 

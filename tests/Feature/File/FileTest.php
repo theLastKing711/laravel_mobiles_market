@@ -25,6 +25,13 @@ class FileTest extends FileTestCase
     #[Test, Group('getCloudinaryPresignedUrls')]
     public function get_cloudinary_presigned_urls_success_with_200_response(): void
     {
+        $urls_count = 2;
+
+        $this
+            ->mockSignRequestsWithUniqueSignRequestSignatures(
+                FileUploadDirectory::TEST_FOLDER,
+                $urls_count
+            );
 
         $this
             ->withRoutePaths(
@@ -34,7 +41,7 @@ class FileTest extends FileTestCase
         $response =
            $this
                ->withQueryParameters([
-                   'urls_count' => 2,
+                   'urls_count' => $urls_count,
                ])
                ->getJsonData();
 
@@ -67,6 +74,29 @@ class FileTest extends FileTestCase
                ->getJsonData();
 
         $response->assertStatus(500);
+
+    }
+
+    #[Test, Group('getCloudinaryNotificationUrl')]
+    public function cloudinary_notification_url_saves_temporary_uploaded_images_for_user_model_to_database_on_cloudinary_successfull_notificatoin_from_front_end_with_200_status(): void
+    {
+
+        $cloudinary_notificatoin_url_request_data =
+            MediaServiceTest::getCloudinaryNotificationUrlRequestDataForUser();
+
+        MediaServiceMocks::mockTemporaryUploadImageToFolderFromCloudinaryNotification();
+
+        $response =
+           $this
+               ->withRoutePaths(
+                   'cloudinary-notifications-url'
+               )
+               ->postJsonData(
+                   $cloudinary_notificatoin_url_request_data
+                       ->toArray()
+               );
+
+        $response->assertStatus(200);
 
     }
 
@@ -185,29 +215,6 @@ class FileTest extends FileTestCase
                ->deleteJsonData();
 
         $response->assertStatus(500);
-
-    }
-
-    #[Test, Group('getCloudinaryNotificationUrl')]
-    public function cloudinary_notification_url_update_temporary_uploaded_images_for_user_model_on_cloudinary_successfull_notificatoin_from_front_end_with_200_status(): void
-    {
-
-        $cloudinary_notificatoin_url_request_data =
-            MediaServiceTest::getCloudinaryNotificationUrlRequestDataForUser();
-
-        MediaServiceMocks::mockTemporaryUploadImageToFolderFromCloudinaryNotification();
-
-        $response =
-           $this
-               ->withRoutePaths(
-                   'cloudinary-notifications-url'
-               )
-               ->postJsonData(
-                   $cloudinary_notificatoin_url_request_data
-                       ->toArray()
-               );
-
-        $response->assertStatus(200);
 
     }
 }

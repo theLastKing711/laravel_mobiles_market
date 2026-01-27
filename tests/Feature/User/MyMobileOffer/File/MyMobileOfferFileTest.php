@@ -2,12 +2,14 @@
 
 namespace Tests\Feature\User\MyMobileOffer\File;
 
+use App\Enum\FileUploadDirectory;
 use App\Models\Media;
 use App\Models\MobileOffer;
 use App\Models\TemporaryUploadedImages;
 use Database\Seeders\MobileOfferFeatureSeeder;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
+use Tests\Feature\Shared\MediaServiceTest;
 use Tests\Feature\User\Abstractions\UserTestCase;
 use Tests\TraitMocks\MediaServiceMocks;
 use Tests\Traits\StoreTrait;
@@ -35,6 +37,87 @@ class MyMobileOfferFileTest extends UserTestCase
                     MobileOfferFeatureSeeder::class,
                 ]
             );
+
+    }
+
+    #[Test, Group('getCloudinaryPresignedUrls')]
+    public function get_cloudinary_presigned_urls_success_with_200_response(): void
+    {
+
+        $urls_count = 3;
+
+        $this
+            ->mockSignRequestsWithUniqueSignRequestSignatures(
+                FileUploadDirectory::MOBILE_OFFERS,
+                $urls_count
+            );
+
+        $this
+            ->withRoutePaths(
+                'cloudinary-presigned-urls'
+            );
+
+        $response =
+           $this
+               ->withQueryParameters([
+                   'urls_count' => $urls_count,
+               ])
+               ->getJsonData();
+
+        $response->assertStatus(200);
+
+    }
+
+    #[Test, Group('getCloudinaryPresignedUrls')]
+    public function get_cloudinary_presigned_urls_with_duplicate_sign_request_signature_thrown_errors_with_500(): void
+    {
+
+        $urls_count = 3;
+
+        $this
+            ->mockSignRequestsThrowsDuplicateSignedRequestSignature(
+                FileUploadDirectory::MOBILE_OFFERS,
+                $urls_count
+            );
+
+        $this
+            ->withRoutePaths(
+                'cloudinary-presigned-urls'
+            );
+
+        $response =
+           $this
+               ->withQueryParameters([
+                   'urls_count' => $urls_count,
+               ])
+               ->getJsonData();
+
+        $response->assertStatus(500);
+
+    }
+
+    #[Test, Group('getCloudinaryNotificationUrl')]
+    public function cloudinary_notification_url_save_temporary_uploaded_images_for_mobile_model_to_database_on_cloudinary_successfull_notificatoin_from_front_end_with_200_status(): void
+    {
+
+        $cloudinary_notificatoin_url_request_data =
+            MediaServiceTest::getCloudinaryNotificationUrlRequestDataForMobileOffer(
+                $this->store->id
+            );
+
+        MediaServiceMocks::mockTemporaryUploadImageToFolderFromCloudinaryNotification();
+
+        $response =
+           $this
+               ->withRoutePaths(
+                   'cloudinary-notifications-url'
+               )
+               ->postJsonData(
+                   $cloudinary_notificatoin_url_request_data
+                       ->toArray()
+               );
+
+        $response->assertStatus(200);
 
     }
 

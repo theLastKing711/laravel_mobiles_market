@@ -89,9 +89,6 @@ class mediaService
         $model->detachMedia();
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Collection<int, TemporaryUploadedImages>
-     */
     public function temporaryUploadImageToFolderFromCloudinaryNotification(
         CloudinaryNotificationUrlRequestData $cloudinaryNotificationUrlRequestData,
         FileUploadDirectory $file_upload_directory
@@ -113,7 +110,7 @@ class mediaService
     {
 
         return
-            Auth::user()
+            $this
                 ->temporaryUploadImageToFolderFromCloudinaryNotification(
                     $cloudinaryNotificationUrlRequestData,
                     FileUploadDirectory::MOBILE_OFFERS
