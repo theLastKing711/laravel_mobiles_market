@@ -73,7 +73,7 @@ class cloudUploadService
         );
 
         return new SignedRequestData(
-            timestamp: time(),
+            timestamp: $timeStamp,
             eager: $paramsToSign['eager'],
             folder: $directory,
             signature: $signature,
