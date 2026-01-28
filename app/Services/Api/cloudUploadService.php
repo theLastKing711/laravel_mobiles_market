@@ -69,7 +69,7 @@ class cloudUploadService
             folder: $directory,
             signature: $signature,
             api_key: config('cloudinary.api_key'),
-            cloud_name: config('cloudinary.cloud_url'),
+            cloud_name: config('cloudinary.cloud_name'),
         );
 
     }
