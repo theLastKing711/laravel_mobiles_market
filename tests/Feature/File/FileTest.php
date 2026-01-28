@@ -77,7 +77,7 @@ class FileTest extends FileTestCase
 
     }
 
-    #[Test, Group('getCloudinaryNotificationUrl')]
+    #[Test, Group('saveTemporaryUploadedImageToDBOnCloudinaryUploadNotificationSuccess')]
     public function cloudinary_notification_url_saves_temporary_uploaded_images_for_user_model_to_database_on_cloudinary_successfull_notificatoin_from_front_end_with_200_status(): void
     {
 

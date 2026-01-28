@@ -42,10 +42,10 @@ class FileController extends Controller
     #[OAT\Post(path: '/files/cloudinary-notifications-url', tags: ['files'])]
     #[RequestBody(CloudinaryNotificationUrlRequestData::class)]
     #[SuccessNoContentResponse]
-    public function CloudinaryNotificationUrl(CloudinaryNotificationUrlRequestData $request)
+    public function saveTemporaryUploadedImageToDBOnCloudinaryUploadNotificationSuccess(CloudinaryNotificationUrlRequestData $request)
     {
 
-        MediaService::temporaryUploadImageToFolderFromCloudinaryNotification(
+        MediaService::createTemporaryUploadedImageFromCloudinaryUploadSuccessNotification(
             $request,
             FileUploadDirectory::TEST_FOLDER
         );
@@ -56,7 +56,6 @@ class FileController extends Controller
     #[SuccessNoContentResponse]
     public function delete(FilePublicIdPathParameterData $request)
     {
-        abort_if($request->public_id === 'b', 404);
         MediaService::deleteFileByPublicId(
             $request
                 ->public_id

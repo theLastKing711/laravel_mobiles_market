@@ -47,7 +47,7 @@ Route::prefix('files')
         Route::post('', [FileController::class, 'store']);
         Route::delete('{public_id}', [FileController::class, 'delete']);
         Route::get('cloudinary-presigned-urls', [FileController::class, 'getTestCloudinaryPresignedUrls']);
-        Route::post('cloudinary-notifications-url', [FileController::class, 'cloudinaryNotificationUrl']);
+        Route::post('cloudinary-notifications-url', [FileController::class, 'saveTemporaryUploadedImageToDBOnCloudinaryUploadNotificationSuccess']);
         // Route::get('mobile-offer-cloudinary-presigned-urls', [FileController::class, 'getMobileOfferCloudinaryPresignedUrls']);
         // Route::post('mobile-offer-cloudinary-notifications-url', [FileController::class, 'mobileOfferCloudinaryNotificationUrl']);
     });
