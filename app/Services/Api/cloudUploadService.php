@@ -47,18 +47,13 @@ class cloudUploadService
     }
 
     /**
-     * @return array{timestamp: string, eager: string, folder: string, api_key: string, cloud_name: string, signature: string}
+     * @return SignedRequestData
      **/
     public function signRequest(FileUploadDirectory $directory, ?int $index = 0)
     {
 
-        $timeStamp = time() + ($index * 10000);
-
-        // $timeStamp = time();
-
         // to make sure signature is unique since paramsToSign are same in loop
-        // $timeStamp = time() + $index;
-        // sleep(0.1);
+        $timeStamp = time() + ($index * 10000);
 
         $paramsToSign = [
             'timestamp' => $timeStamp,
@@ -77,17 +72,10 @@ class cloudUploadService
             config('cloudinary.api_secret')
         );
 
-        return [
-            ...$paramsToSign,
-            'signature' => $signature,
-            'api_key' => config('cloudinary.api_key'),
-            'cloud_name' => config('cloudinary.cloud_name'),
-        ];
-
         return new SignedRequestData(
-            timestamp: $paramsToSign['timestamp'],
+            timestamp: time(),
             eager: $paramsToSign['eager'],
-            folder: $paramsToSign['folder'],
+            folder: $directory,
             signature: $signature,
             api_key: config('cloudinary.api_key'),
             cloud_name: config('cloudinary.cloud_name'),
@@ -143,7 +131,6 @@ class cloudUploadService
     }
 
     // mobile-offer specific methods
-
     public function signMobileOffersRequest()
     {
 
@@ -158,6 +145,9 @@ class cloudUploadService
     {
 
         return $this
-            ->signRequests(FileUploadDirectory::MOBILE_OFFERS, $count);
+            ->signRequests(
+                FileUploadDirectory::MOBILE_OFFERS,
+                $count
+            );
     }
 }

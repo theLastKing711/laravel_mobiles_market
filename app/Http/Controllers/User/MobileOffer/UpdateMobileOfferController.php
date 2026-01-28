@@ -62,10 +62,14 @@ class UpdateMobileOfferController extends MobileOfferController
                     $request->features
                 );
 
+            $temporary_uploaded_images_ids =
+                $request
+                    ->temporary_uploaded_images_ids
+                    ->pluck('id');
+
             $medias =
                 Media::createFromTemporaryUploadedImagesIds(
-                    $request
-                        ->temporary_uploaded_images_ids
+                    $temporary_uploaded_images_ids
                 );
 
             $mobile_offer

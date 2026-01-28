@@ -83,8 +83,8 @@ class CloudUploadServiceTest extends TestCase
 
         $this
             ->assertEquals(
-                FileUploadDirectory::TEST_FOLDER->value,
-                $signed_request['folder'],
+                FileUploadDirectory::TEST_FOLDER,
+                $signed_request->folder,
             );
 
     }

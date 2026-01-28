@@ -25,20 +25,22 @@ class MyMobileOfferFileController extends MyMobileOfferFileControllerAbstract
 
         return
             CloudUploadService::signMobileOffersRequests(
-                $request->urls_count
+                $request
+                    ->urls_count
             );
 
     }
 
-    #[OAT\Post(path: '/users/my-mobile-offers/files/mobile-offer-cloudinary-notifications-url', tags: ['myMobileOfferFiles'])]
+    #[OAT\Post(path: '/users/my-mobile-offers/files/cloudinary-notifications-url', tags: ['myMobileOfferFiles'])]
     #[RequestBody(CloudinaryNotificationUrlRequestData::class)]
     #[SuccessNoContentResponse]
-    public function getCloudinaryNotificationUrl(CloudinaryNotificationUrlRequestData $request)
+    public function saveTemporaryUploadedImageToDBOnCloudinaryUploadNotificationSuccess(CloudinaryNotificationUrlRequestData $request)
     {
 
-        MediaService::temporaryUploadMobileOfferImageFromCloudinaryNotification(
-            $request
-        );
+        return
+            MediaService::temporaryUploadMobileOfferImageFromCloudinaryNotification(
+                $request
+            );
 
     }
 

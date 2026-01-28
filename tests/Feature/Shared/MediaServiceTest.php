@@ -8,9 +8,7 @@ use App\Enum\FileUploadDirectory;
 use App\Exceptions\Api\Cloudinary\FailedToDeleteImageException;
 use App\Facades\MediaService;
 use App\Models\Media;
-use App\Models\MobileOffer;
 use App\Models\TemporaryUploadedImages;
-use App\Models\User;
 use Database\Seeders\RolesAndPermissionsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Group;
@@ -39,35 +37,23 @@ class MediaServiceTest extends TestCase
 
     }
 
-    public static function getCloudinaryNotificationUrlRequestDataForUser()
-    {
-        $media =
-           Media::factory()
-               ->for(
-                   User::factory(),
-                   'medially'
-               )
-               ->createOne();
-
-        return
-           CloudinaryNotificationUrlRequestData::fromMedia(
-               $media
-           );
-    }
-
-    #[Test, group('temporaryUploadImageToFolderFromCloudinaryNotification')]
-    public function media_service_updates_user_temporary_uploaded_images_to_test_folder_on_cloudinary_notification_success(): void
+    #[
+        Test,
+        group('createTemporaryUploadedImageFromCloudinaryUploadSuccessNotification')
+    ]
+    public function media_service_creates_temporary_uploaded_image_from_cloudinary_upload_notification_success(): void
     {
 
         // arrange
         $cloudinary_notificatoin_url_request_data =
-           static::getCloudinaryNotificationUrlRequestDataForUser();
+           CloudinaryNotificationUrlRequestData::Create();
 
         // act
-        MediaService::temporaryUploadImageToFolderFromCloudinaryNotification(
-            $cloudinary_notificatoin_url_request_data,
-            FileUploadDirectory::TEST_FOLDER
-        );
+        $temporary_uploaded_image =
+            MediaService::createTemporaryUploadedImageFromCloudinaryUploadSuccessNotification(
+                $cloudinary_notificatoin_url_request_data,
+                FileUploadDirectory::TEST_FOLDER
+            );
 
         $mainImage =
             $cloudinary_notificatoin_url_request_data
@@ -103,9 +89,24 @@ class MediaServiceTest extends TestCase
                 ]
             );
 
+        $this
+            ->assertEquals(
+                $cloudinary_notificatoin_url_request_data->public_id,
+                $temporary_uploaded_image->public_id,
+            );
+
+        $this
+            ->assertEquals(
+                FileUploadDirectory::TEST_FOLDER,
+                $temporary_uploaded_image->collection_name,
+            );
+
     }
 
-    #[Test, Group('delete')]
+    #[
+        Test,
+        Group('deleteFileByPublicId')
+    ]
     public function media_service_delete_media_by_public_id_for_temporary_uploaded_file_success(): void
     {
 
@@ -133,7 +134,10 @@ class MediaServiceTest extends TestCase
 
     }
 
-    #[Test, Group('delete')]
+    #[
+        Test,
+        Group('deleteFileByPublicId')
+    ]
     public function media_service_delete_file_by_public_id_for_temporary_uploaded_file_doesnt_delete_file_from_database_on_cloudinary_delete_fail(): void
     {
         try {
@@ -164,7 +168,10 @@ class MediaServiceTest extends TestCase
 
     }
 
-    #[Test, Group('delete')]
+    #[
+        Test,
+        Group('deleteFileByPublicId')
+    ]
     public function media_service_delete_media_by_public_id_for_temporary_uploaded_file_throws_failed_to_delete_image_exception_on_cloudinary_delete_error(): void
     {
 
@@ -193,7 +200,10 @@ class MediaServiceTest extends TestCase
 
     }
 
-    #[Test, Group('delete')]
+    #[
+        Test,
+        Group('deleteFileByPublicId')
+    ]
     public function media_service_deletes_media_by_public_id_success(): void
     {
 
@@ -225,7 +235,10 @@ class MediaServiceTest extends TestCase
 
     }
 
-    #[Test, Group('delete')]
+    #[
+        Test,
+        Group('deleteFileByPublicId')
+    ]
     public function media_service_delete_media_by_public_id_throws_failed_to_delete_image_exception_on_cloudinary_delete_error(): void
     {
 
@@ -253,7 +266,10 @@ class MediaServiceTest extends TestCase
 
     }
 
-    #[Test, Group('delete')]
+    #[
+        Test,
+        Group('deleteFileByPublicId')
+    ]
     public function media_service_delete_file_by_public_id_doesnt_delete_media_from_database_on_cloudinary_delete_fail(): void
     {
         try {
@@ -284,74 +300,4 @@ class MediaServiceTest extends TestCase
         }
 
     }
-
-    // mobile-offers specific tests
-    public static function getCloudinaryNotificationUrlRequestDataForMobileOffer(int $user_id)
-    {
-        $media =
-           Media::factory()
-               ->for(
-                   MobileOffer::factory()
-                       ->forUserWithId($user_id),
-                   'medially'
-
-               )
-               ->createOne();
-
-        return
-           CloudinaryNotificationUrlRequestData::fromMedia(
-               $media
-           );
-    }
-
-    // #[Test, Group('temporaryUploadMobileOfferImageFromCloudinaryNotification')]
-    // public function media_service_updates_mobile_offer_temporary_uploaded_images_to_mobile_offers_folder_on_cloudinary_notification_success(): void
-    // {
-
-    //     // arrange
-    //     $cloudinary_notificatoin_url_request_data =
-    //        static::getCloudinaryNotificationUrlRequestDataForMobileOffer(
-    //            $this->admin->id
-    //        );
-
-    //     // act
-    //     MediaService::temporaryUploadMobileOfferImageFromCloudinaryNotification(
-    //         $cloudinary_notificatoin_url_request_data,
-    //     );
-
-    //     $mainImage =
-    //         $cloudinary_notificatoin_url_request_data
-    //             ->eager
-    //             ->firstWhere(
-    //                 'transformation',
-    //                 CloudinaryTransformationEnum::MAIN
-    //             );
-
-    //     $thumbImage =
-    //         $cloudinary_notificatoin_url_request_data
-    //             ->eager
-    //             ->firstWhere(
-    //                 'transformation',
-    //                 CloudinaryTransformationEnum::THUMBNAIL
-    //             );
-
-    //     // assert
-    //     $this
-    //         ->assertDatabaseCount(
-    //             TemporaryUploadedImages::class,
-    //             1
-    //         );
-
-    //     $this
-    //         ->assertDatabaseHas(
-    //             TemporaryUploadedImages::class,
-    //             [
-    //                 'public_id' => $cloudinary_notificatoin_url_request_data->public_id,
-    //                 'file_url' => $mainImage->secure_url,
-    //                 'thumbnail_url' => $thumbImage->secure_url,
-    //                 'collection_name' => FileUploadDirectory::MOBILE_OFFERS,
-    //             ]
-    //         );
-
-    // }
 }

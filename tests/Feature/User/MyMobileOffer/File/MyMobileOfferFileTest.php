@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\User\MyMobileOffer\File;
 
+use App\Data\Shared\File\CloudinaryNotificationUrlRequestData;
 use App\Enum\FileUploadDirectory;
 use App\Models\Media;
 use App\Models\MobileOffer;
@@ -9,7 +10,6 @@ use App\Models\TemporaryUploadedImages;
 use Database\Seeders\MobileOfferFeatureSeeder;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
-use Tests\Feature\Shared\MediaServiceTest;
 use Tests\Feature\User\Abstractions\UserTestCase;
 use Tests\TraitMocks\MediaServiceMocks;
 use Tests\Traits\StoreTrait;
@@ -40,7 +40,10 @@ class MyMobileOfferFileTest extends UserTestCase
 
     }
 
-    #[Test, Group('getCloudinaryPresignedUrls')]
+    #[
+        Test,
+        Group('getCloudinaryPresignedUrls')
+    ]
     public function get_cloudinary_presigned_urls_success_with_200_response(): void
     {
 
@@ -68,7 +71,9 @@ class MyMobileOfferFileTest extends UserTestCase
 
     }
 
-    #[Test, Group('getCloudinaryPresignedUrls')]
+    #[
+        Test, Group('getCloudinaryPresignedUrls')
+    ]
     public function get_cloudinary_presigned_urls_with_duplicate_sign_request_signature_thrown_errors_with_500(): void
     {
 
@@ -96,16 +101,19 @@ class MyMobileOfferFileTest extends UserTestCase
 
     }
 
-    #[Test, Group('getCloudinaryNotificationUrl')]
-    public function cloudinary_notification_url_save_temporary_uploaded_images_for_mobile_model_to_database_on_cloudinary_successfull_notificatoin_from_front_end_with_200_status(): void
+    #[
+        Test,
+        Group('updateMediaOnCloudinaryUploadNotificationSuccess')
+    ]
+    public function save_temporary_uploaded_images_for_mobile_model_to_database_on_cloudinary_upload_success_notificatoin_from_front_end_with_200_status(): void
     {
 
         $cloudinary_notificatoin_url_request_data =
-            MediaServiceTest::getCloudinaryNotificationUrlRequestDataForMobileOffer(
-                $this->store->id
-            );
+            CloudinaryNotificationUrlRequestData::Create();
 
-        MediaServiceMocks::mockTemporaryUploadImageToFolderFromCloudinaryNotification();
+        MediaServiceMocks::mockTemporaryUploadImageToFolderFromCloudinaryNotification(
+            $this->store->id
+        );
 
         $response =
            $this
@@ -117,11 +125,14 @@ class MyMobileOfferFileTest extends UserTestCase
                        ->toArray()
                );
 
-        $response->assertStatus(200);
+        $response->assertStatus(201);
 
     }
 
-    #[Test, Group('delete')]
+    #[
+        Test,
+        Group('delete')
+    ]
     public function delete_for_temporary_uploaded_file_success()
     {
 
@@ -149,7 +160,10 @@ class MyMobileOfferFileTest extends UserTestCase
 
     }
 
-    #[Test, Group('delete')]
+    #[
+        Test,
+        Group('delete')
+    ]
     public function delete_for_temporary_uploaded_file_errors_with_500_when_on_cloudinay_delete_file_fail()
     {
 
@@ -177,7 +191,10 @@ class MyMobileOfferFileTest extends UserTestCase
 
     }
 
-    #[Test, Group('delete')]
+    #[
+        Test,
+        Group('delete')
+    ]
     public function delete_for_media_success()
     {
 
@@ -206,7 +223,10 @@ class MyMobileOfferFileTest extends UserTestCase
 
     }
 
-    #[Test, Group('delete')]
+    #[
+        Test,
+        Group('delete')
+    ]
     public function delete_for_media_errors_with_500_when_on_cloudinay_delete_file_fail()
     {
 

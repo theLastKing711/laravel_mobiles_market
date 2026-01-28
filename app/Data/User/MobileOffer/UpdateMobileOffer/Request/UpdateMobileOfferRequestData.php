@@ -2,8 +2,10 @@
 
 namespace App\Data\User\MobileOffer\UpdateMobileOffer\Request;
 
+use App\Data\Shared\File\TemporaryUploadedImagesData;
 use App\Data\Shared\Swagger\Property\ArrayProperty;
 use App\Models\MobileOffer;
+use Illuminate\Support\Collection;
 use OpenApi\Attributes as OAT;
 use Spatie\LaravelData\Attributes\FromRouteParameter;
 use Spatie\LaravelData\Attributes\MergeValidationRules;
@@ -35,9 +37,12 @@ class UpdateMobileOfferRequestData extends Data
         public ?int $battery_health,
         /** @var array<int> */
         public ?array $features,
-        #[ArrayProperty()]
-        /** @var array<int> */
-        public ?array $temporary_uploaded_images_ids,
+        #[
+            ArrayProperty(TemporaryUploadedImagesData::class),
+        ]
+        /** @var Collection<TemporaryUploadedImagesData> */
+        public Collection $temporary_uploaded_images_ids,
+
         #[
             OAT\PathParameter(
                 parameter: 'storesUpdateMobileOfferRequestPathParameterData', // the name used in ref
@@ -68,18 +73,19 @@ class UpdateMobileOfferRequestData extends Data
                 ->medially;
 
         if ($mobile_offer_images->count() === 0) {
-            /** @var array $temporary_uploaded_images_ids */
+            /** @var Collection<TemporaryUploadedImagesData> $temporary_uploaded_images_ids */
             $temporary_uploaded_images_ids =
                 $context
                     ->payload['temporary_uploaded_images_ids'];
 
-            if (count($temporary_uploaded_images_ids) == 0) {
+            if (count($temporary_uploaded_images_ids) === 0) {
                 return [
                     'temporary_uploaded_images_ids' => [
-                        'required',
+                        'min:1',
                     ],
                 ];
             }
+
         }
 
         return [];

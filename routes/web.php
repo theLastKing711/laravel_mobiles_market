@@ -93,7 +93,7 @@ Route::prefix('users')
 
                         Route::prefix('files')->group(function () {
                             Route::get('cloudinary-presigned-urls', [MyMobileOfferFileController::class, 'getCloudinaryPresignedUrls']);
-                            Route::post('cloudinary-notifications-url', [MyMobileOfferFileController::class, 'getCloudinaryNotificationUrl']);
+                            Route::post('cloudinary-notifications-url', [MyMobileOfferFileController::class, 'saveTemporaryUploadedImageToDBOnCloudinaryUploadNotificationSuccess']);
                             Route::delete('{public_id}', [MyMobileOfferFileController::class, 'delete']);
 
                         });

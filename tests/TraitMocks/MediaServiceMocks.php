@@ -5,16 +5,17 @@ namespace Tests\TraitMocks;
 use App\Data\Shared\File\CloudinaryNotificationUrlRequestData;
 use App\Exceptions\Api\Cloudinary\FailedToDeleteImageException;
 use App\Facades\MediaService;
+use App\Models\TemporaryUploadedImages;
 
 trait MediaServiceMocks
 {
     use CloudUploadServiceMocks;
 
-    public static function mockTemporaryUploadImageToFolderFromCloudinaryNotification()
+    public static function mockTemporaryUploadImageToFolderFromCloudinaryNotification(int $user_id)
     {
         MediaService::partialMock()
             ->expects(
-                something: 'temporaryUploadImageToFolderFromCloudinaryNotification'
+                something: 'createTemporaryUploadedImageFromCloudinaryUploadSuccessNotification'
             )
             ->withArgs(
                 function ($arg) {
@@ -24,6 +25,11 @@ trait MediaServiceMocks
 
                     return false;
                 }
+            )
+            ->andReturn(
+                TemporaryUploadedImages::factory()
+                    ->forUserWithId($user_id)
+                    ->create()
             );
     }
 

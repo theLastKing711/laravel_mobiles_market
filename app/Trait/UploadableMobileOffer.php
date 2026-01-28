@@ -27,13 +27,13 @@ trait UploadableMobileOffer
     /**
      * @return \Illuminate\Database\Eloquent\Collection<int, TemporaryUploadedImages>
      */
-    public function temporaryUploadedMobileOffers(FileUploadDirectory $file_upload_directory): Collection
+    public function temporaryUploadedMobileOffers(): Collection
     {
 
         return
             $this
                 ->temporaryUploadedImagesByFolder(
-                    $file_upload_directory
+                    FileUploadDirectory::MOBILE_OFFERS
                 );
 
     }

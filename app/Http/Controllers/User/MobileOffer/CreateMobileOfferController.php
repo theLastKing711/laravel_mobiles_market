@@ -59,10 +59,14 @@ class CreateMobileOfferController extends MobileOfferController
                         ->pluck('id')
                 );
 
+            $temporary_uploaded_images_ids =
+                $request
+                    ->temporary_uploaded_images_ids
+                    ->pluck('id');
+
             $medias =
                 Media::fromTemporaryUploadedImagesIds(
-                    $request
-                        ->temporary_uploaded_images_ids
+                    $temporary_uploaded_images_ids
                 );
 
             $mobile_offer
@@ -74,7 +78,7 @@ class CreateMobileOfferController extends MobileOfferController
             TemporaryUploadedImages::query()
                 ->whereIn(
                     'id',
-                    $request->temporary_uploaded_images_ids
+                    $temporary_uploaded_images_ids
                 )
                 ?->delete();
 

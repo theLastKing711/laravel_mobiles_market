@@ -2,11 +2,18 @@
 
 namespace Tests\Feature\User\MyMobileOffer;
 
+use App\Data\Shared\File\TemporaryUploadedImagesData;
 use App\Data\Store\MobileOffer\CreateMobileOffer\Request\CreateMobileOfferRequestData;
 use App\Data\Store\MobileOffer\CreateMobileOffer\Request\FeatureData;
 use App\Data\User\MobileOffer\GetMyMobileOffers\Response\GetMyMobileOffersResponsePaginationResultData;
 use App\Data\User\MobileOffer\UpdateMobileOffer\Request\UpdateMobileOfferRequestData;
 use App\Enum\Language;
+use App\Http\Controllers\User\MobileOffer\CreateMobileOfferController;
+use App\Http\Controllers\User\MobileOffer\DeleteMobileOfferController;
+use App\Http\Controllers\User\MobileOffer\GetMyMobileOfferController;
+use App\Http\Controllers\User\MobileOffer\GetMyMobileOffersController;
+use App\Http\Controllers\User\MobileOffer\SellMobileOfferController;
+use App\Http\Controllers\User\MobileOffer\UpdateMobileOfferController;
 use App\Models\Media;
 use App\Models\MobileFeature;
 use App\Models\MobileOffer;
@@ -15,6 +22,7 @@ use App\Models\TemporaryUploadedImages;
 use Database\Seeders\MobileOfferFeatureSeeder;
 use Illuminate\Support\Facades\Auth;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\User\Abstractions\UserTestCase;
 use Tests\Feature\User\MyMobileOffer\Providers\CreateMyMobileOfferProviderParameters;
@@ -120,6 +128,7 @@ class MyMobileOfferTest extends UserTestCase
 
     #[
         Test,
+        Group(GetMyMobileOffersController::class),
         DataProvider('get_my_mobile_offers_provider')
     ]
     public function get_my_mobile_offers_success_with_200_status(GetMyMobileOffersProviderParameters $data_provider): void
@@ -159,6 +168,7 @@ class MyMobileOfferTest extends UserTestCase
 
     #[
         Test,
+        Group(GetMyMobileOfferController::class),
     ]
     public function get_my_mobile_offer_success_with_200_status(): void
     {
@@ -214,6 +224,7 @@ class MyMobileOfferTest extends UserTestCase
 
     #[
         Test,
+        Group(CreateMobileOfferController::class),
         DataProvider('create_my_mobile_offer_provider')
     ]
     public function create_my_mobile_offer_success_with_200_status(CreateMyMobileOfferProviderParameters $data_provider): void
@@ -247,9 +258,9 @@ class MyMobileOfferTest extends UserTestCase
                fake()->numberBetween(80, 100),
 
                $random_features_data,
-               $temporary_uploaded_images
-                   ->pluck('id')
-                   ->toArray()
+               TemporaryUploadedImagesData::collect(
+                   $temporary_uploaded_images
+               )
            );
 
         $response =
@@ -314,16 +325,6 @@ class MyMobileOfferTest extends UserTestCase
                 0
             );
 
-        if (count($request->temporary_uploaded_images_ids) > 0) {
-            $this
-                ->assertDatabaseHas(
-                    Media::class,
-                    [
-                        'public_id' => $temporary_uploaded_images->value('public_id'),
-                    ]
-                );
-        }
-
         $this
             ->assertDatabaseCount(
                 Media::class,
@@ -332,10 +333,70 @@ class MyMobileOfferTest extends UserTestCase
                 )
             );
 
+        $this
+            ->assertDatabaseHas(
+                Media::class,
+                [
+                    'public_id' => $temporary_uploaded_images->value('public_id'),
+                ]
+            );
+
+    }
+
+    #[
+        Test,
+        Group(CreateMobileOfferController::class),
+    ]
+    public function create_my_mobile_offer_wit_no_uploaded_images_errors_with_422_status(): void
+    {
+        $features =
+            MobileOfferFeature::query()
+                ->take(2)
+                ->get('id');
+
+        $random_features_data =
+            collect(
+                $features
+            )
+                ->map(fn ($feature) => new FeatureData($feature->id));
+
+        $request =
+           new CreateMobileOfferRequestData(
+               'testing',
+               fake()->numberBetween(100, 2000),
+               fake()->word(),
+               fake()->word(),
+               fake()->numberBetween(80, 100),
+
+               $random_features_data,
+               collect([])
+           );
+
+        $response =
+            $this
+                ->postJsonData(
+                    $request
+                        ->toArray()
+                );
+
+        $response
+            ->assertStatus(
+                status: 422
+            );
+
+        $response
+            ->assertOnlyJsonValidationErrors(
+                [
+                    'temporary_uploaded_images_ids' => __(
+                        'messages.users.my-mobile-offers.empty_number_of_images'
+                    ),
+                ]
+            );
+
     }
 
     /**
-     * @return array<array<UpdateMyMobileOfferProviderParameters
+     * @return array<array<UpdateMyMobileOfferProviderParameters>>
      **/
     public static function update_my_mobile_offer_provider()
     {
@@ -387,6 +448,7 @@ class MyMobileOfferTest extends UserTestCase
 
     #[
         Test,
+        Group(UpdateMobileOfferController::class),
         DataProvider('update_my_mobile_offer_provider')
     ]
     public function update_my_mobile_offer_success_with_200_status($data_provider): void
@@ -436,8 +498,7 @@ class MyMobileOfferTest extends UserTestCase
 
                $all_features->pluck('id')->take(limit: $data_provider->request_number_of_features)->toArray(),
                $temporary_uploaded_images
-                   ->pluck('id')
-                   ->toArray(),
+                   ->map(fn ($item) => new TemporaryUploadedImagesData($item->id)),
 
                $new_mobile_offer->id
            );
@@ -510,35 +571,37 @@ class MyMobileOfferTest extends UserTestCase
 
     #[
         Test,
-    ]
-    public function create_my_mobile_offer_wit_no_uploaded_images_errors_with_422_status(): void
-    {
-        $features =
-            MobileOfferFeature::query()
-                ->take(2)
-                ->get('id');
+        Group(UpdateMobileOfferController::class),
 
-        $random_features_data =
-            collect(
-                $features
-            )
-                ->map(fn ($feature) => new FeatureData($feature->id));
+    ]
+    public function update_my_mobile_offer_with_no_uploaded_images_and_no_existing_images_errors_with_422_status(): void
+    {
+
+        $new_mobile_offer =
+            MobileOffer::factory()
+                ->forUserWithId($this->store->id)
+                ->create();
 
         $request =
-           new CreateMobileOfferRequestData(
-               'testing',
+           new UpdateMobileOfferRequestData(
+               'test name',
                fake()->numberBetween(100, 2000),
                fake()->word(),
                fake()->word(),
                fake()->numberBetween(80, 100),
+               [],
+               collect([])
+                   ->map(fn ($item) => new TemporaryUploadedImagesData($item->id)),
 
-               $random_features_data,
-               []
+               $new_mobile_offer->id
            );
 
         $response =
             $this
-                ->postJsonData(
+                ->withRoutePaths(
+                    $new_mobile_offer->id
+                )
+                ->patchJsonData(
                     $request
                         ->toArray()
                 );
@@ -561,55 +624,7 @@ class MyMobileOfferTest extends UserTestCase
 
     #[
         Test,
-    ]
-    public function update_my_mobile_offer_with_no_uploaded_images_and_no_existing_images_errors_with_422_status(): void
-    {
-
-        $new_mobile_offer =
-            MobileOffer::factory()
-                ->forUserWithId($this->store->id)
-                ->create();
-
-        $request =
-           new UpdateMobileOfferRequestData(
-               'test name',
-               fake()->numberBetween(100, 2000),
-               fake()->word(),
-               fake()->word(),
-               fake()->numberBetween(80, 100),
-               [],
-               [],
-               $new_mobile_offer->id
-           );
-
-        $response =
-            $this
-                ->withRoutePaths(
-                    $new_mobile_offer->id
-                )
-                ->patchJsonData(
-                    $request
-                        ->toArray()
-                );
-
-        $response
-            ->assertStatus(
-                422
-            );
-
-        $response
-            ->assertOnlyJsonValidationErrors(
-                [
-                    'temporary_uploaded_images_ids' => __(
-                        'messages.users.my-mobile-offers.empty_number_of_images'
-                    ),
-                ]
-            );
-
-    }
-
-    #[
-        Test,
+        Group(SellMobileOfferController::class),
     ]
     public function sell_my_mobile_offer_success_with_200_status(): void
     {
@@ -651,6 +666,7 @@ class MyMobileOfferTest extends UserTestCase
 
     #[
         Test,
+        Group(DeleteMobileOfferController::class),
     ]
     public function delete_my_mobile_offer_success_with_200_status(): void
     {

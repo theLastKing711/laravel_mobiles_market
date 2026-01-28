@@ -10,9 +10,8 @@ use App\Exceptions\Api\Cloudinary\FailedToDeleteImageException;
 use App\Facades\CloudUploadService;
 use App\Models\Media;
 use App\Models\TemporaryUploadedImages;
-use Cloudinary;
 use Cloudinary\Api\Exception\ApiError;
-use Cloudinary\Api\HttpStatusCode;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary as FacadesCloudinary;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -72,7 +71,7 @@ class mediaService
 
         foreach ($public_ids as &$public_id) {
 
-            $cloud_image = Cloudinary::getImage($public_id);
+            $cloud_image = FacadesCloudinary::getImage($public_id);
 
             $cloud_image_url = $cloud_image->toUrl();
 
@@ -85,36 +84,27 @@ class mediaService
      */
     public function removeAssociatedMediaForModel(ModelAndMediable $model): void
     {
-        FacadesLog::info('hello world');
         $model->detachMedia();
     }
 
-    public function temporaryUploadImageToFolderFromCloudinaryNotification(
+    public function createTemporaryUploadedImageFromCloudinaryUploadSuccessNotification(
         CloudinaryNotificationUrlRequestData $cloudinaryNotificationUrlRequestData,
         FileUploadDirectory $file_upload_directory
     ): TemporaryUploadedImages {
 
-        return
-            Auth::User()
-                ->temporaryUploadImageToFolderFromCloudinaryNotification(
-                    $cloudinaryNotificationUrlRequestData,
-                    $file_upload_directory
-                );
-
-    }
-
-    /**
-     * @return TemporaryUploadedImages
-     */
-    public function temporaryUploadMobileOfferImageFromCloudinaryNotification(CloudinaryNotificationUrlRequestData $cloudinaryNotificationUrlRequestData)
-    {
+        $unsaved_temporary_uploaded_image =
+            TemporaryUploadedImages::fromCloudinaryEagerUploadedImage(
+                $cloudinaryNotificationUrlRequestData,
+                $file_upload_directory
+            );
 
         return
-            $this
-                ->temporaryUploadImageToFolderFromCloudinaryNotification(
-                    $cloudinaryNotificationUrlRequestData,
-                    FileUploadDirectory::MOBILE_OFFERS
-                );
+           Auth::User()
+               ->temporaryUploadedImages()
+               ->create(
+                   $unsaved_temporary_uploaded_image
+                       ->toArray()
+               );
 
     }
 
@@ -162,13 +152,25 @@ class mediaService
 
             DB::rollBack();
             throw new FailedToDeleteImageException;
-            // abort(
-            //     HttpStatusCode::INTERNAL_SERVER_ERROR,
-            //     'خطأ في الخادم الداخلي. يرجى المحاولة مرة أخرى لاحقًا.',
-            // );
         }
 
         DB::commit();
+
+    }
+
+    // mobile-offer specific methods
+    /**
+     * @return TemporaryUploadedImages
+     */
+    public function temporaryUploadMobileOfferImageFromCloudinaryNotification(CloudinaryNotificationUrlRequestData $cloudinaryNotificationUrlRequestData)
+    {
+
+        return
+            $this
+                ->createTemporaryUploadedImageFromCloudinaryUploadSuccessNotification(
+                    $cloudinaryNotificationUrlRequestData,
+                    FileUploadDirectory::MOBILE_OFFERS
+                );
 
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\File;
 
+use App\Data\Shared\File\CloudinaryNotificationUrlRequestData;
 use App\Enum\FileUploadDirectory;
 use App\Models\Media;
 use App\Models\MobileOffer;
@@ -9,7 +10,6 @@ use App\Models\TemporaryUploadedImages;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\File\Abstractions\FileTestCase;
-use Tests\Feature\Shared\MediaServiceTest;
 use Tests\TraitMocks\CloudUploadServiceMocks;
 use Tests\TraitMocks\MediaServiceMocks;
 
@@ -82,9 +82,11 @@ class FileTest extends FileTestCase
     {
 
         $cloudinary_notificatoin_url_request_data =
-            MediaServiceTest::getCloudinaryNotificationUrlRequestDataForUser();
+            CloudinaryNotificationUrlRequestData::Create();
 
-        MediaServiceMocks::mockTemporaryUploadImageToFolderFromCloudinaryNotification();
+        MediaServiceMocks::mockTemporaryUploadImageToFolderFromCloudinaryNotification(
+            $this->store->id
+        );
 
         $response =
            $this

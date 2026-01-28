@@ -8,6 +8,7 @@ use App\Models\MobileOffer;
 use App\Models\UserFavouritesMobileOffer;
 use Database\Seeders\MobileOfferFeatureSeeder;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\User\Abstractions\UserTestCase;
 use Tests\Feature\User\MobileOffer\Providers\GetMobileOffersProviderParameters;
@@ -121,6 +122,7 @@ class MobileOfferTest extends UserTestCase
 
     #[
         Test,
+        Group('SearchMobilesOffersController'),
         DataProvider('get_mobile_offers_provider')
     ]
     public function get_mobile_offers_success_with_200_status(GetMobileOffersProviderParameters $data_provider): void
@@ -163,6 +165,7 @@ class MobileOfferTest extends UserTestCase
 
     #[
         Test,
+        Group('GetMobileOfferController'),
     ]
     public function get_mobile_offer_success_with_200_status(): void
     {
@@ -279,9 +282,10 @@ class MobileOfferTest extends UserTestCase
 
     #[
         Test,
+        Group('GetFavouriteMobileOffersController'),
         DataProvider('get_favourite_mobile_offers_provider')
     ]
-    public function get_favourite_mobile_offers_success_with_200_status(SearchMobileOffersProviderParameters $data_provider): void
+    public function get_user_favourite_mobile_offers_success_with_200_status(SearchMobileOffersProviderParameters $data_provider): void
     {
 
         $mobile_offers = MobileOffer::factory()
@@ -362,6 +366,7 @@ class MobileOfferTest extends UserTestCase
 
     #[
         Test,
+        Group('GetFavouriteMobileOffersController'),
         DataProvider('get_favourite_mobile_offers_provider')
     ]
     public function get_store_favourite_mobile_offers_success_with_200_status(SearchMobileOffersProviderParameters $data_provider): void
@@ -447,6 +452,7 @@ class MobileOfferTest extends UserTestCase
 
     #[
         Test,
+        Group('FavouriteMobileOfferController')
     ]
     public function favourite_mobile_offer_success_with_200_status(): void
     {
@@ -490,6 +496,7 @@ class MobileOfferTest extends UserTestCase
 
     #[
         Test,
+        Group('FavouriteMobileOfferController')
     ]
     public function unfavourite_mobile_offer_success_with_200_status(): void
     {

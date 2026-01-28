@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Collection as SupportCollection;
 
 /**
  * @property int $id
@@ -119,7 +120,7 @@ class Media extends \CloudinaryLabs\CloudinaryLaravel\Model\Media
      *
      * @return Collection<Media>
      **/
-    public static function createFromTemporaryUploadedImagesIds(array $temporaryUploadedImagesIds)
+    public static function createFromTemporaryUploadedImagesIds(array|SupportCollection $temporaryUploadedImagesIds)
     {
 
         $medias =
@@ -145,7 +146,7 @@ class Media extends \CloudinaryLabs\CloudinaryLaravel\Model\Media
      *
      * @return Collection<Media>
      **/
-    public static function fromTemporaryUploadedImagesIds(array $temporaryUploadedImagesIds)
+    public static function fromTemporaryUploadedImagesIds(array|SupportCollection $temporaryUploadedImagesIds)
     {
 
         $temporary_uploaded_images =

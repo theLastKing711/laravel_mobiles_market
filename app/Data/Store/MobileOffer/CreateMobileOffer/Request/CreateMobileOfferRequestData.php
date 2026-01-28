@@ -2,12 +2,14 @@
 
 namespace App\Data\Store\MobileOffer\CreateMobileOffer\Request;
 
+use App\Data\Shared\File\TemporaryUploadedImagesData;
 use App\Data\Shared\Swagger\Property\ArrayProperty;
 use Illuminate\Support\Collection;
 use OpenApi\Attributes as OAT;
 use Spatie\LaravelData\Attributes\MergeValidationRules;
 use Spatie\LaravelData\Attributes\Validation\Between;
 use Spatie\LaravelData\Attributes\Validation\GreaterThan;
+use Spatie\LaravelData\Attributes\Validation\Min;
 use Spatie\LaravelData\Data;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
@@ -55,10 +57,11 @@ class CreateMobileOfferRequestData extends Data
         /** @var Collection<FeatureData> */
         public ?Collection $features,
         #[
-            ArrayProperty(),
+            ArrayProperty(TemporaryUploadedImagesData::class),
+            Min(1)
         ]
-        /** @var array<int> */
-        public array $temporary_uploaded_images_ids,
+        /** @var Collection<TemporaryUploadedImagesData> */
+        public Collection $temporary_uploaded_images_ids,
     ) {}
 
 }

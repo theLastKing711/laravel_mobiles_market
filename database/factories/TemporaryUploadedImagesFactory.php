@@ -30,4 +30,12 @@ class TemporaryUploadedImagesFactory extends Factory
             'collection_name' => fake()->randomElement(FileUploadDirectory::cases()),
         ];
     }
+
+    public function forUserWithId(int $id): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'uploadable_type' => User::class,
+            'uploadable_id' => $id,
+        ]);
+    }
 }

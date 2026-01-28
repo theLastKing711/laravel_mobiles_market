@@ -54,8 +54,6 @@ class TemporaryUploadedImages extends Model
 
         $temporary_uploaded_image = new TemporaryUploadedImages;
 
-        // /** @var Collection<TemporaryUploadedImages> $temporary_images_to_upload */
-        // $temporary_images_to_upload =
         $cloudinaryNotificationUrlRequestData
             ->eager
             ->each(
