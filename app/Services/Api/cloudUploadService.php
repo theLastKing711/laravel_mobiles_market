@@ -9,6 +9,7 @@ use Cloudinary\Api\ApiUtils;
 use Cloudinary\Api\Exception\ApiError;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 
 class cloudUploadService
 {
@@ -42,7 +43,9 @@ class cloudUploadService
     public function destroy(string $public_id)
     {
 
-        return Cloudinary::destroy($public_id);
+        // return Cloudinary::destroy($public_id);
+
+        Storage::delete($public_id);
 
     }
 
