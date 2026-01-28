@@ -102,6 +102,9 @@ class cloudUploadService
                     }
                 );
 
+        if ($presigned_uploads_data->unique(key: 'timestamp')->count() != $presigned_uploads_data->count()) {
+            throw new DuplicateSignedRequestSignature;
+        }
         if ($this->signedUrlsHaveDuplicateSignature($presigned_uploads_data)) {
 
             throw new DuplicateSignedRequestSignature;
