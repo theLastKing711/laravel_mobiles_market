@@ -21,6 +21,10 @@ return [
     */
     'notification_url' => env('CLOUDINARY_NOTIFICATION_URL'),
 
+    'api_key' => env('CLOUDINARY_KEY'),
+
+    'api_secret' => env('CLOUDINARY_SECRET'),
+
     /*
     |--------------------------------------------------------------------------
     | Cloudinary Configuration

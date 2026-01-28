@@ -38,18 +38,6 @@ class cloudUploadService
     }
 
     /**
-     * @return array {result: 'ok'} | array { result: 'not_found'}
-     **/
-    public function destroy(string $public_id)
-    {
-
-        // return Cloudinary::destroy($public_id);
-
-        Storage::delete($public_id);
-
-    }
-
-    /**
      * @return SignedRequestData
      **/
     public function signRequest(FileUploadDirectory $directory, ?int $index = 0)
@@ -81,7 +69,7 @@ class cloudUploadService
             folder: $directory,
             signature: $signature,
             api_key: config('cloudinary.api_key'),
-            cloud_name: config('cloudinary.cloud_name'),
+            cloud_name: config('cloudinary.cloud_url'),
         );
 
     }
@@ -130,6 +118,18 @@ class cloudUploadService
                 FileUploadDirectory::TEST_FOLDER,
                 $count
             );
+
+    }
+
+    /**
+     * @return array {result: 'ok'} | array { result: 'not_found'}
+     **/
+    public function destroy(string $public_id)
+    {
+
+        // return Cloudinary::destroy($public_id);
+
+        Storage::delete($public_id);
 
     }
 
