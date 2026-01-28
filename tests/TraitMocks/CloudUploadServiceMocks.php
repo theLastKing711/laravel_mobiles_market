@@ -26,7 +26,7 @@ trait CloudUploadServiceMocks
     {
 
         $base_sign_request = new SignedRequestData(
-            timestamp: time(),
+            timestamp: time() + fake()->numberBetween(1, 10000),
             eager: config('cloudinary.api_key'),
             folder: FileUploadDirectory::TEST_FOLDER,
             signature: fake()->sha1(),
