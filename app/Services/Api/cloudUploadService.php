@@ -124,15 +124,12 @@ class cloudUploadService
 
     }
 
-    /**
-     * @return array {result: 'ok'} | array { result: 'not_found'}
-     **/
     public function destroy(string $public_id)
     {
 
         // return Cloudinary::destroy($public_id);
 
-        Storage::delete($public_id);
+        return Storage::delete($public_id);
 
     }
 

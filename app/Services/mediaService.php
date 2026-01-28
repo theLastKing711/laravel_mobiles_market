@@ -3,90 +3,16 @@
 namespace App\Services;
 
 use App\Data\Shared\File\CloudinaryNotificationUrlRequestData;
-use App\Data\Shared\File\UpdateFileData;
-use App\Data\Shared\Media\ModelAndMediable;
 use App\Enum\FileUploadDirectory;
 use App\Exceptions\Api\Cloudinary\FailedToDeleteImageException;
 use App\Facades\CloudUploadService;
 use App\Models\Media;
 use App\Models\TemporaryUploadedImages;
-use Cloudinary\Api\Exception\ApiError;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary as FacadesCloudinary;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class mediaService
 {
-    /**
-     * Delete all/one/multiple file(s) associated with a particular Model record
-     *
-     * @param  UpdateFileData[]|Collection<UpdateFileData>  $request_files
-     * @return void
-     *
-     * @throws ApiError
-     */
-    public function updateMediaForModel(ModelAndMediable $model, array|Collection $request_files)
-    {
-        /** @var Collection<int, string> $file_to_update_ids */
-        $file_to_update_ids = $request_files->pluck('uid');
-
-        /** @var Collection<int, Media> $medias_to_delete */
-        $medias_to_delete =
-            $model
-                ->medially
-                ->whereNotIn('id', $file_to_update_ids);
-
-        Log::info('media ids to delete {ids}', ['ids' => $medias_to_delete]);
-
-        $model->detachMedia($medias_to_delete);
-
-        /** @var Collection<int, string> $existing_media_ids */
-        $existing_media_ids =
-            $model
-                ->medially
-                ->pluck('id');
-
-        /** @var Collection<int, string> $media_to_add_urls */
-        $media_to_add_urls = $request_files->filter(
-            fn ($file) => ! $existing_media_ids->contains($file->uid)
-        )->pluck('url');
-
-        foreach ($media_to_add_urls as &$media_url) {
-            $model->attachRemoteMedia($media_url);
-        }
-    }
-
-    /**
-     * Delete all/one/multiple file(s) associated with a particular Model record
-     *
-     * @param  int[]|Collection<int, int>  $public_ids
-     * @return void
-     *
-     * @throws ApiError
-     */
-    public function createMediaForModel(ModelAndMediable $model, array|Collection $public_ids)
-    {
-
-        foreach ($public_ids as &$public_id) {
-
-            $cloud_image = FacadesCloudinary::getImage($public_id);
-
-            $cloud_image_url = $cloud_image->toUrl();
-
-            $model->attachRemoteMedia($cloud_image_url);
-        }
-    }
-
-    /**
-     * Delete all/one/multiple file(s) associated with a particular Model record
-     */
-    public function removeAssociatedMediaForModel(ModelAndMediable $model): void
-    {
-        $model->detachMedia();
-    }
-
     public function createTemporaryUploadedImageFromCloudinaryUploadSuccessNotification(
         CloudinaryNotificationUrlRequestData $cloudinaryNotificationUrlRequestData,
         FileUploadDirectory $file_upload_directory
@@ -143,12 +69,12 @@ class mediaService
 
         // return {resut: "ok"} in success
         // and {result: "not found"} in failure
-        $delete_response =
+        $media_has_been_deleted =
             CloudUploadService::destroy(
                 $public_id
             );
 
-        if ($delete_response['result'] == 'not_found') {
+        if (! $media_has_been_deleted) {
 
             DB::rollBack();
             throw new FailedToDeleteImageException;
