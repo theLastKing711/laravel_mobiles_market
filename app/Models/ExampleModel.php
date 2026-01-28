@@ -3,10 +3,9 @@
 namespace App\Models;
 
 use App\Interfaces\Mediable;
+use App\Trait\MediaAlly;
 use Barryvdh\LaravelIdeHelper\Eloquent;
-use CloudinaryLabs\CloudinaryLaravel\MediaAlly;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -16,12 +15,7 @@ use Spatie\Permission\Traits\HasRoles;
 class ExampleModel extends Eloquent implements Mediable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles, MediaAlly;
-
-    public function medially(): MorphMany
-    {
-        return $this->morphMany(Media::class, 'medially');
-    }
+    use HasFactory, HasRoles, MediaAlly, Notifiable;
 
     /**
      * The attributes that are mass assignable.

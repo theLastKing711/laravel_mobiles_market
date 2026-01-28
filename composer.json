@@ -9,7 +9,7 @@
         "php": "^8.5",
         "ajcastro/eager-load-pivot-relations": "^0.3.0",
         "algolia/algoliasearch-client-php": "^4.36",
-        "cloudinary-labs/cloudinary-laravel": "^2.2",
+        "cloudinary-labs/cloudinary-laravel": "^3.0.2",
         "darkaonline/l5-swagger": "^8.6",
         "datlechin/laravel-google-translate": "dev-main",
         "fakerphp/faker": "^1.24",

@@ -6,8 +6,6 @@ use App\Data\Shared\File\CloudinaryNotificationUrlRequestData;
 use App\Enum\FileUploadDirectory;
 use App\Interfaces\IUploadable;
 use App\Models\TemporaryUploadedImages;
-use CloudinaryLabs\CloudinaryLaravel\MediaAlly;
-use CloudinaryLabs\CloudinaryLaravel\Model\Media;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 

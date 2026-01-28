@@ -150,8 +150,8 @@ namespace App\Models{
  * @property-read int|null $favourite_by_users_count
  * @property-read \App\Data\Shared\ModelwithPivotCollection<\App\Models\MobileOfferFeature,\Illuminate\Database\Eloquent\Relations\Pivot> $features
  * @property-read int|null $features_count
- * @property-read \CloudinaryLabs\CloudinaryLaravel\Model\Media|null $mainImage
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \CloudinaryLabs\CloudinaryLaravel\Model\Media> $medially
+ * @property-read Media|null $mainImage
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Media> $medially
  * @property-read int|null $medially_count
  * @property-read \App\Models\User $user
  * @method static \Database\Factories\MobileOfferFactory factory($count = null, $state = [])
@@ -336,7 +336,7 @@ namespace App\Models{
  * @property string $phone_number
  * @property-read \App\Data\Shared\ModelwithPivotCollection<\App\Models\MobileOffer,\Illuminate\Database\Eloquent\Relations\Pivot> $favouriteMobileOffers
  * @property-read int|null $favourite_mobile_offers_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \CloudinaryLabs\CloudinaryLaravel\Model\Media> $medially
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Media> $medially
  * @property-read int|null $medially_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\MobileOffer> $mobileOffers
  * @property-read int|null $mobile_offers_count

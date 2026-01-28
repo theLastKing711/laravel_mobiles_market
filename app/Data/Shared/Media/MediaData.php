@@ -2,7 +2,7 @@
 
 namespace App\Data\Shared\Media;
 
-use CloudinaryLabs\CloudinaryLaravel\Model\Media as ModelMedia;
+use App\Models\Media;
 use OpenApi\Attributes as OAT;
 use Spatie\LaravelData\Data;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
@@ -20,7 +20,7 @@ class MediaData extends Data
         public ?string $thumbnail_url,
     ) {}
 
-    public static function fromModel(?ModelMedia $media): self
+    public static function fromModel(?Media $media): self
     {
 
         return new self(

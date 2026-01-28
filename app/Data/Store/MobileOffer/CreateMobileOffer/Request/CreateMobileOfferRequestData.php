@@ -36,6 +36,7 @@ class CreateMobileOfferRequestData extends Data
         public ?string $ram,
         #[
             OAT\Property,
+
         ]
         public ?string $storage,
         // #[OAT\Property]
