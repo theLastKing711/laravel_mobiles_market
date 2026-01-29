@@ -52,6 +52,7 @@ class MyMobileOfferFileController extends MyMobileOfferFileControllerAbstract
     #[SuccessNoContentResponse]
     public function delete(FilePublicIdPathParameterData $deleteFileData)
     {
+        abort(404);
         MediaService::deleteFileByPublicId(
             $deleteFileData
                 ->public_id
