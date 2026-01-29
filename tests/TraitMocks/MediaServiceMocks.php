@@ -60,9 +60,7 @@ trait MediaServiceMocks
                 'deleteFileByPublicId'
             )
             ->with($public_id)
-            ->andReturn([
-                'result' => 'ok',
-            ]);
+            ->andReturn(true);
 
     }
 

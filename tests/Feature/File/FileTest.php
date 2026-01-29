@@ -5,7 +5,6 @@ namespace Tests\Feature\File;
 use App\Data\Shared\File\CloudinaryNotificationUrlRequestData;
 use App\Enum\FileUploadDirectory;
 use App\Models\Media;
-use App\Models\MobileOffer;
 use App\Models\TemporaryUploadedImages;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
@@ -142,7 +141,6 @@ class FileTest extends FileTestCase
             $temporary_uploaded_image
                 ->public_id;
 
-        // return "not_found' which stimulate provided public id is not on cloudinary
         $this
             ->mockDeleteFileByPublicIdThrowsFailedToDeleteImageException(
                 $public_id
@@ -189,21 +187,14 @@ class FileTest extends FileTestCase
     public function delete_non_existing_media_file_on_cloudinary_by_public_id_errors_with_500_repsonse(): void
     {
 
-        $mobile_offer =
-            MobileOffer::factory()
+        $media =
+            Media::factory()
                 ->forUserWithId($this->store->id)
-                ->has(
-                    Media::factory(),
-                    'mainImage'
-                )
                 ->createOne();
 
         $public_id =
-           $mobile_offer
-               ->mainImage
-               ->public_id;
+            $media->public_id;
 
-        // return "not_found' which stimulate provided public id is not on cloudinary
         $this
             ->mockDeleteFileByPublicIdThrowsFailedToDeleteImageException(
                 $public_id

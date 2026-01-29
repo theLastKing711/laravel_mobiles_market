@@ -86,6 +86,29 @@
                 }
             ]
         },
+        "/users/my-mobile-offers/files/{public_id}": {
+            "delete": {
+                "tags": [
+                    "myMobileOfferFiles"
+                ],
+                "operationId": "9d8861e7e4b3c9fbca0edcfe7bd9bda8",
+                "responses": {
+                    "204": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            },
+            "parameters": [
+                {
+                    "$ref": "#/components/parameters/usersGetMobileOfferRequestPathParameterData"
+                }
+            ]
+        },
         "/users/my-mobile-offers/{id}": {
             "get": {
                 "tags": [
@@ -498,113 +521,12 @@
                 }
             }
         },
-        "/admin/files": {
-            "get": {
-                "tags": [
-                    "files"
-                ],
-                "operationId": "5f5d7a9f14764b7a00b1a6d263730e0a",
-                "responses": {
-                    "204": {
-                        "description": "File uploaded successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/files": {
-            "post": {
-                "tags": [
-                    "files"
-                ],
-                "operationId": "08f811d5e879722f476c4451e5d3c8ae",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UploadFileData"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "File uploaded successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/UploadFileResponseData"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/files/many": {
-            "post": {
-                "tags": [
-                    "files"
-                ],
-                "operationId": "68ff5a9628dc11dee6bb9ad96dc0ab0b",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UploadFileListData"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Files uploaded successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/UploadFileListData"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/files/cloudinary-presigned-url": {
-            "get": {
-                "tags": [
-                    "files"
-                ],
-                "operationId": "18fdf9a846765be9a51420f555dad6b5",
-                "responses": {
-                    "200": {
-                        "description": "Fetched presigned upload successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/files/cloudinary-presigned-urls": {
             "get": {
                 "tags": [
                     "files"
                 ],
-                "operationId": "22b816cd72ad2ba9d78556d2fbbac7f0",
+                "operationId": "e89973f6f35ca4e299f63527cd360e4e",
                 "parameters": [
                     {
                         "name": "urls_count",
@@ -635,12 +557,12 @@
                 }
             }
         },
-        "/files/mobile-offer-cloudinary-notifications-url": {
+        "/files/cloudinary-notifications-url": {
             "post": {
                 "tags": [
                     "files"
                 ],
-                "operationId": "13fe86509b52d8ad5602ddcd77465e14",
+                "operationId": "449185ab9ed8608378a7a0e6d50a6a16",
                 "requestBody": {
                     "$ref": "#/components/schemas/CloudinaryNotificationUrlRequestData"
                 },
@@ -972,6 +894,56 @@
                 }
             }
         },
+        "/users/my-mobile-offers/files/cloudinary-presigned-urls": {
+            "get": {
+                "tags": [
+                    "myMobileOfferFiles"
+                ],
+                "operationId": "bda347e31f42ef15e07a651ed306feaf",
+                "parameters": [
+                    {
+                        "name": "urls_count",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Fetched presigned upload successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/my-mobile-offers/files/cloudinary-notifications-url": {
+            "post": {
+                "tags": [
+                    "myMobileOfferFiles"
+                ],
+                "operationId": "ca45d1621eff4033989b2c29b1bf487c",
+                "requestBody": {
+                    "$ref": "#/components/schemas/CloudinaryNotificationUrlRequestData"
+                },
+                "responses": {
+                    "204": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/users/mobile-offers/favourites": {
             "get": {
                 "tags": [
@@ -1209,6 +1181,37 @@
                 },
                 "type": "object"
             },
+            "SignedRequestData": {
+                "properties": {
+                    "timestamp": {
+                        "type": "integer"
+                    },
+                    "eager": {
+                        "type": "string"
+                    },
+                    "folder": {
+                        "type": "App\\Enum\\FileUploadDirectory"
+                    },
+                    "signature": {
+                        "type": "string"
+                    },
+                    "api_key": {
+                        "type": "string"
+                    },
+                    "cloud_name": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "TemporaryUploadedImagesData": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
             "UpdateFileData": {
                 "properties": {
                     "uid": {
@@ -1363,9 +1366,8 @@
                     "temporary_uploaded_images_ids": {
                         "type": "array",
                         "items": {
-                            "type": "integer"
-                        },
-                        "nullable": true
+                            "$ref": "#/components/schemas/TemporaryUploadedImagesData"
+                        }
                     }
                 },
                 "type": "object"
@@ -1893,9 +1895,8 @@
                     "temporary_uploaded_images_ids": {
                         "type": "array",
                         "items": {
-                            "type": "integer"
-                        },
-                        "nullable": true
+                            "$ref": "#/components/schemas/TemporaryUploadedImagesData"
+                        }
                     }
                 },
                 "type": "object"
@@ -1915,7 +1916,8 @@
                     1
                 ]
             },
-            "UserMobileOfferController": {}
+            "UserMobileOfferController": {},
+            "UserMyMobileOfferOfferController": {}
         },
         "responses": {
             "200": {
@@ -1979,6 +1981,14 @@
                 }
             },
             "usersfavouriteMobileOfferRequestPathParameterData": {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "usersDeleteMyMobileOfferFileRequestPathParameterData": {
                 "name": "id",
                 "in": "path",
                 "required": true,
@@ -2063,6 +2073,10 @@
         {
             "name": "usersMobileOffers",
             "description": "usersMobileOffers"
+        },
+        {
+            "name": "myMobileOfferFiles",
+            "description": "myMobileOfferFiles"
         },
         {
             "name": "storesMobileOffers",

@@ -6,7 +6,6 @@ use App\Models\User;
 use Database\Seeders\RolesAndPermissionsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
-use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
 
 class AdminTestCase extends TestCase
@@ -43,7 +42,7 @@ class AdminTestCase extends TestCase
         return $main_route.'/'.$id;
     }
 
-    /** @var Collection<string> description */
+    /** @var Collection<string> */
     public function genereateQueryParameters(Collection $query_parameters, string $query_parameter_name = 'ids')
     {
 
@@ -64,12 +63,4 @@ class AdminTestCase extends TestCase
         return $query_parameters;
 
     }
-
-    // public function post($uri, $data = [], $headers = []): TestResponse
-    // {
-    //     return
-    //         parent::withHeaders(['Accept' => 'application/json'])
-    //             ->post($uri, $data, $headers);
-
-    // }
 }

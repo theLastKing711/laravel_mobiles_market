@@ -17,7 +17,11 @@ use OpenApi\Attributes\RequestBody;
 
 class MyMobileOfferFileController extends MyMobileOfferFileControllerAbstract
 {
-    #[OAT\Get(path: '/users/my-mobile-offers/files/cloudinary-presigned-urls', tags: ['myMobileOfferFiles'])]
+    const MAIN_ROUTE = '/users/my-mobile-offers/files';
+
+    const SWAGGER_TAG = 'myMobileOfferFiles';
+
+    #[OAT\Get(path: self::MAIN_ROUTE.'/cloudinary-presigned-urls', tags: [self::SWAGGER_TAG])]
     #[QueryParameter('urls_count')]
     #[SuccessItemResponse('string', 'Fetched presigned upload successfully')]
     public function getCloudinaryPresignedUrls(Request $request): Collection
@@ -31,7 +35,7 @@ class MyMobileOfferFileController extends MyMobileOfferFileControllerAbstract
 
     }
 
-    #[OAT\Post(path: '/users/my-mobile-offers/files/cloudinary-notifications-url', tags: ['myMobileOfferFiles'])]
+    #[OAT\Post(path: self::MAIN_ROUTE.'/cloudinary-notifications-url', tags: [self::SWAGGER_TAG])]
     #[RequestBody(CloudinaryNotificationUrlRequestData::class)]
     #[SuccessNoContentResponse]
     public function saveTemporaryUploadedImageToDBOnCloudinaryUploadNotificationSuccess(CloudinaryNotificationUrlRequestData $request)
@@ -44,7 +48,7 @@ class MyMobileOfferFileController extends MyMobileOfferFileControllerAbstract
 
     }
 
-    #[OAT\Delete(path: '/users/my-mobile-offers/files/{public_id}', tags: ['usersMyMobileOffersFiles'])]
+    #[OAT\Delete(path: self::MAIN_ROUTE.'/{public_id}', tags: [self::SWAGGER_TAG])]
     #[SuccessNoContentResponse]
     public function delete(FilePublicIdPathParameterData $deleteFileData)
     {

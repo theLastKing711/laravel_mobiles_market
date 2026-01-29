@@ -27,9 +27,6 @@ class CloudUploadServiceTest extends TestCase
                 ]
             );
 
-        // $this
-        //     ->initializeAdmin();
-
     }
 
     #[Test, group('signedUrlsHaveDuplicateSignature')]
@@ -129,60 +126,4 @@ class CloudUploadServiceTest extends TestCase
         );
 
     }
-
-    // mobile-offer specific tests
-    //   #[Test, group('signRequest')]
-    // public function cloud_upload_service_sign_mobile_offer_request_success(): void
-    // {
-
-    //     $signed_request =
-    //         CloudUploadService::signRequest(
-    //             FileUploadDirectory::TEST_FOLDER
-    //         );
-
-    //     $this
-    //         ->assertEquals(
-    //             FileUploadDirectory::TEST_FOLDER->value,
-    //             $signed_request['folder'],
-    //         );
-
-    // }
-
-    // #[Test, group('signRequests')]
-    // public function cloud_upload_service_signs_3_mobile_req_requests_with_unique_signatures_success(): void
-    // {
-
-    //     $number_of_signed_requests = 3;
-
-    //     $this->mockSignMobileOffersRequestsWithStaticSignatures(
-    //         3
-    //     );
-
-    //     $items = CloudUploadService::signRequests(
-    //         FileUploadDirectory::TEST_FOLDER,
-    //         $number_of_signed_requests,
-    //     );
-
-    // }
-
-    // #[Test, group('signRequests')]
-    // public function cloud_upload_service_signs_3_mobile_offer_requests_with_static_signatures_throws_duplicate_signed_request_signature(): void
-    // {
-
-    //     $number_of_signed_requests = 3;
-
-    //     $this->mockSignMobileOffersRequestsWithStaticSignatures(
-    //         3
-    //     );
-
-    //     $this
-    //         ->expectException(
-    //             DuplicateSignedRequestSignature::class
-    //         );
-
-    //     CloudUploadService::signMobileOffersRequests(
-    //         $number_of_signed_requests,
-    //     );
-
-    // }
 }

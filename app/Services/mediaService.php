@@ -67,8 +67,6 @@ class mediaService
             )
             ?->delete();
 
-        // return {resut: "ok"} in success
-        // and {result: "not found"} in failure
         $media_has_been_deleted =
             CloudUploadService::destroy(
                 $public_id

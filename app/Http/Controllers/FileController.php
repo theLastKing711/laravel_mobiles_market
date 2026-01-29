@@ -16,7 +16,7 @@ use OpenApi\Attributes\RequestBody;
 
 #[
     OAT\PathItem(
-        path: '/files/{public_id}',
+        path: FileController::MAIN_ROUTE.'/{public_id}',
         parameters: [
             new OAT\PathParameter(
                 ref: '#/components/parameters/filesPublicIdPathParameterData',
@@ -26,7 +26,9 @@ use OpenApi\Attributes\RequestBody;
 ]
 class FileController extends Controller
 {
-    #[OAT\Get(path: '/files/cloudinary-presigned-urls', tags: ['files'])]
+    const MAIN_ROUTE = '/files';
+
+    #[OAT\Get(path: self::MAIN_ROUTE.'/cloudinary-presigned-urls', tags: ['files'])]
     #[QueryParameter('urls_count')]
     #[QueryParameter('resource')]
     #[SuccessItemResponse('string', 'Fetched presigned upload successfully')]
@@ -39,7 +41,7 @@ class FileController extends Controller
 
     }
 
-    #[OAT\Post(path: '/files/cloudinary-notifications-url', tags: ['files'])]
+    #[OAT\Post(path: self::MAIN_ROUTE.'/cloudinary-notifications-url', tags: ['files'])]
     #[RequestBody(CloudinaryNotificationUrlRequestData::class)]
     #[SuccessNoContentResponse]
     public function saveTemporaryUploadedImageToDBOnCloudinaryUploadNotificationSuccess(CloudinaryNotificationUrlRequestData $request)
@@ -52,7 +54,7 @@ class FileController extends Controller
 
     }
 
-    #[OAT\Delete(path: '/files/{public_id}', tags: ['files'])]
+    #[OAT\Delete(path: self::MAIN_ROUTE.'/{public_id}', tags: ['files'])]
     #[SuccessNoContentResponse]
     public function delete(FilePublicIdPathParameterData $request)
     {

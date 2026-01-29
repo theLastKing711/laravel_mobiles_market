@@ -127,8 +127,6 @@ class cloudUploadService
     public function destroy(string $public_id)
     {
 
-        // return Cloudinary::destroy($public_id);
-
         return Storage::delete($public_id);
 
     }

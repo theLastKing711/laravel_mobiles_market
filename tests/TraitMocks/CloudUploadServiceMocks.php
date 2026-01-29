@@ -221,18 +221,14 @@ trait CloudUploadServiceMocks
     {
 
         $this->mockDestroy($public_id, $times)
-            ->andReturn([
-                'result' => 'ok',
-            ]);
+            ->andReturn(true);
     }
 
     public function mockDestroyFailure(string $public_id, $times = 1)
     {
 
         $this->mockDestroy($public_id, $times)
-            ->andReturn([
-                'result' => 'not_found',
-            ]);
+            ->andReturn(false);
     }
 
     public function mockDestroyMultiple(Collection $images)
