@@ -11,8 +11,8 @@ class SwaggerRoute
         'CHILD_ROUTES' => [
             'cloudinary-presigned-urls' => '/users/my-mobile-offers/files/cloudinary-presigned-urls',
             'cloudinary-notifications-url' => '/users/my-mobile-offers/files/cloudinary-notifications-url',
-            'media' => '/users/my-mobile-offers/files/media/{public_id}',
-            'temporary-uploaded-images' => '/users/my-mobile-offers/files/temporary-uploaded-image/{public_id}',
+            'media' => '/users/my-mobile-offers/files/medias/{public_id}',
+            'temporary-uploaded-images' => '/users/my-mobile-offers/files/temporary-uploaded-images/{public_id}',
 
         ],
     ];
