@@ -24,39 +24,40 @@ class FilePublicIdPathParameterData extends Data
                 ),
             ),
             FromRouteParameter('public_id'),
-            Exists(TemporaryUploadedImages::class, 'public_id')
         ]
         public string $public_id,
     ) {}
 
-    public static function rules(?ValidationContext $context = null): array
-    {
-        $request_public_id =
-            $context
-                ->payload['public_id'];
+    // Exists(TemporaryUploadedImages::class, 'public_id')
 
-        $request_parsed_public_id =
-             str_replace(
-                 '-',
-                 '/',
-                 $request_public_id
-             );
+    // public static function rules(?ValidationContext $context = null): array
+    // {
+    //     $request_public_id =
+    //         $context
+    //             ->payload['public_id'];
 
-        $public_id_exist =
-            TemporaryUploadedImages::firstWhere(
-                'public_id',
-                $request_parsed_public_id
-            );
+    //     $request_parsed_public_id =
+    //          str_replace(
+    //              '-',
+    //              '/',
+    //              $request_public_id
+    //          );
 
-        if (! $public_id_exist) {
-            return [
-                'public_id' => [
-                    'required',
-                ],
-            ];
-        }
+    //     $public_id_exist =
+    //         TemporaryUploadedImages::firstWhere(
+    //             'public_id',
+    //             $request_parsed_public_id
+    //         );
 
-        return [];
+    //     if (! $public_id_exist) {
+    //         return [
+    //             'public_id' => [
+    //                 'required',
+    //             ],
+    //         ];
+    //     }
 
-    }
+    //     return [];
+
+    // }
 }
