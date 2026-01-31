@@ -7,38 +7,19 @@ use App\Data\User\Auth\Login\Login\Request\LoginRequestData;
 use App\Models\User;
 use Cloudinary\Api\HttpStatusCode;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\User\Abstractions\UserTestCase;
 
 class LoginTest extends UserTestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this
-            ->withRoutePaths(
-                'auth',
-                'login'
-            );
-
-    }
-
-    #[Test]
+    #[
+        Test,
+        Group('phone-number-step'),
+        Group('success')
+    ]
     public function enter_phone_number_in_login_phone_step_success_with_200_response(): void
     {
-
-        $this
-            ->withRoutePaths(
-                'phone-number-step'
-            );
-
-        // $logged_in_user = $this
-        //     ->getUser();
-
-        // $this->actingAs(
-        //     $logged_in_user
-        // );
 
         $new_user =
             User::factory()
@@ -51,6 +32,11 @@ class LoginTest extends UserTestCase
 
         $response =
            $this
+               ->withRouteName(
+                   route(
+                       'users.auth.login.phone-number-step'
+                   )
+               )
                ->postJsonData(
                    $registeration_step_request_data
                        ->toArray()
@@ -60,14 +46,13 @@ class LoginTest extends UserTestCase
 
     }
 
-    #[Test]
+    #[
+        Test,
+        Group('phone-number-step'),
+        Group('error')
+    ]
     public function enter_non_existing_phone_number_in_login_phone_step_errors_with_404_response(): void
     {
-
-        $this
-            ->withRoutePaths(
-                'phone-number-step'
-            );
 
         $login_phone_number_steprequest_data =
             new AddPhoneNumberLoginStepRequestData(
@@ -76,6 +61,11 @@ class LoginTest extends UserTestCase
 
         $response =
            $this
+               ->withRouteName(
+                   route(
+                       'users.auth.login.phone-number-step'
+                   )
+               )
                ->postJsonData(
                    $login_phone_number_steprequest_data
                        ->toArray()
@@ -85,15 +75,13 @@ class LoginTest extends UserTestCase
 
     }
 
-    #[Test]
+    #[
+        Test,
+        Group('login'),
+        Group('success')
+    ]
     public function login_success_with_200_response(): void
     {
-
-        $this
-            ->withRoutePaths(
-                'login'
-            );
-
         $new_user =
             User::factory()
                 ->create();
@@ -106,6 +94,11 @@ class LoginTest extends UserTestCase
 
         $response =
            $this
+               ->withRouteName(
+                   route(
+                       'users.auth.login.login'
+                   )
+               )
                ->postJsonData(
                    $login_request_data
                        ->toArray()
@@ -120,20 +113,12 @@ class LoginTest extends UserTestCase
      **/
     #[
         Test,
+        Group('login'),
+        Group('error'),
         DataProvider('wrong_phonenumber_password_provider')
     ]
     public function login_with_wrong_username_errors_with_401_response($request): void
     {
-
-        $this
-            ->withRoutePaths(
-                'login'
-            );
-
-        // $new_user =
-        //     User::factory()
-        //         ->create();
-
         $login_request_data =
             new LoginRequestData(
                 $request()->phone_number,
@@ -142,6 +127,11 @@ class LoginTest extends UserTestCase
 
         $response =
            $this
+               ->withRouteName(
+                   route(
+                       'users.auth.login.login'
+                   )
+               )
                ->postJsonData(
                    $login_request_data
                        ->toArray()

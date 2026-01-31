@@ -8,7 +8,6 @@ use App\Http\Controllers\User\MobileOffer\File\MyMobileOfferFileController;
 use App\Models\Media;
 use App\Models\MobileOffer;
 use App\Models\TemporaryUploadedImages;
-use Database\Seeders\MobileOfferFeatureSeeder;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\User\Abstractions\UserTestCase;
@@ -29,19 +28,6 @@ class MyMobileOfferFileTest extends UserTestCase
 
         $this
             ->initializeStore();
-
-        $this
-            ->withRoutePaths(
-                'my-mobile-offers',
-                'files'
-            );
-
-        $this
-            ->seed(
-                [
-                    MobileOfferFeatureSeeder::class,
-                ]
-            );
 
     }
 

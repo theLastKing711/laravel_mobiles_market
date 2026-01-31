@@ -56,7 +56,8 @@ Route::prefix('users')
 
                 route::prefix('my-mobile-offers')
                     ->group(function () {
-                        Route::get('', GetMyMobileOffersController::class);
+                        Route::get('', GetMyMobileOffersController::class)
+                            ->name('users.my-mobile-offers');
 
                         Route::prefix('files')->group(function () {
 
@@ -78,7 +79,7 @@ Route::prefix('users')
                             ->name('users.my-mobile-offers.{id}.get');
 
                         Route::post('', CreateMobileOfferController::class)
-                            ->name('users.my-mobile-offers');
+                            ->name('users.my-mobile-offers.post');
 
                         Route::patch('/{id}/sold', SellMobileOfferController::class)
                             ->name('users.my-mobile-offers.{id}.sold');
@@ -126,15 +127,29 @@ Route::prefix('users')
 
             Route::prefix('login')->group(function () {
 
-                Route::post('phone-number-step', AddPhoneNumberLoginStepController::class);
-                Route::post('login', LoginController::class);
+                Route::post('phone-number-step', AddPhoneNumberLoginStepController::class)
+                    ->name(
+                        'users.auth.login.phone-number-step'
+                    );
+
+                Route::post('login', LoginController::class)
+                    ->name(
+                        'users.auth.login.login'
+                    );
 
             });
 
             Route::prefix('registeration')->group(function () {
 
-                Route::post('phone-number-step', AddPhoneNumberRegisterationStepController::class);
-                Route::post('register', RegisterController::class);
+                Route::post('phone-number-step', AddPhoneNumberRegisterationStepController::class)
+                    ->name(
+                        'users.auth.registeration.phone-number-step'
+                    );
+
+                Route::post('register', RegisterController::class)
+                    ->name(
+                        'users.auth.registeration.register'
+                    );
 
             });
 

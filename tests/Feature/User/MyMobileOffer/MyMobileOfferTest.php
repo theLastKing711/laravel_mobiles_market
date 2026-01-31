@@ -43,11 +43,6 @@ class MyMobileOfferTest extends UserTestCase
             ->initializeStore();
 
         $this
-            ->withRoutePaths(
-                'my-mobile-offers'
-            );
-
-        $this
             ->seed(
                 [
                     MobileOfferFeatureSeeder::class,
@@ -129,6 +124,7 @@ class MyMobileOfferTest extends UserTestCase
     #[
         Test,
         Group(GetMyMobileOffersController::class),
+        Group('success'),
         DataProvider('get_my_mobile_offers_provider')
     ]
     public function get_my_mobile_offers_success_with_200_status(GetMyMobileOffersProviderParameters $data_provider): void
@@ -142,10 +138,15 @@ class MyMobileOfferTest extends UserTestCase
 
         $response =
             $this
-                ->withQueryParameters([
-                    'search' => $data_provider->search,
-                    'perPage' => $data_provider->per_page,
-                ])
+                ->withRouteName(
+                    route(
+                        'users.my-mobile-offers',
+                        [
+                            'search' => $data_provider->search,
+                            'perPage' => $data_provider->per_page,
+                        ]
+                    )
+                )
                 ->getJsonData();
 
         $response
@@ -179,9 +180,15 @@ class MyMobileOfferTest extends UserTestCase
 
         $response =
             $this
-                ->withRoutePaths(
-                    $mobile_offer->id
+                ->withRouteName(
+                    route(
+                        'users.my-mobile-offers.{id}.get',
+                        [
+                            'id' => $mobile_offer->id,
+                        ]
+                    )
                 )
+
                 ->getJsonData();
 
         $response
@@ -225,6 +232,7 @@ class MyMobileOfferTest extends UserTestCase
     #[
         Test,
         Group(CreateMobileOfferController::class),
+        Group('success'),
         DataProvider('create_my_mobile_offer_provider')
     ]
     public function create_my_mobile_offer_success_with_200_status(CreateMyMobileOfferProviderParameters $data_provider): void
@@ -265,6 +273,11 @@ class MyMobileOfferTest extends UserTestCase
 
         $response =
             $this
+                ->withRouteName(
+                    route(
+                        'users.my-mobile-offers.post',
+                    )
+                )
                 ->postJsonData(
                     $request
                         ->toArray()
@@ -346,6 +359,7 @@ class MyMobileOfferTest extends UserTestCase
     #[
         Test,
         Group(CreateMobileOfferController::class),
+        Group('error'),
     ]
     public function create_my_mobile_offer_wit_no_uploaded_images_errors_with_422_status(): void
     {
@@ -374,6 +388,11 @@ class MyMobileOfferTest extends UserTestCase
 
         $response =
             $this
+                ->withRouteName(
+                    route(
+                        'users.my-mobile-offers.post',
+                    )
+                )
                 ->postJsonData(
                     $request
                         ->toArray()
@@ -449,6 +468,7 @@ class MyMobileOfferTest extends UserTestCase
     #[
         Test,
         Group(UpdateMobileOfferController::class),
+        Group('success'),
         DataProvider('update_my_mobile_offer_provider')
     ]
     public function update_my_mobile_offer_success_with_200_status($data_provider): void
@@ -505,8 +525,13 @@ class MyMobileOfferTest extends UserTestCase
 
         $response =
             $this
-                ->withRoutePaths(
-                    $new_mobile_offer->id
+                ->withRouteName(
+                    route(
+                        'users.my-mobile-offers.{id}.patch',
+                        [
+                            'id' => $new_mobile_offer->id,
+                        ]
+                    )
                 )
                 ->patchJsonData(
                     $request
@@ -572,6 +597,7 @@ class MyMobileOfferTest extends UserTestCase
     #[
         Test,
         Group(UpdateMobileOfferController::class),
+        Group('success'),
 
     ]
     public function update_my_mobile_offer_with_no_uploaded_images_and_no_existing_images_errors_with_422_status(): void
@@ -598,8 +624,13 @@ class MyMobileOfferTest extends UserTestCase
 
         $response =
             $this
-                ->withRoutePaths(
-                    $new_mobile_offer->id
+                ->withRouteName(
+                    route(
+                        'users.my-mobile-offers.{id}.patch',
+                        [
+                            'id' => $new_mobile_offer->id,
+                        ]
+                    )
                 )
                 ->patchJsonData(
                     $request
@@ -625,6 +656,7 @@ class MyMobileOfferTest extends UserTestCase
     #[
         Test,
         Group(SellMobileOfferController::class),
+        Group('success'),
     ]
     public function sell_my_mobile_offer_success_with_200_status(): void
     {
@@ -636,11 +668,18 @@ class MyMobileOfferTest extends UserTestCase
 
         $response =
             $this
-                ->withRoutePaths(
-                    $new_mobile_offer->id,
-                    'sold'
+                ->withRouteName(
+                    route(
+                        'users.my-mobile-offers.{id}.sold',
+                        [
+                            'id' => $new_mobile_offer->id,
+                        ]
+                    )
                 )
-                ->patchJsonData();
+                ->patchJsonData(
+                    $new_mobile_offer
+                        ->toArray()
+                );
 
         $response
             ->assertStatus(
@@ -667,6 +706,7 @@ class MyMobileOfferTest extends UserTestCase
     #[
         Test,
         Group(DeleteMobileOfferController::class),
+        Group('success'),
     ]
     public function delete_my_mobile_offer_success_with_200_status(): void
     {
@@ -678,10 +718,18 @@ class MyMobileOfferTest extends UserTestCase
 
         $response =
             $this
-                ->withRoutePaths(
-                    $new_mobile_offer->id,
+                ->withRouteName(
+                    route(
+                        'users.my-mobile-offers.{id}.delete',
+                        [
+                            'id' => $new_mobile_offer->id,
+                        ]
+                    )
                 )
-                ->deleteJsonData();
+                ->deleteJsonData(
+                    $new_mobile_offer
+                        ->toArray()
+                );
 
         $response
             ->assertStatus(

@@ -7,31 +7,19 @@ use App\Data\User\Auth\Registeration\Register\Request\RegisterRequestData;
 use App\Enum\Auth\RolesEnum;
 use App\Models\User;
 use Cloudinary\Api\HttpStatusCode;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\User\Abstractions\UserTestCase;
 
 class RegisterationTest extends UserTestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this
-            ->withRoutePaths(
-                'auth',
-                'registeration'
-            );
-
-    }
-
-    #[Test]
+    #[
+        Test,
+        Group('phone-number-step'),
+        Group('success')
+    ]
     public function create_phone_number_in_registeration_success_with_200_response(): void
     {
-
-        $this
-            ->withRoutePaths(
-                'phone-number-step'
-            );
 
         $registeration_step_request_data =
             new AddPhoneNumberRegisterationStepRequestData(
@@ -40,6 +28,12 @@ class RegisterationTest extends UserTestCase
 
         $response =
            $this
+               ->withRouteName(
+                   route(
+                       'users.auth.registeration.phone-number-step'
+                   )
+               )
+
                ->postJsonData(
                    $registeration_step_request_data
                        ->toArray()
@@ -49,14 +43,13 @@ class RegisterationTest extends UserTestCase
 
     }
 
-    #[Test]
+    #[
+        Test,
+        Group('phone-number-step'),
+        Group('error')
+    ]
     public function create_duplicated_phone_number_in_registeration_errors_with_409_response(): void
     {
-
-        $this
-            ->withRoutePaths(
-                'phone-number-step'
-            );
 
         $new_user =
             User::factory()
@@ -70,6 +63,11 @@ class RegisterationTest extends UserTestCase
 
         $response =
            $this
+               ->withRouteName(
+                   route(
+                       'users.auth.registeration.phone-number-step'
+                   )
+               )
                ->postJsonData(
                    $registeration_step_request_data
                        ->toArray()
@@ -79,14 +77,13 @@ class RegisterationTest extends UserTestCase
 
     }
 
-    #[Test]
+    #[
+        Test,
+        Group('register'),
+        Group('success')
+    ]
     public function register_user_success_with_201_response(): void
     {
-
-        $this
-            ->withRoutePaths(
-                'register'
-            );
 
         $registeration_request_data =
             new RegisterRequestData(
@@ -96,6 +93,11 @@ class RegisterationTest extends UserTestCase
 
         $response =
            $this
+               ->withRouteName(
+                   route(
+                       'users.auth.registeration.register'
+                   )
+               )
                ->postJsonData(
                    $registeration_request_data
                        ->toArray()
@@ -127,17 +129,16 @@ class RegisterationTest extends UserTestCase
 
     }
 
-    #[Test]
+    #[
+        Test,
+        Group('register'),
+        Group('success')
+    ]
     public function register_store_success_with_201_response(): void
     {
 
         /** @var array<string> $store_users_numbers */
         $store_users_numbers = config('constants.store_users_numbers');
-
-        $this
-            ->withRoutePaths(
-                'register'
-            );
 
         $store_phone_number =
             collect($store_users_numbers)
@@ -151,12 +152,23 @@ class RegisterationTest extends UserTestCase
 
         $response =
            $this
+               ->withRouteName(
+                   route(
+                       'users.auth.registeration.register'
+                   )
+               )
                ->postJsonData(
                    $registeration_request_data
                        ->toArray()
                );
 
         $response->assertStatus(201);
+
+        $this
+            ->assertDatabaseCount(
+                User::class,
+                1
+            );
 
         $this
             ->assertDatabaseHas(
