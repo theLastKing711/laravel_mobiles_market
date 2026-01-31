@@ -40,14 +40,13 @@ class FilePublicIdPathParameterData extends Data
             throw new Error('error');
         }
 
-        $request_parsed_public_id =
+        $payload['public_id'] =
              str_replace(
                  '-',
                  '/',
                  $request_public_id
              );
 
-        return $request_parsed_public_id;
     }
 
     // Exists(TemporaryUploadedImages::class, 'public_id')
