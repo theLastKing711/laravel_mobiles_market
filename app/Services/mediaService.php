@@ -43,7 +43,7 @@ class mediaService
     {
 
         $public_id =
-            getPublicIdDbFormat($public_id);
+            getUrlToDbPublicIdFormat($public_id);
 
         DB::beginTransaction();
 
@@ -79,7 +79,7 @@ class mediaService
     {
 
         $public_id =
-            getPublicIdDbFormat($public_id);
+            getUrlToDbPublicIdFormat($public_id);
 
         DB::beginTransaction();
 

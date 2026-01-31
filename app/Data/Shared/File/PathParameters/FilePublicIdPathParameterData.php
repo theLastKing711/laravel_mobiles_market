@@ -41,7 +41,7 @@ class FilePublicIdPathParameterData extends Data
         }
 
         $payload['public_id'] =
-             getPublicIdDbFormat(
+             getUrlToDbPublicIdFormat(
                  $request_public_id
              );
 
