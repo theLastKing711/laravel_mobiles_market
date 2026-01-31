@@ -6,6 +6,7 @@ use App\Data\Shared\File\CloudinaryNotificationUrlRequestData;
 use App\Exceptions\Api\Cloudinary\FailedToDeleteImageException;
 use App\Facades\MediaService;
 use App\Models\TemporaryUploadedImages;
+use PHPUnit\Framework\Attributes\Group;
 
 trait MediaServiceMocks
 {
@@ -33,43 +34,71 @@ trait MediaServiceMocks
             );
     }
 
-    public static function mockTemporaryUploadMobileOfferImageFromCloudinaryNotification()
+    #[
+        Group(
+            'deleteMediaByPublicId',
+            'success'
+        )
+    ]
+    public function deleteMediaByPublicIdSuccess(string $public_id)
     {
 
         MediaService::partialMock()
             ->expects(
-                'temporaryUploadMobileOfferImageFromCloudinaryNotification'
-            )
-            ->withArgs(
-                function ($arg) {
-                    if ($arg instanceof CloudinaryNotificationUrlRequestData) {
-                        return true;
-                    }
-
-                    return false;
-                }
-            );
-
-    }
-
-    public function mockDeleteFileByPublicIdSuccess(string $public_id)
-    {
-
-        MediaService::partialMock()
-            ->expects(
-                'deleteFileByPublicId'
+                'deleteMediaByPublicId'
             )
             ->with($public_id)
             ->andReturn(true);
 
     }
 
-    public function mockDeleteFileByPublicIdThrowsFailedToDeleteImageException(string $public_id)
+    #[
+        Group(
+            'deleteMediaByPublicId',
+            'error'
+        )
+    ]
+    public function deleteMediaByPublicIdThrowsFailedToDeleteImageException(string $public_id)
     {
 
         MediaService::partialMock()
             ->expects(
-                'deleteFileByPublicId'
+                'deleteMediaByPublicId'
+            )
+            ->with($public_id)
+            ->andThrow(FailedToDeleteImageException::class);
+    }
+
+    #[
+        Group(
+            'deleteTemporaryUploadedImageByPublicId',
+            'success'
+        )
+    ]
+    public function deleteTemporaryUploadedImageByPublicIdSuccess(string $public_id)
+    {
+
+        MediaService::partialMock()
+            ->expects(
+                'deleteTemporaryUploadedImageByPublicId'
+            )
+            ->with($public_id)
+            ->andReturn(true);
+
+    }
+
+    #[
+        Group(
+            'deleteTemporaryUploadedImageByPublicId',
+            'error'
+        )
+    ]
+    public function deleteTemporaryUploadedImageByPublicIdThrowsFailedToDeleteImageException(string $public_id)
+    {
+
+        MediaService::partialMock()
+            ->expects(
+                'deleteTemporaryUploadedImageByPublicId'
             )
             ->with($public_id)
             ->andThrow(FailedToDeleteImageException::class);

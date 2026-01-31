@@ -4,6 +4,7 @@ namespace Tests\Feature\User\MyMobileOffer\File;
 
 use App\Data\Shared\File\CloudinaryNotificationUrlRequestData;
 use App\Enum\FileUploadDirectory;
+use App\Http\Controllers\User\MobileOffer\File\MyMobileOfferFileController;
 use App\Models\Media;
 use App\Models\MobileOffer;
 use App\Models\TemporaryUploadedImages;
@@ -14,6 +15,7 @@ use Tests\Feature\User\Abstractions\UserTestCase;
 use Tests\TraitMocks\MediaServiceMocks;
 use Tests\Traits\StoreTrait;
 
+#[Group(MyMobileOfferFileController::class)]
 class MyMobileOfferFileTest extends UserTestCase
 {
     use MediaServiceMocks, StoreTrait;
@@ -55,16 +57,16 @@ class MyMobileOfferFileTest extends UserTestCase
                 $urls_count
             );
 
-        $this
-            ->withRoutePaths(
-                'cloudinary-presigned-urls'
-            );
-
         $response =
            $this
-               ->withQueryParameters([
-                   'urls_count' => $urls_count,
-               ])
+               ->withRouteName(
+                   route(
+                       'users.my-mobile-offers.files.cloudinary-presigned-urls',
+                       [
+                           'urls_count' => $urls_count,
+                       ]
+                   )
+               )
                ->getJsonData();
 
         $response->assertStatus(200);
@@ -72,7 +74,10 @@ class MyMobileOfferFileTest extends UserTestCase
     }
 
     #[
-        Test, Group('getCloudinaryPresignedUrls')
+        Test,
+        Group('getCloudinaryPresignedUrls'),
+        Group('error')
+
     ]
     public function get_cloudinary_presigned_urls_with_duplicate_sign_request_signature_thrown_errors_with_500(): void
     {
@@ -85,16 +90,16 @@ class MyMobileOfferFileTest extends UserTestCase
                 $urls_count
             );
 
-        $this
-            ->withRoutePaths(
-                'cloudinary-presigned-urls'
-            );
-
         $response =
            $this
-               ->withQueryParameters([
-                   'urls_count' => $urls_count,
-               ])
+               ->withRouteName(
+                   route(
+                       'users.my-mobile-offers.files.cloudinary-presigned-urls',
+                       [
+                           'urls_count' => $urls_count,
+                       ]
+                   )
+               )
                ->getJsonData();
 
         $response->assertStatus(500);
@@ -103,7 +108,8 @@ class MyMobileOfferFileTest extends UserTestCase
 
     #[
         Test,
-        Group('updateMediaOnCloudinaryUploadNotificationSuccess')
+        Group('updateMediaOnCloudinaryUploadNotificationSuccess'),
+        Group('success')
     ]
     public function save_temporary_uploaded_images_for_mobile_model_to_database_on_cloudinary_upload_success_notificatoin_from_front_end_with_200_status(): void
     {
@@ -117,8 +123,10 @@ class MyMobileOfferFileTest extends UserTestCase
 
         $response =
            $this
-               ->withRoutePaths(
-                   'cloudinary-notifications-url'
+               ->withRouteName(
+                   route(
+                       'users.my-mobile-offers.files.cloudinary-notifications-url',
+                   )
                )
                ->postJsonData(
                    $cloudinary_notificatoin_url_request_data
@@ -129,11 +137,26 @@ class MyMobileOfferFileTest extends UserTestCase
 
     }
 
+    private function deleteTemporaryUploadedImageByPublicIdRequest(string $public_id)
+    {
+        return
+           $this
+               ->withRouteName(
+                   route(
+                       'users.my-mobile-offers.files.temporary-uploaded-image.{public_id}',
+                       [
+                           'public_id' => $public_id,
+                       ]
+                   )
+               )
+               ->deleteJsonData();
+    }
+
     #[
         Test,
         Group('delete')
     ]
-    public function delete_for_temporary_uploaded_file_success()
+    public function delete_temporary_uploaded_file_success()
     {
 
         $temporary_uploaded_image =
@@ -145,16 +168,15 @@ class MyMobileOfferFileTest extends UserTestCase
                 ->public_id;
 
         $this
-            ->mockDeleteFileByPublicIdSuccess(
+            ->deleteTemporaryUploadedImageByPublicIdSuccess(
                 $public_id
             );
 
         $response =
-           $this
-               ->withRoutePaths(
-                   $public_id
-               )
-               ->deleteJsonData();
+            $this
+                ->deleteTemporaryUploadedImageByPublicIdRequest(
+                    $public_id
+                );
 
         $response->assertStatus(200);
 
@@ -164,7 +186,7 @@ class MyMobileOfferFileTest extends UserTestCase
         Test,
         Group('delete')
     ]
-    public function delete_for_temporary_uploaded_file_errors_with_500_when_on_cloudinay_delete_file_fail()
+    public function delete_temporary_uploaded_file_errors_with_500_when_on_cloudinay_delete_file_fail()
     {
 
         $temporary_uploaded_image =
@@ -176,26 +198,41 @@ class MyMobileOfferFileTest extends UserTestCase
                 ->public_id;
 
         $this
-            ->mockDeleteFileByPublicIdThrowsFailedToDeleteImageException(
+            ->deleteTemporaryUploadedImageByPublicIdThrowsFailedToDeleteImageException(
                 $public_id
             );
 
         $response =
-           $this
-               ->withRoutePaths(
-                   $public_id
-               )
-               ->deleteJsonData();
+            $this
+                ->deleteTemporaryUploadedImageByPublicIdRequest(
+                    $public_id
+                );
 
         $response->assertStatus(500);
 
     }
 
+    private function deleteMediaByPublicIdRequest(string $public_id)
+    {
+        return
+           $this
+               ->withRouteName(
+                   route(
+                       'users.my-mobile-offers.files.media.{public_id}',
+                       [
+                           'public_id' => $public_id,
+                       ]
+                   )
+               )
+               ->deleteJsonData();
+    }
+
     #[
         Test,
-        Group('delete')
+        Group('deleteMediaByPublicId'),
+        Group('success')
     ]
-    public function delete_for_media_success()
+    public function delete_media_success()
     {
 
         $media =
@@ -208,16 +245,15 @@ class MyMobileOfferFileTest extends UserTestCase
                 ->public_id;
 
         $this
-            ->mockDeleteFileByPublicIdSuccess(
+            ->deleteMediaByPublicIdSuccess(
                 $public_id
             );
 
         $response =
-           $this
-               ->withRoutePaths(
-                   $public_id
-               )
-               ->deleteJsonData();
+            $this
+                ->deleteMediaByPublicIdRequest(
+                    $public_id
+                );
 
         $response->assertStatus(200);
 
@@ -225,9 +261,10 @@ class MyMobileOfferFileTest extends UserTestCase
 
     #[
         Test,
-        Group('delete')
+        Group('deleteMediaByPublicId'),
+        Group('error')
     ]
-    public function delete_for_media_errors_with_500_when_on_cloudinay_delete_file_fail()
+    public function delete_media_errors_with_500_when_on_cloudinay_delete_file_fail()
     {
 
         $mobile_offer =
@@ -245,16 +282,15 @@ class MyMobileOfferFileTest extends UserTestCase
                 ->public_id;
 
         $this
-            ->mockDeleteFileByPublicIdThrowsFailedToDeleteImageException(
+            ->deleteMediaByPublicIdThrowsFailedToDeleteImageException(
                 $public_id
             );
 
         $response =
-           $this
-               ->withRoutePaths(
-                   $public_id
-               )
-               ->deleteJsonData();
+            $this
+                ->deleteMediaByPublicIdRequest(
+                    $public_id
+                );
 
         $response->assertStatus(500);
 

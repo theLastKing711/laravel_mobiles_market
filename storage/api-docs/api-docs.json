@@ -13,22 +13,6 @@
             ]
         },
         "/files/{public_id}": {
-            "delete": {
-                "tags": [
-                    "files"
-                ],
-                "operationId": "b52d1e9d72aaaf50eb426fd91728e567",
-                "responses": {
-                    "204": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    }
-                }
-            },
             "parameters": [
                 {
                     "$ref": "#/components/parameters/filesPublicIdPathParameterData"
@@ -87,22 +71,6 @@
             ]
         },
         "/users/my-mobile-offers/files/{public_id}": {
-            "delete": {
-                "tags": [
-                    "myMobileOfferFiles"
-                ],
-                "operationId": "9d8861e7e4b3c9fbca0edcfe7bd9bda8",
-                "responses": {
-                    "204": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    }
-                }
-            },
             "parameters": [
                 {
                     "$ref": "#/components/parameters/usersGetMobileOfferRequestPathParameterData"
@@ -578,6 +546,42 @@
                 }
             }
         },
+        "/files/media/{public_id}": {
+            "delete": {
+                "tags": [
+                    "files"
+                ],
+                "operationId": "8ab83992198f6e9534c67c2a8cde98ad",
+                "responses": {
+                    "204": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/files/temporary-uploaded-image/{public_id}": {
+            "delete": {
+                "tags": [
+                    "files"
+                ],
+                "operationId": "ffbd6dda81c67d6091d277b106bb062b",
+                "responses": {
+                    "204": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/users/auth/change-password": {
             "patch": {
                 "tags": [
@@ -944,6 +948,42 @@
                 }
             }
         },
+        "/users/my-mobile-offers/files/temporary-uploaded-image/{public_id}": {
+            "delete": {
+                "tags": [
+                    "myMobileOfferFiles"
+                ],
+                "operationId": "44edf69a6599e7aa4393d0233c664467",
+                "responses": {
+                    "204": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/my-mobile-offers/files/media/{public_id}": {
+            "delete": {
+                "tags": [
+                    "myMobileOfferFiles"
+                ],
+                "operationId": "7abaef0061b7897b1c0e1e28d5daa21d",
+                "responses": {
+                    "204": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/users/mobile-offers/favourites": {
             "get": {
                 "tags": [
@@ -1170,6 +1210,7 @@
                 "type": "object"
             },
             "FilePublicIdPathParameterData": {},
+            "MediaPublicIdPathParameterData": {},
             "ShowFileData": {
                 "properties": {
                     "uid": {
@@ -1941,6 +1982,14 @@
                 }
             },
             "filesPublicIdPathParameterData": {
+                "name": "public_id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "filesMediaPublicIdPathParameterData": {
                 "name": "public_id",
                 "in": "path",
                 "required": true,

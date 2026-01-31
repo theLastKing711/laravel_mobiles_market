@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\User\MobileOffer\File;
 
+use App\Constants\SwaggerRoute;
+use App\Constants\SwaggerTag;
 use App\Data\Shared\File\CloudinaryNotificationUrlRequestData;
 use App\Data\Shared\File\PathParameters\FilePublicIdPathParameterData;
+use App\Data\Shared\File\PathParameters\MediaPublicIdPathParameterData;
 use App\Data\Shared\Swagger\Property\QueryParameter;
 use App\Data\Shared\Swagger\Response\SuccessItemResponse;
 use App\Data\Shared\Swagger\Response\SuccessNoContentResponse;
@@ -14,14 +17,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use OpenApi\Attributes as OAT;
 use OpenApi\Attributes\RequestBody;
+use Tests\Feature\User\MyMobileOffer\File\MyMobileOfferFileTest;
 
 class MyMobileOfferFileController extends MyMobileOfferFileControllerAbstract
 {
+    const TEST_FILE = MyMobileOfferFileTest::class;
+
     const MAIN_ROUTE = '/users/my-mobile-offers/files';
 
-    const SWAGGER_TAG = 'myMobileOfferFiles';
-
-    #[OAT\Get(path: self::MAIN_ROUTE.'/cloudinary-presigned-urls', tags: [self::SWAGGER_TAG])]
+    #[OAT\Get(path: SwaggerRoute::MY_MOBILE_OFFER_FILE['CHILD_ROUTES']['cloudinary-presigned-urls'], tags: [SwaggerTag::MY_MOBILE_OFFER_FILE])]
     #[QueryParameter('urls_count')]
     #[SuccessItemResponse('string', 'Fetched presigned upload successfully')]
     public function getCloudinaryPresignedUrls(Request $request): Collection
@@ -35,7 +39,7 @@ class MyMobileOfferFileController extends MyMobileOfferFileControllerAbstract
 
     }
 
-    #[OAT\Post(path: self::MAIN_ROUTE.'/cloudinary-notifications-url', tags: [self::SWAGGER_TAG])]
+    #[OAT\Post(path: SwaggerRoute::MY_MOBILE_OFFER_FILE['CHILD_ROUTES']['cloudinary-notifications-url'], tags: [SwaggerTag::MY_MOBILE_OFFER_FILE])]
     #[RequestBody(CloudinaryNotificationUrlRequestData::class)]
     #[SuccessNoContentResponse]
     public function saveTemporaryUploadedImageToDBOnCloudinaryUploadNotificationSuccess(CloudinaryNotificationUrlRequestData $request)
@@ -48,12 +52,25 @@ class MyMobileOfferFileController extends MyMobileOfferFileControllerAbstract
 
     }
 
-    #[OAT\Delete(path: self::MAIN_ROUTE.'/{public_id}', tags: [self::SWAGGER_TAG])]
+    #[OAT\Delete(path: SwaggerRoute::MY_MOBILE_OFFER_FILE['CHILD_ROUTES']['temporary-uploaded-images'], tags: [SwaggerTag::MY_MOBILE_OFFER_FILE])]
     #[SuccessNoContentResponse]
-    public function delete(FilePublicIdPathParameterData $deleteFileData)
+    public function deleteTemporaryUploadedImageByPublicId(FilePublicIdPathParameterData $deleteFileData)
     {
-        MediaService::deleteFileByPublicId(
+        MediaService::deleteTemporaryUploadedImageByPublicId(
             $deleteFileData
+                ->public_id
+        );
+
+        return true;
+
+    }
+
+    #[OAT\Delete(path: SwaggerRoute::MY_MOBILE_OFFER_FILE['CHILD_ROUTES']['media'], tags: [SwaggerTag::MY_MOBILE_OFFER_FILE])]
+    #[SuccessNoContentResponse]
+    public function deleteMediaByPublicId(MediaPublicIdPathParameterData $request)
+    {
+        MediaService::deleteMediaByPublicId(
+            $request
                 ->public_id
         );
 

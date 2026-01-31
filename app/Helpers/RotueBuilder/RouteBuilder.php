@@ -6,6 +6,8 @@ use Illuminate\Support\Collection;
 
 class RouteBuilder
 {
+    private string $route_name = '';
+
     private string $route = '';
 
     private bool $question_mark_used = false;
@@ -15,12 +17,17 @@ class RouteBuilder
         $this->route = $main_route;
     }
 
-    /**
-     * Create a new class instance.
-     */
     public static function withMainRoute(string $root_url)
     {
         return new RouteBuilder($root_url);
+    }
+
+    /**
+     * Create a new class instance.
+     */
+    public function withRouteName(string $route_name)
+    {
+        return new RouteBuilder($route_name);
     }
 
     /** @param array<int|string> $paths */

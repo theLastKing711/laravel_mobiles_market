@@ -21,7 +21,11 @@ class FileTest extends FileTestCase
         parent::setUp();
     }
 
-    #[Test, Group('getCloudinaryPresignedUrls')]
+    #[
+        Test,
+        Group('getCloudinaryPresignedUrls'),
+        Group('success')
+    ]
     public function get_cloudinary_presigned_urls_success_with_200_response(): void
     {
         $urls_count = 2;
@@ -48,7 +52,10 @@ class FileTest extends FileTestCase
 
     }
 
-    #[Test, Group('getCloudinaryPresignedUrls')]
+    #[Test,
+        Group('getCloudinaryPresignedUrls'),
+        Group('error')
+    ]
     public function get_cloudinary_presigned_urls_with_duplicate_sign_request_signature_thrown_errors_with_500(): void
     {
 
@@ -67,16 +74,27 @@ class FileTest extends FileTestCase
 
         $response =
            $this
-               ->withQueryParameters([
-                   'urls_count' => $urls_count,
-               ])
+            //    ->withQueryParameters([
+            //        'urls_count' => $urls_count,
+            //    ])
+               ->withRouteName(
+                   route(
+                       'files.cloudinary-presigned-urls',
+                       [
+                           'urls_count' => $urls_count,
+                       ]
+                   )
+               )
                ->getJsonData();
 
         $response->assertStatus(500);
 
     }
 
-    #[Test, Group('saveTemporaryUploadedImageToDBOnCloudinaryUploadNotificationSuccess')]
+    #[Test,
+        Group('saveTemporaryUploadedImageToDBOnCloudinaryUploadNotificationSuccess'),
+        Group('success')
+    ]
     public function cloudinary_notification_url_saves_temporary_uploaded_images_for_user_model_to_database_on_cloudinary_successfull_notificatoin_from_front_end_with_200_status(): void
     {
 
@@ -89,8 +107,10 @@ class FileTest extends FileTestCase
 
         $response =
            $this
-               ->withRoutePaths(
-                   'cloudinary-notifications-url'
+               ->withRouteName(
+                   route(
+                       'files.cloudinary-notifications-url'
+                   )
                )
                ->postJsonData(
                    $cloudinary_notificatoin_url_request_data
@@ -101,63 +121,25 @@ class FileTest extends FileTestCase
 
     }
 
-    #[Test, Group('delete')]
-    public function delete_temporary_uploaded_file_by_public_id_success_with_200_repsonse(): void
+    private function deleteMediaByPublicIdRequest(string $public_id)
     {
-
-        $temporary_uploaded_image =
-            TemporaryUploadedImages::factory()
-                ->create();
-
-        $public_id =
-            $temporary_uploaded_image
-                ->public_id;
-
-        $this
-            ->mockDeleteFileByPublicIdSuccess(
-                $public_id
-            );
-
-        $response =
+        return
            $this
-               ->withRoutePaths(
-                   $public_id
+               ->withRouteName(
+                   route(
+                       'files.media.{public_id}',
+                       [
+                           'public_id' => $public_id,
+                       ]
+                   )
                )
                ->deleteJsonData();
-
-        $response->assertStatus(200);
-
     }
 
-    #[Test, Group('delete')]
-    public function delete_non_existing_temporary_uploaded_file_on_cloudinary_by_public_id_errors_with_500_repsonse(): void
-    {
-
-        $temporary_uploaded_image =
-            TemporaryUploadedImages::factory()
-                ->create();
-
-        $public_id =
-            $temporary_uploaded_image
-                ->public_id;
-
-        $this
-            ->mockDeleteFileByPublicIdThrowsFailedToDeleteImageException(
-                $public_id
-            );
-
-        $response =
-           $this
-               ->withRoutePaths(
-                   $public_id
-               )
-               ->deleteJsonData();
-
-        $response->assertStatus(500);
-
-    }
-
-    #[Test, Group('delete')]
+    #[Test,
+        Group('deleteMediaByPublicId'),
+        Group('success'),
+    ]
     public function delete_media_file_by_public_id_success_with_200_repsonse(): void
     {
 
@@ -170,20 +152,21 @@ class FileTest extends FileTestCase
             $media
                 ->public_id;
 
-        $this->mockDeleteFileByPublicIdSuccess($public_id);
+        $this->deleteMediaByPublicIdSuccess($public_id);
 
-        $response =
-           $this
-               ->withRoutePaths(
-                   $public_id
-               )
-               ->deleteJsonData();
+        $response
+            =
+            $this
+                ->deleteMediaByPublicIdRequest($public_id);
 
         $response->assertStatus(200);
 
     }
 
-    #[Test, Group('delete')]
+    #[Test,
+        Group('deleteMediaByPublicId'),
+        Group('error'),
+    ]
     public function delete_non_existing_media_file_on_cloudinary_by_public_id_errors_with_500_repsonse(): void
     {
 
@@ -196,16 +179,90 @@ class FileTest extends FileTestCase
             $media->public_id;
 
         $this
-            ->mockDeleteFileByPublicIdThrowsFailedToDeleteImageException(
+            ->deleteMediaByPublicIdThrowsFailedToDeleteImageException(
+                $public_id
+            );
+
+        $response
+            =
+            $this
+                ->deleteMediaByPublicIdRequest($public_id);
+
+        $response->assertStatus(500);
+
+    }
+
+    private function deleteTemporaryUploadedImageByPublicIdRequest(string $public_id)
+    {
+        return
+           $this
+               ->withRouteName(
+                   route(
+                       'files.temporary-uploaded-image.{public_id}',
+                       [
+                           'public_id' => $public_id,
+                       ]
+                   )
+               )
+               ->deleteJsonData();
+    }
+
+    #[
+        Test,
+        Group('deleteTemporaryUploadedImageByPublicId'),
+        Group('success')
+    ]
+    public function delete_temporary_uploaded_file_by_public_id_success_with_200_repsonse(): void
+    {
+
+        $temporary_uploaded_image =
+            TemporaryUploadedImages::factory()
+                ->create();
+
+        $public_id =
+            $temporary_uploaded_image
+                ->public_id;
+
+        $this
+            ->deleteTemporaryUploadedImageByPublicIdSuccess(
                 $public_id
             );
 
         $response =
            $this
-               ->withRoutePaths(
-                   $public_id
-               )
-               ->deleteJsonData();
+               ->deleteTemporaryUploadedImageByPublicIdRequest($public_id);
+
+        $response->assertStatus(200);
+
+    }
+
+    #[
+        Test,
+        Group('deleteTemporaryUploadedImageByPublicId'),
+        Group('error')
+    ]
+    public function delete_non_existing_temporary_uploaded_file_on_cloudinary_by_public_id_errors_with_500_repsonse(): void
+    {
+
+        $temporary_uploaded_image =
+            TemporaryUploadedImages::factory()
+                ->create();
+
+        $public_id =
+            $temporary_uploaded_image
+                ->public_id;
+
+        $this
+            ->deleteTemporaryUploadedImageByPublicIdThrowsFailedToDeleteImageException(
+                $public_id
+            );
+
+        $response
+            =
+            $this
+                ->deleteTemporaryUploadedImageByPublicIdRequest(
+                    $public_id
+                );
 
         $response->assertStatus(500);
 

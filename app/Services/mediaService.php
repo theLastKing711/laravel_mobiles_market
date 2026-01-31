@@ -34,18 +34,26 @@ class mediaService
 
     }
 
+    private function getPublicIdDbFormat(string $public_id)
+    {
+        return
+            str_replace(
+                '-',
+                '/',
+                $public_id
+            );
+    }
+
     /**
      * @return TemporaryUploadedImages
      *
      * @throws FailedToDeleteImageException
      */
-    public function deleteFileByPublicId(string $public_id)
+    public function deleteTemporaryUploadedImageByPublicId(string $public_id)
     {
 
         $public_id =
-             str_replace(
-                 '-',
-                 '/',
+             $this->getPublicIdDbFormat(
                  $public_id
              );
 
@@ -57,7 +65,37 @@ class mediaService
                 'public_id',
                 $public_id
             )
-            ?->delete();
+            ->delete();
+
+        $temporary_uploaded_image_has_been_deleted =
+            CloudUploadService::destroy(
+                $public_id
+            );
+
+        if (! $temporary_uploaded_image_has_been_deleted) {
+
+            DB::rollBack();
+            throw new FailedToDeleteImageException;
+        }
+
+        DB::commit();
+
+    }
+
+    /**
+     * @return TemporaryUploadedImages
+     *
+     * @throws FailedToDeleteImageException
+     */
+    public function deleteMediaByPublicId(string $public_id)
+    {
+
+        $public_id =
+             $this->getPublicIdDbFormat(
+                 $public_id
+             );
+
+        DB::beginTransaction();
 
         // // if image is created after parent model is created(i.e on update page)
         Media::query()
@@ -65,7 +103,7 @@ class mediaService
                 'public_id',
                 $public_id
             )
-            ?->delete();
+            ->delete();
 
         $media_has_been_deleted =
             CloudUploadService::destroy(

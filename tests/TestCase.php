@@ -15,6 +15,18 @@ class TestCase extends BaseTestCase
         parent::setUp();
     }
 
+    public function withRouteName(string $route_name)
+    {
+        $this
+            ->route_builder
+            =
+            $this
+                ->route_builder
+                ->withRouteName($route_name);
+
+        return $this;
+    }
+
     /** @param array<int|string> $paths */
     public function withRoutePaths(...$paths)
     {
@@ -52,7 +64,7 @@ class TestCase extends BaseTestCase
         return $this;
     }
 
-    public function getJsonData(array $data = [], array $headers = [], $options = 0)
+    public function getJsonData(array $headers = [], $options = 0)
     {
         $uri =
             $this

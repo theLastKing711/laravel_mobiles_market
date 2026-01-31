@@ -39,7 +39,8 @@ class MediaServiceTest extends TestCase
 
     #[
         Test,
-        group('createTemporaryUploadedImageFromCloudinaryUploadSuccessNotification')
+        group('createTemporaryUploadedImageFromCloudinaryUploadSuccessNotification'),
+        group('success')
     ]
     public function media_service_creates_temporary_uploaded_image_from_cloudinary_upload_notification_success(): void
     {
@@ -105,9 +106,10 @@ class MediaServiceTest extends TestCase
 
     #[
         Test,
-        Group('deleteFileByPublicId')
+        Group('deleteTemporaryUploadedImageByPublicId'),
+        Group('success')
     ]
-    public function media_service_delete_media_by_public_id_for_temporary_uploaded_file_success(): void
+    public function media_service_delete_temprary_uploaded_image_by_public_id_for_temporary_uploaded_file_success(): void
     {
 
         // arrange
@@ -121,7 +123,7 @@ class MediaServiceTest extends TestCase
             );
 
         // act
-        MediaService::deleteFileByPublicId(
+        MediaService::deleteTemporaryUploadedImageByPublicId(
             $temporary_uploaded_image
                 ->public_id
         );
@@ -136,9 +138,10 @@ class MediaServiceTest extends TestCase
 
     #[
         Test,
-        Group('deleteFileByPublicId')
+        Group('deleteTemporaryUploadedImageByPublicId'),
+        Group('error')
     ]
-    public function media_service_delete_file_by_public_id_for_temporary_uploaded_file_doesnt_delete_file_from_database_on_cloudinary_delete_fail(): void
+    public function media_service_delete_temprary_uploaded_image_by_public_id_for_temporary_uploaded_file_doesnt_delete_file_from_database_on_cloudinary_delete_fail(): void
     {
         try {
             // arrange
@@ -152,7 +155,7 @@ class MediaServiceTest extends TestCase
                 );
 
             // act
-            MediaService::deleteFileByPublicId(
+            MediaService::deleteTemporaryUploadedImageByPublicId(
                 $temporary_uploaded_image
                     ->public_id
             );
@@ -170,9 +173,10 @@ class MediaServiceTest extends TestCase
 
     #[
         Test,
-        Group('deleteFileByPublicId')
+        Group('deleteTemporaryUploadedImageByPublicId'),
+        Group('error')
     ]
-    public function media_service_delete_media_by_public_id_for_temporary_uploaded_file_throws_failed_to_delete_image_exception_on_cloudinary_delete_error(): void
+    public function media_service_delete_temprary_uploaded_image_by_public_id_for_temporary_uploaded_file_throws_failed_to_delete_image_exception_on_cloudinary_delete_error(): void
     {
 
         // arrange
@@ -193,7 +197,7 @@ class MediaServiceTest extends TestCase
             );
 
         // act
-        MediaService::deleteFileByPublicId(
+        MediaService::deleteTemporaryUploadedImageByPublicId(
             $temporary_uploaded_image
                 ->public_id
         );
@@ -202,7 +206,9 @@ class MediaServiceTest extends TestCase
 
     #[
         Test,
-        Group('deleteFileByPublicId')
+        Group('deleteMediaByPublicId'),
+        Group('success')
+
     ]
     public function media_service_deletes_media_by_public_id_success(): void
     {
@@ -222,7 +228,7 @@ class MediaServiceTest extends TestCase
             );
 
         // act
-        MediaService::deleteFileByPublicId(
+        MediaService::deleteMediaByPublicId(
             $media
                 ->public_id
         );
@@ -237,7 +243,8 @@ class MediaServiceTest extends TestCase
 
     #[
         Test,
-        Group('deleteFileByPublicId')
+        Group('deleteMediaByPublicId'),
+        Group('error')
     ]
     public function media_service_delete_media_by_public_id_throws_failed_to_delete_image_exception_on_cloudinary_delete_error(): void
     {
@@ -259,7 +266,7 @@ class MediaServiceTest extends TestCase
             );
 
         // act
-        MediaService::deleteFileByPublicId(
+        MediaService::deleteMediaByPublicId(
             $media
                 ->public_id
         );
@@ -268,9 +275,10 @@ class MediaServiceTest extends TestCase
 
     #[
         Test,
-        Group('deleteFileByPublicId')
+        Group('deleteMediaByPublicId'),
+        Group('error')
     ]
-    public function media_service_delete_file_by_public_id_doesnt_delete_media_from_database_on_cloudinary_delete_fail(): void
+    public function media_service_delete_media_by_public_id_doesnt_delete_media_from_database_on_cloudinary_delete_fail(): void
     {
         try {
             // arrange
@@ -285,7 +293,7 @@ class MediaServiceTest extends TestCase
                 );
 
             // act
-            MediaService::deleteFileByPublicId(
+            MediaService::deleteMediaByPublicId(
                 $media
                     ->public_id
             );

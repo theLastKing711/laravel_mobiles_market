@@ -107,7 +107,7 @@ class MobileOfferTest extends UserTestCase
                         ['name_in_arabic' => 'شششص'],
                         ['name_in_arabic' => 'أبسش شسي'],
                         ['name_in_arabic' => 'أبسشششسي'],
-                        ['name_in_arabic' => 'أبلي'],
+                        ['name_in_arabic' => 'أبل محل'],
                         ['name_in_arabic' => 'أبلي'],
 
                     ],
@@ -136,13 +136,15 @@ class MobileOfferTest extends UserTestCase
 
         $response =
             $this
-                ->withRoutePaths(
-                    'search'
+                ->withRouteName(
+                    route(
+                        'users.mobile-offers.search',
+                        [
+                            'search' => $data_provider->search,
+                            'perPage' => $data_provider->per_page,
+                        ]
+                    )
                 )
-                ->withQueryParameters([
-                    'search' => $data_provider->search,
-                    'perPage' => $data_provider->per_page,
-                ])
                 ->getJsonData();
 
         $response
@@ -169,9 +171,6 @@ class MobileOfferTest extends UserTestCase
     ]
     public function get_mobile_offer_success_with_200_status(): void
     {
-        $this
-            ->initializeUser();
-
         $mobile_offer =
             MobileOffer::factory()
                 ->forUserWithId($this->user->id)
@@ -179,8 +178,13 @@ class MobileOfferTest extends UserTestCase
 
         $response =
             $this
-                ->withRoutePaths(
-                    $mobile_offer->id
+                ->withRouteName(
+                    route(
+                        'users.mobile-offers.{id}',
+                        [
+                            'id' => $mobile_offer->id,
+                        ]
+                    )
                 )
                 ->getJsonData();
 
@@ -265,13 +269,13 @@ class MobileOfferTest extends UserTestCase
                         ['name_in_english' => 'first name'],
                         ['name_in_english' => 'fi name', 'is_favourited' => true],
                         ['name_in_english' => 'third name', 'is_favourited' => true],
-                        ['name_in_arabic' => 'أبس', 'is_favourited' => true],
+                        ['name_in_arabic' => 'أبل ستور', 'is_favourited' => true],
                         ['name_in_arabic' => 'ششش'],
                         ['name_in_arabic' => 'شششص'],
                         ['name_in_arabic' => 'أبسش شسي'],
-                        ['name_in_arabic' => 'أبسشششسي', 'is_favourited' => true],
+                        ['name_in_arabic' => 'أبل', 'is_favourited' => true],
                     ],
-                    'أب',
+                    'أبل',
                     per_page: 5,
                     expected_number_of_response_items: 2
                 ),
@@ -312,10 +316,6 @@ class MobileOfferTest extends UserTestCase
 
         $favourited_mobile_offers_ids =
                             $mobile_offers_with_favourites
-                                // ->whereIn(
-                                //     'name_in_english',
-                                //     array_column($data_provider->recrods, 'name_in_english')
-                                // )
                                 ->where(
                                     'is_favourited',
                                     true
@@ -337,13 +337,15 @@ class MobileOfferTest extends UserTestCase
 
         $response =
             $this
-                ->withRoutePaths(
-                    'favourites'
+                ->withRouteName(
+                    route(
+                        'users.mobile-offers.favourites',
+                        [
+                            'search' => $data_provider->search,
+                            'perPage' => $data_provider->per_page,
+                        ]
+                    )
                 )
-                ->withQueryParameters(query_parameters: [
-                    'search' => $data_provider->search,
-                    'perPage' => $data_provider->per_page,
-                ])
                 ->getJsonData();
 
         $response
@@ -422,15 +424,17 @@ class MobileOfferTest extends UserTestCase
             );
 
         $response =
-            $this
-                ->withRoutePaths(
-                    'favourites'
-                )
-                ->withQueryParameters(query_parameters: [
-                    'search' => $data_provider->search,
-                    'perPage' => $data_provider->per_page,
-                ])
-                ->getJsonData();
+             $this
+                 ->withRouteName(
+                     route(
+                         'users.mobile-offers.favourites',
+                         [
+                             'search' => $data_provider->search,
+                             'perPage' => $data_provider->per_page,
+                         ]
+                     )
+                 )
+                 ->getJsonData();
 
         $response
             ->assertStatus(
@@ -456,8 +460,6 @@ class MobileOfferTest extends UserTestCase
     ]
     public function favourite_mobile_offer_success_with_200_status(): void
     {
-        $this
-            ->initializeUser();
 
         $mobile_offer =
             MobileOffer::factory()
@@ -466,9 +468,13 @@ class MobileOfferTest extends UserTestCase
 
         $response =
             $this
-                ->withRoutePaths(
-                    $mobile_offer->id,
-                    'favourite'
+                ->withRouteName(
+                    route(
+                        'users.mobile-offers.{id}.favourite',
+                        [
+                            'id' => $mobile_offer->id,
+                        ]
+                    )
                 )
                 ->patchJsonData();
 
@@ -500,8 +506,6 @@ class MobileOfferTest extends UserTestCase
     ]
     public function unfavourite_mobile_offer_success_with_200_status(): void
     {
-        $this
-            ->initializeUser();
 
         $mobile_offer =
             MobileOffer::factory()
@@ -515,9 +519,13 @@ class MobileOfferTest extends UserTestCase
 
         $response =
             $this
-                ->withRoutePaths(
-                    $mobile_offer->id,
-                    'favourite'
+                ->withRouteName(
+                    route(
+                        'users.mobile-offers.{id}.favourite',
+                        [
+                            'id' => $mobile_offer->id,
+                        ]
+                    )
                 )
                 ->patchJsonData();
 

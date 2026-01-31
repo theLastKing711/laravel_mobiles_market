@@ -2,7 +2,7 @@
 
 namespace App\Data\Shared\File\PathParameters;
 
-use App\Models\TemporaryUploadedImages;
+use App\Models\Media;
 use OpenApi\Attributes as OAT;
 use Spatie\LaravelData\Attributes\FromRouteParameter;
 use Spatie\LaravelData\Attributes\Validation\Exists;
@@ -11,19 +11,19 @@ use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
 #[TypeScript]
 #[Oat\Schema()]
-class FilePublicIdPathParameterData extends Data
+class MediaPublicIdPathParameterData extends Data
 {
     public function __construct(
         #[
             OAT\PathParameter(
-                parameter: 'filesPublicIdPathParameterData', // the name used in ref
+                parameter: 'filesMediaPublicIdPathParameterData', // the name used in ref
                 name: 'public_id',
                 schema: new OAT\Schema(
                     type: 'string',
                 ),
             ),
             FromRouteParameter('public_id'),
-            Exists(TemporaryUploadedImages::class, 'public_id')
+            Exists(Media::class, 'public_id')
         ]
         public string $public_id,
     ) {}

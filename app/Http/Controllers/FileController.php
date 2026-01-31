@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Data\Shared\File\CloudinaryNotificationUrlRequestData;
 use App\Data\Shared\File\PathParameters\FilePublicIdPathParameterData;
+use App\Data\Shared\File\PathParameters\MediaPublicIdPathParameterData;
 use App\Data\Shared\Swagger\Property\QueryParameter;
 use App\Data\Shared\Swagger\Response\SuccessItemResponse;
 use App\Data\Shared\Swagger\Response\SuccessNoContentResponse;
@@ -54,11 +55,24 @@ class FileController extends Controller
 
     }
 
-    #[OAT\Delete(path: self::MAIN_ROUTE.'/{public_id}', tags: ['files'])]
+    #[OAT\Delete(path: self::MAIN_ROUTE.'/media/{public_id}', tags: ['files'])]
     #[SuccessNoContentResponse]
-    public function delete(FilePublicIdPathParameterData $request)
+    public function deleteMediaByPublicId(MediaPublicIdPathParameterData $request)
     {
-        MediaService::deleteFileByPublicId(
+        MediaService::deleteMediaByPublicId(
+            $request
+                ->public_id
+        );
+
+        return true;
+
+    }
+
+    #[OAT\Delete(path: self::MAIN_ROUTE.'/temporary-uploaded-image/{public_id}', tags: ['files'])]
+    #[SuccessNoContentResponse]
+    public function deleteTemporaryUploadedImageByPublicId(FilePublicIdPathParameterData $request)
+    {
+        MediaService::deleteTemporaryUploadedImageByPublicId(
             $request
                 ->public_id
         );
