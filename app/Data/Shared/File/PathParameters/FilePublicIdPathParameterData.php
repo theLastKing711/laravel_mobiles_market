@@ -47,6 +47,8 @@ class FilePublicIdPathParameterData extends Data
                  $request_public_id
              );
 
+        return $payload;
+
     }
 
     // Exists(TemporaryUploadedImages::class, 'public_id')
