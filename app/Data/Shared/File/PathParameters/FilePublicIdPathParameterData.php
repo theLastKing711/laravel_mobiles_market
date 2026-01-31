@@ -34,7 +34,7 @@ class FilePublicIdPathParameterData extends Data
     {
 
         $request_public_id =
-                $payload['public_id'];
+                request()->route('public_id');
 
         if (! isset($request_public_id)) {
             throw new Error('error');
