@@ -34,16 +34,6 @@ class mediaService
 
     }
 
-    private function getPublicIdDbFormat(string $public_id)
-    {
-        return
-            str_replace(
-                '-',
-                '/',
-                $public_id
-            );
-    }
-
     /**
      * @return TemporaryUploadedImages
      *
@@ -53,9 +43,7 @@ class mediaService
     {
 
         $public_id =
-             $this->getPublicIdDbFormat(
-                 $public_id
-             );
+            getPublicIdDbFormat($public_id);
 
         DB::beginTransaction();
 
@@ -91,9 +79,7 @@ class mediaService
     {
 
         $public_id =
-             $this->getPublicIdDbFormat(
-                 $public_id
-             );
+            getPublicIdDbFormat($public_id);
 
         DB::beginTransaction();
 
