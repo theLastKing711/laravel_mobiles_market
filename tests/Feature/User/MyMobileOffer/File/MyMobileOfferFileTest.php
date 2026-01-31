@@ -154,7 +154,8 @@ class MyMobileOfferFileTest extends UserTestCase
 
     #[
         Test,
-        Group('delete')
+        Group('deleteTemporaryUploadedImageByPublicId'),
+        Group('success')
     ]
     public function delete_temporary_uploaded_file_success()
     {
@@ -184,7 +185,8 @@ class MyMobileOfferFileTest extends UserTestCase
 
     #[
         Test,
-        Group('delete')
+        Group('deleteTemporaryUploadedImageByPublicId'),
+        Group('error')
     ]
     public function delete_temporary_uploaded_file_errors_with_500_when_on_cloudinay_delete_file_fail()
     {

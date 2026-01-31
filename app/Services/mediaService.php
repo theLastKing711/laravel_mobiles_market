@@ -35,8 +35,6 @@ class mediaService
     }
 
     /**
-     * @return TemporaryUploadedImages
-     *
      * @throws FailedToDeleteImageException
      */
     public function deleteTemporaryUploadedImageByPublicId(string $public_id)
@@ -71,8 +69,6 @@ class mediaService
     }
 
     /**
-     * @return TemporaryUploadedImages
-     *
      * @throws FailedToDeleteImageException
      */
     public function deleteMediaByPublicId(string $public_id)
