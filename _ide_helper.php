@@ -5,7 +5,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 12.44.0.
+ * Generated for Laravel 12.49.0.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -2581,6 +2581,19 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Create a HMAC of the password hash for storage in cookies.
+         *
+         * @param string $passwordHash
+         * @return string
+         * @static
+         */
+        public static function hashPasswordForCookie($passwordHash)
+        {
+            /** @var \Illuminate\Auth\SessionGuard $instance */
+            return $instance->hashPasswordForCookie($passwordHash);
+        }
+
+        /**
          * Log the user out of the application.
          *
          * @return void
@@ -4579,7 +4592,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Determine if an item exists in the cache.
          *
-         * @param array|string $key
+         * @param \BackedEnum|\UnitEnum|array|string $key
          * @return bool
          * @static
          */
@@ -4592,7 +4605,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Determine if an item doesn't exist in the cache.
          *
-         * @param string $key
+         * @param \BackedEnum|\UnitEnum|string $key
          * @return bool
          * @static
          */
@@ -4605,7 +4618,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Retrieve an item from the cache by key.
          *
-         * @param array|string $key
+         * @param \BackedEnum|\UnitEnum|array|string $key
          * @param mixed $default
          * @return mixed
          * @static
@@ -4652,7 +4665,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Retrieve an item from the cache and delete it.
          *
-         * @param array|string $key
+         * @param \BackedEnum|\UnitEnum|array|string $key
          * @param mixed $default
          * @return mixed
          * @static
@@ -4666,7 +4679,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Store an item in the cache.
          *
-         * @param array|string $key
+         * @param \BackedEnum|\UnitEnum|array|string $key
          * @param mixed $value
          * @param \DateTimeInterface|\DateInterval|int|null $ttl
          * @return bool
@@ -4679,17 +4692,12 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * Persists data in the cache, uniquely referenced by a key with an optional expiration TTL time.
+         * Store an item in the cache.
          *
+         * @param \BackedEnum|\UnitEnum|array|string $key
+         * @param mixed $value
+         * @param \DateTimeInterface|\DateInterval|int|null $ttl
          * @return bool
-         * @param string $key The key of the item to store.
-         * @param mixed $value The value of the item to store, must be serializable.
-         * @param null|int|\DateInterval $ttl Optional. The TTL value of this item. If no value is sent and
-         *                                      the driver supports TTL then the library may set a default value
-         *                                      for it or let the driver take care of that.
-         * @return bool True on success and false on failure.
-         * @throws \Psr\SimpleCache\InvalidArgumentException
-         *   MUST be thrown if the $key string is not a legal value.
          * @static
          */
         public static function set($key, $value, $ttl = null)
@@ -4735,7 +4743,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Store an item in the cache if the key does not exist.
          *
-         * @param string $key
+         * @param \BackedEnum|\UnitEnum|array|string $key
          * @param mixed $value
          * @param \DateTimeInterface|\DateInterval|int|null $ttl
          * @return bool
@@ -4750,7 +4758,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Increment the value of an item in the cache.
          *
-         * @param string $key
+         * @param \BackedEnum|\UnitEnum|string $key
          * @param mixed $value
          * @return int|bool
          * @static
@@ -4764,7 +4772,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Decrement the value of an item in the cache.
          *
-         * @param string $key
+         * @param \BackedEnum|\UnitEnum|string $key
          * @param mixed $value
          * @return int|bool
          * @static
@@ -4778,7 +4786,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Store an item in the cache indefinitely.
          *
-         * @param string $key
+         * @param \BackedEnum|\UnitEnum|string $key
          * @param mixed $value
          * @return bool
          * @static
@@ -4793,7 +4801,7 @@ namespace Illuminate\Support\Facades {
          * Get an item from the cache, or execute the given Closure and store the result.
          *
          * @template TCacheValue
-         * @param string $key
+         * @param \BackedEnum|\UnitEnum|string $key
          * @param \Closure|\DateTimeInterface|\DateInterval|int|null $ttl
          * @param \Closure():  TCacheValue  $callback
          * @return TCacheValue
@@ -4809,7 +4817,7 @@ namespace Illuminate\Support\Facades {
          * Get an item from the cache, or execute the given Closure and store the result forever.
          *
          * @template TCacheValue
-         * @param string $key
+         * @param \BackedEnum|\UnitEnum|string $key
          * @param \Closure():  TCacheValue  $callback
          * @return TCacheValue
          * @static
@@ -4824,7 +4832,7 @@ namespace Illuminate\Support\Facades {
          * Get an item from the cache, or execute the given Closure and store the result forever.
          *
          * @template TCacheValue
-         * @param string $key
+         * @param \BackedEnum|\UnitEnum|string $key
          * @param \Closure():  TCacheValue  $callback
          * @return TCacheValue
          * @static
@@ -4839,7 +4847,7 @@ namespace Illuminate\Support\Facades {
          * Retrieve an item from the cache by key, refreshing it in the background if it is stale.
          *
          * @template TCacheValue
-         * @param string $key
+         * @param \BackedEnum|\UnitEnum|string $key
          * @param array{ 0: \DateTimeInterface|\DateInterval|int, 1: \DateTimeInterface|\DateInterval|int } $ttl
          * @param (callable(): TCacheValue) $callback
          * @param array{ seconds?: int, owner?: string }|null $lock
@@ -4854,9 +4862,28 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Execute a callback while holding an atomic lock on a cache mutex to prevent overlapping calls.
+         *
+         * @template TReturn
+         * @param \BackedEnum|\UnitEnum|string $key
+         * @param callable():  TReturn  $callback
+         * @param int $lockFor
+         * @param int $waitFor
+         * @param string|null $owner
+         * @return TReturn
+         * @throws \Illuminate\Contracts\Cache\LockTimeoutException
+         * @static
+         */
+        public static function withoutOverlapping($key, $callback, $lockFor = 0, $waitFor = 10, $owner = null)
+        {
+            /** @var \Illuminate\Cache\Repository $instance */
+            return $instance->withoutOverlapping($key, $callback, $lockFor, $waitFor, $owner);
+        }
+
+        /**
          * Remove an item from the cache.
          *
-         * @param string $key
+         * @param \BackedEnum|\UnitEnum|array|string $key
          * @return bool
          * @static
          */
@@ -4867,13 +4894,10 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * Delete an item from the cache by its unique key.
+         * Remove an item from the cache.
          *
+         * @param \BackedEnum|\UnitEnum|array|string $key
          * @return bool
-         * @param string $key The unique cache key of the item to delete.
-         * @return bool True if the item was successfully removed. False if there was an error.
-         * @throws \Psr\SimpleCache\InvalidArgumentException
-         *   MUST be thrown if the $key string is not a legal value.
          * @static
          */
         public static function delete($key)
@@ -5028,7 +5052,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Determine if a cached value exists.
          *
-         * @param string $key
+         * @param \BackedEnum|\UnitEnum|string $key
          * @return bool
          * @static
          */
@@ -5041,7 +5065,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Retrieve an item from the cache by key.
          *
-         * @param string $key
+         * @param \BackedEnum|\UnitEnum|string $key
          * @return mixed
          * @static
          */
@@ -5054,7 +5078,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Store an item in the cache for the default time.
          *
-         * @param string $key
+         * @param \BackedEnum|\UnitEnum|string $key
          * @param mixed $value
          * @return void
          * @static
@@ -5068,7 +5092,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Remove an item from the cache.
          *
-         * @param string $key
+         * @param \BackedEnum|\UnitEnum|string $key
          * @return void
          * @static
          */
@@ -6670,6 +6694,18 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Determine if the given value appears to be encrypted by this encrypter.
+         *
+         * @param mixed $value
+         * @return bool
+         * @static
+         */
+        public static function appearsEncrypted($value)
+        {
+            return \Illuminate\Encryption\Encrypter::appearsEncrypted($value);
+        }
+
+        /**
          * Get the encryption key that the encrypter is currently using.
          *
          * @return string
@@ -7867,6 +7903,20 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Set the read PDO connection configuration.
+         *
+         * @param array $config
+         * @return \Illuminate\Database\MySqlConnection
+         * @static
+         */
+        public static function setReadPdoConfig($config)
+        {
+            //Method inherited from \Illuminate\Database\Connection 
+            /** @var \Illuminate\Database\MySqlConnection $instance */
+            return $instance->setReadPdoConfig($config);
+        }
+
+        /**
          * Get the database connection name.
          *
          * @return string|null
@@ -7880,7 +7930,7 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * Get the database connection full name.
+         * Get the database connection with its read / write type.
          *
          * @return string|null
          * @static
@@ -8003,7 +8053,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Get the event dispatcher used by the connection.
          *
-         * @return \Illuminate\Contracts\Events\Dispatcher
+         * @return \Illuminate\Contracts\Events\Dispatcher|null
          * @static
          */
         public static function getEventDispatcher()
@@ -9541,7 +9591,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Determine if a given ability has been defined.
          *
-         * @param string|array $ability
+         * @param \UnitEnum|array|string $ability
          * @return bool
          * @static
          */
@@ -10994,7 +11044,7 @@ namespace Illuminate\Support\Facades {
      * @method static \Illuminate\Log\Logger withContext(array $context = [])
      * @method static void listen(\Closure $callback)
      * @method static \Psr\Log\LoggerInterface getLogger()
-     * @method static \Illuminate\Contracts\Events\Dispatcher getEventDispatcher()
+     * @method static \Illuminate\Contracts\Events\Dispatcher|null getEventDispatcher()
      * @method static void setEventDispatcher(\Illuminate\Contracts\Events\Dispatcher $dispatcher)
      * @method static \Illuminate\Log\Logger|mixed when(\Closure|mixed|null $value = null, callable|null $callback = null, callable|null $default = null)
      * @method static \Illuminate\Log\Logger|mixed unless(\Closure|mixed|null $value = null, callable|null $callback = null, callable|null $default = null)
@@ -11910,6 +11960,57 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Register a custom macro.
+         *
+         * @param string $name
+         * @param object|callable $macro
+         * @param-closure-this static  $macro
+         * @return void
+         * @static
+         */
+        public static function macro($name, $macro)
+        {
+            \Illuminate\Notifications\ChannelManager::macro($name, $macro);
+        }
+
+        /**
+         * Mix another object into the class.
+         *
+         * @param object $mixin
+         * @param bool $replace
+         * @return void
+         * @throws \ReflectionException
+         * @static
+         */
+        public static function mixin($mixin, $replace = true)
+        {
+            \Illuminate\Notifications\ChannelManager::mixin($mixin, $replace);
+        }
+
+        /**
+         * Checks if macro is registered.
+         *
+         * @param string $name
+         * @return bool
+         * @static
+         */
+        public static function hasMacro($name)
+        {
+            return \Illuminate\Notifications\ChannelManager::hasMacro($name);
+        }
+
+        /**
+         * Flush the existing macros.
+         *
+         * @return void
+         * @static
+         */
+        public static function flushMacros()
+        {
+            \Illuminate\Notifications\ChannelManager::flushMacros();
+        }
+
+        /**
          * Get a driver instance.
          *
          * @param string|null $driver
@@ -12173,57 +12274,6 @@ namespace Illuminate\Support\Facades {
         {
             /** @var \Illuminate\Support\Testing\Fakes\NotificationFake $instance */
             return $instance->sentNotifications();
-        }
-
-        /**
-         * Register a custom macro.
-         *
-         * @param string $name
-         * @param object|callable $macro
-         * @param-closure-this static  $macro
-         * @return void
-         * @static
-         */
-        public static function macro($name, $macro)
-        {
-            \Illuminate\Support\Testing\Fakes\NotificationFake::macro($name, $macro);
-        }
-
-        /**
-         * Mix another object into the class.
-         *
-         * @param object $mixin
-         * @param bool $replace
-         * @return void
-         * @throws \ReflectionException
-         * @static
-         */
-        public static function mixin($mixin, $replace = true)
-        {
-            \Illuminate\Support\Testing\Fakes\NotificationFake::mixin($mixin, $replace);
-        }
-
-        /**
-         * Checks if macro is registered.
-         *
-         * @param string $name
-         * @return bool
-         * @static
-         */
-        public static function hasMacro($name)
-        {
-            return \Illuminate\Support\Testing\Fakes\NotificationFake::hasMacro($name);
-        }
-
-        /**
-         * Flush the existing macros.
-         *
-         * @return void
-         * @static
-         */
-        public static function flushMacros()
-        {
-            \Illuminate\Support\Testing\Fakes\NotificationFake::flushMacros();
         }
 
             }
@@ -12912,6 +12962,20 @@ namespace Illuminate\Support\Facades {
         {
             /** @var \Illuminate\Support\Testing\Fakes\QueueFake $instance */
             $instance->assertPushed($job, $callback);
+        }
+
+        /**
+         * Assert if a job was pushed a number of times.
+         *
+         * @param string $job
+         * @param int $times
+         * @return void
+         * @static
+         */
+        public static function assertPushedTimes($job, $times = 1)
+        {
+            /** @var \Illuminate\Support\Testing\Fakes\QueueFake $instance */
+            $instance->assertPushedTimes($job, $times);
         }
 
         /**
@@ -18027,6 +18091,18 @@ namespace Illuminate\Support\Facades {
             return \Illuminate\Routing\Router::enum($key, $class);
         }
 
+        /**
+         * @see \Livewire\Features\SupportRouting\SupportRouting::provide()
+         * @param mixed $uri
+         * @param mixed $component
+         * @return \Illuminate\Routing\Route
+         * @static
+         */
+        public static function livewire($uri, $component)
+        {
+            return \Illuminate\Routing\Router::livewire($uri, $component);
+        }
+
             }
     /**
      * @method static \Illuminate\Console\Scheduling\PendingEventAttributes withoutOverlapping(int $expiresAt = 1440)
@@ -18868,6 +18944,35 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Create the vector extension on the schema if it does not exist.
+         *
+         * @param string|null $schema
+         * @return void
+         * @static
+         */
+        public static function ensureVectorExtensionExists($schema = null)
+        {
+            //Method inherited from \Illuminate\Database\Schema\Builder 
+            /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
+            $instance->ensureVectorExtensionExists($schema);
+        }
+
+        /**
+         * Create a new extension on the schema if it does not exist.
+         *
+         * @param string $name
+         * @param string|null $schema
+         * @return void
+         * @static
+         */
+        public static function ensureExtensionExists($name, $schema = null)
+        {
+            //Method inherited from \Illuminate\Database\Schema\Builder 
+            /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
+            $instance->ensureExtensionExists($name, $schema);
+        }
+
+        /**
          * Get the default schema name for the connection.
          *
          * @return string|null
@@ -19227,7 +19332,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Checks if a key exists.
          *
-         * @param string|array $key
+         * @param \BackedEnum|\UnitEnum|string|array $key
          * @return bool
          * @static
          */
@@ -19240,7 +19345,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Determine if the given key is missing from the session data.
          *
-         * @param string|array $key
+         * @param \BackedEnum|\UnitEnum|string|array $key
          * @return bool
          * @static
          */
@@ -19253,7 +19358,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Determine if a key is present and not null.
          *
-         * @param string|array $key
+         * @param \BackedEnum|\UnitEnum|string|array $key
          * @return bool
          * @static
          */
@@ -19266,7 +19371,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Determine if any of the given keys are present and not null.
          *
-         * @param string|array $key
+         * @param \BackedEnum|\UnitEnum|string|array $key
          * @return bool
          * @static
          */
@@ -19279,7 +19384,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Get an item from the session.
          *
-         * @param string $key
+         * @param \BackedEnum|\UnitEnum|string $key
          * @param mixed $default
          * @return mixed
          * @static
@@ -19293,7 +19398,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Get the value of a given key and then forget it.
          *
-         * @param string $key
+         * @param \BackedEnum|\UnitEnum|string $key
          * @param mixed $default
          * @return mixed
          * @static
@@ -19347,7 +19452,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Put a key / value pair or array of key / value pairs in the session.
          *
-         * @param string|array $key
+         * @param \BackedEnum|\UnitEnum|string|array $key
          * @param mixed $value
          * @return void
          * @static
@@ -19361,7 +19466,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Get an item from the session, or store the default value.
          *
-         * @param string $key
+         * @param \BackedEnum|\UnitEnum|string $key
          * @param \Closure $callback
          * @return mixed
          * @static
@@ -19375,7 +19480,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Push a value onto a session array.
          *
-         * @param string $key
+         * @param \BackedEnum|\UnitEnum|string $key
          * @param mixed $value
          * @return void
          * @static
@@ -19389,7 +19494,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Increment the value of an item in the session.
          *
-         * @param string $key
+         * @param \BackedEnum|\UnitEnum|string $key
          * @param int $amount
          * @return mixed
          * @static
@@ -19403,7 +19508,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Decrement the value of an item in the session.
          *
-         * @param string $key
+         * @param \BackedEnum|\UnitEnum|string $key
          * @param int $amount
          * @return int
          * @static
@@ -19417,7 +19522,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Flash a key / value pair to the session.
          *
-         * @param string $key
+         * @param \BackedEnum|\UnitEnum|string $key
          * @param mixed $value
          * @return void
          * @static
@@ -19431,7 +19536,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Flash a key / value pair to the session for immediate use.
          *
-         * @param string $key
+         * @param \BackedEnum|\UnitEnum|string $key
          * @param mixed $value
          * @return void
          * @static
@@ -19495,7 +19600,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Remove an item from the session, returning its value.
          *
-         * @param string $key
+         * @param \BackedEnum|\UnitEnum|string $key
          * @return mixed
          * @static
          */
@@ -19508,7 +19613,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Remove one or many items from the session.
          *
-         * @param string|array $keys
+         * @param \BackedEnum|\UnitEnum|string|array $keys
          * @return void
          * @static
          */
@@ -19896,7 +20001,7 @@ namespace Illuminate\Support\Facades {
          * Get a filesystem instance.
          *
          * @param string|null $name
-         * @return \Illuminate\Filesystem\LocalFilesystemAdapter
+         * @return \Illuminate\Filesystem\FilesystemAdapter
          * @static
          */
         public static function drive($name = null)
@@ -19909,7 +20014,7 @@ namespace Illuminate\Support\Facades {
          * Get a filesystem instance.
          *
          * @param \UnitEnum|string|null $name
-         * @return \Illuminate\Filesystem\LocalFilesystemAdapter
+         * @return \Illuminate\Filesystem\FilesystemAdapter
          * @static
          */
         public static function disk($name = null)
@@ -19934,7 +20039,7 @@ namespace Illuminate\Support\Facades {
          * Build an on-demand disk.
          *
          * @param string|array $config
-         * @return \Illuminate\Filesystem\LocalFilesystemAdapter
+         * @return \Illuminate\Filesystem\FilesystemAdapter
          * @static
          */
         public static function build($config)
@@ -19948,7 +20053,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param array $config
          * @param string $name
-         * @return \Illuminate\Filesystem\LocalFilesystemAdapter
+         * @return \Illuminate\Filesystem\FilesystemAdapter
          * @static
          */
         public static function createLocalDriver($config, $name = 'local')
@@ -19961,7 +20066,7 @@ namespace Illuminate\Support\Facades {
          * Create an instance of the ftp driver.
          *
          * @param array $config
-         * @return \Illuminate\Filesystem\LocalFilesystemAdapter
+         * @return \Illuminate\Filesystem\FilesystemAdapter
          * @static
          */
         public static function createFtpDriver($config)
@@ -19974,7 +20079,7 @@ namespace Illuminate\Support\Facades {
          * Create an instance of the sftp driver.
          *
          * @param array $config
-         * @return \Illuminate\Filesystem\LocalFilesystemAdapter
+         * @return \Illuminate\Filesystem\FilesystemAdapter
          * @static
          */
         public static function createSftpDriver($config)
@@ -20000,7 +20105,7 @@ namespace Illuminate\Support\Facades {
          * Create a scoped driver.
          *
          * @param array $config
-         * @return \Illuminate\Filesystem\LocalFilesystemAdapter
+         * @return \Illuminate\Filesystem\FilesystemAdapter
          * @static
          */
         public static function createScopedDriver($config)
@@ -20101,6 +20206,466 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Assert that the given file or directory exists.
+         *
+         * @param string|array $path
+         * @param string|null $content
+         * @return \Illuminate\Filesystem\FilesystemAdapter
+         * @static
+         */
+        public static function assertExists($path, $content = null)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->assertExists($path, $content);
+        }
+
+        /**
+         * Assert that the number of files in path equals the expected count.
+         *
+         * @param string $path
+         * @param int $count
+         * @param bool $recursive
+         * @return \Illuminate\Filesystem\FilesystemAdapter
+         * @static
+         */
+        public static function assertCount($path, $count, $recursive = false)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->assertCount($path, $count, $recursive);
+        }
+
+        /**
+         * Assert that the given file or directory does not exist.
+         *
+         * @param string|array $path
+         * @return \Illuminate\Filesystem\FilesystemAdapter
+         * @static
+         */
+        public static function assertMissing($path)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->assertMissing($path);
+        }
+
+        /**
+         * Assert that the given directory is empty.
+         *
+         * @param string $path
+         * @return \Illuminate\Filesystem\FilesystemAdapter
+         * @static
+         */
+        public static function assertDirectoryEmpty($path)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->assertDirectoryEmpty($path);
+        }
+
+        /**
+         * Determine if a file or directory exists.
+         *
+         * @param string $path
+         * @return bool
+         * @static
+         */
+        public static function exists($path)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->exists($path);
+        }
+
+        /**
+         * Determine if a file or directory is missing.
+         *
+         * @param string $path
+         * @return bool
+         * @static
+         */
+        public static function missing($path)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->missing($path);
+        }
+
+        /**
+         * Determine if a file exists.
+         *
+         * @param string $path
+         * @return bool
+         * @static
+         */
+        public static function fileExists($path)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->fileExists($path);
+        }
+
+        /**
+         * Determine if a file is missing.
+         *
+         * @param string $path
+         * @return bool
+         * @static
+         */
+        public static function fileMissing($path)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->fileMissing($path);
+        }
+
+        /**
+         * Determine if a directory exists.
+         *
+         * @param string $path
+         * @return bool
+         * @static
+         */
+        public static function directoryExists($path)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->directoryExists($path);
+        }
+
+        /**
+         * Determine if a directory is missing.
+         *
+         * @param string $path
+         * @return bool
+         * @static
+         */
+        public static function directoryMissing($path)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->directoryMissing($path);
+        }
+
+        /**
+         * Get the full path to the file that exists at the given relative path.
+         *
+         * @param string $path
+         * @return string
+         * @static
+         */
+        public static function path($path)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->path($path);
+        }
+
+        /**
+         * Get the contents of a file.
+         *
+         * @param string $path
+         * @return string|null
+         * @static
+         */
+        public static function get($path)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->get($path);
+        }
+
+        /**
+         * Get the contents of a file as decoded JSON.
+         *
+         * @param string $path
+         * @param int $flags
+         * @return array|null
+         * @static
+         */
+        public static function json($path, $flags = 0)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->json($path, $flags);
+        }
+
+        /**
+         * Create a streamed response for a given file.
+         *
+         * @param string $path
+         * @param string|null $name
+         * @param array $headers
+         * @param string|null $disposition
+         * @return \Symfony\Component\HttpFoundation\StreamedResponse
+         * @static
+         */
+        public static function response($path, $name = null, $headers = [], $disposition = 'inline')
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->response($path, $name, $headers, $disposition);
+        }
+
+        /**
+         * Create a streamed download response for a given file.
+         *
+         * @param \Illuminate\Http\Request $request
+         * @param string $path
+         * @param string|null $name
+         * @param array $headers
+         * @return \Symfony\Component\HttpFoundation\StreamedResponse
+         * @static
+         */
+        public static function serve($request, $path, $name = null, $headers = [])
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->serve($request, $path, $name, $headers);
+        }
+
+        /**
+         * Create a streamed download response for a given file.
+         *
+         * @param string $path
+         * @param string|null $name
+         * @param array $headers
+         * @return \Symfony\Component\HttpFoundation\StreamedResponse
+         * @static
+         */
+        public static function download($path, $name = null, $headers = [])
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->download($path, $name, $headers);
+        }
+
+        /**
+         * Write the contents of a file.
+         *
+         * @param string $path
+         * @param \Psr\Http\Message\StreamInterface|\Illuminate\Http\File|\Illuminate\Http\UploadedFile|string|resource $contents
+         * @param mixed $options
+         * @return string|bool
+         * @static
+         */
+        public static function put($path, $contents, $options = [])
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->put($path, $contents, $options);
+        }
+
+        /**
+         * Store the uploaded file on the disk.
+         *
+         * @param \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string $path
+         * @param \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string|array|null $file
+         * @param mixed $options
+         * @return string|false
+         * @static
+         */
+        public static function putFile($path, $file = null, $options = [])
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->putFile($path, $file, $options);
+        }
+
+        /**
+         * Store the uploaded file on the disk with a given name.
+         *
+         * @param \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string $path
+         * @param \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string|array|null $file
+         * @param string|array|null $name
+         * @param mixed $options
+         * @return string|false
+         * @static
+         */
+        public static function putFileAs($path, $file, $name = null, $options = [])
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->putFileAs($path, $file, $name, $options);
+        }
+
+        /**
+         * Get the visibility for the given path.
+         *
+         * @param string $path
+         * @return string
+         * @static
+         */
+        public static function getVisibility($path)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->getVisibility($path);
+        }
+
+        /**
+         * Set the visibility for the given path.
+         *
+         * @param string $path
+         * @param string $visibility
+         * @return bool
+         * @static
+         */
+        public static function setVisibility($path, $visibility)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->setVisibility($path, $visibility);
+        }
+
+        /**
+         * Prepend to a file.
+         *
+         * @param string $path
+         * @param string $data
+         * @param string $separator
+         * @return bool
+         * @static
+         */
+        public static function prepend($path, $data, $separator = '
+')
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->prepend($path, $data, $separator);
+        }
+
+        /**
+         * Append to a file.
+         *
+         * @param string $path
+         * @param string $data
+         * @param string $separator
+         * @return bool
+         * @static
+         */
+        public static function append($path, $data, $separator = '
+')
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->append($path, $data, $separator);
+        }
+
+        /**
+         * Delete the file at a given path.
+         *
+         * @param string|array $paths
+         * @return bool
+         * @static
+         */
+        public static function delete($paths)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->delete($paths);
+        }
+
+        /**
+         * Copy a file to a new location.
+         *
+         * @param string $from
+         * @param string $to
+         * @return bool
+         * @static
+         */
+        public static function copy($from, $to)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->copy($from, $to);
+        }
+
+        /**
+         * Move a file to a new location.
+         *
+         * @param string $from
+         * @param string $to
+         * @return bool
+         * @static
+         */
+        public static function move($from, $to)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->move($from, $to);
+        }
+
+        /**
+         * Get the file size of a given file.
+         *
+         * @param string $path
+         * @return int
+         * @static
+         */
+        public static function size($path)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->size($path);
+        }
+
+        /**
+         * Get the checksum for a file.
+         *
+         * @return string|false
+         * @throws UnableToProvideChecksum
+         * @static
+         */
+        public static function checksum($path, $options = [])
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->checksum($path, $options);
+        }
+
+        /**
+         * Get the mime-type of a given file.
+         *
+         * @param string $path
+         * @return string|false
+         * @static
+         */
+        public static function mimeType($path)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->mimeType($path);
+        }
+
+        /**
+         * Get the file's last modification time.
+         *
+         * @param string $path
+         * @return int
+         * @static
+         */
+        public static function lastModified($path)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->lastModified($path);
+        }
+
+        /**
+         * Get a resource to read the file.
+         *
+         * @param string $path
+         * @return resource|null The path resource or null on failure.
+         * @static
+         */
+        public static function readStream($path)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->readStream($path);
+        }
+
+        /**
+         * Write a new file using a stream.
+         *
+         * @param string $path
+         * @param resource $resource
+         * @param array $options
+         * @return bool
+         * @static
+         */
+        public static function writeStream($path, $resource, $options = [])
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->writeStream($path, $resource, $options);
+        }
+
+        /**
+         * Get the URL for the file at the given path.
+         *
+         * @param string $path
+         * @return string
+         * @throws \RuntimeException
+         * @static
+         */
+        public static function url($path)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->url($path);
+        }
+
+        /**
          * Determine if temporary URLs can be generated.
          *
          * @return bool
@@ -20108,7 +20673,7 @@ namespace Illuminate\Support\Facades {
          */
         public static function providesTemporaryUrls()
         {
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
             return $instance->providesTemporaryUrls();
         }
 
@@ -20119,39 +20684,171 @@ namespace Illuminate\Support\Facades {
          * @param \DateTimeInterface $expiration
          * @param array $options
          * @return string
+         * @throws \RuntimeException
          * @static
          */
         public static function temporaryUrl($path, $expiration, $options = [])
         {
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
             return $instance->temporaryUrl($path, $expiration, $options);
         }
 
         /**
-         * Specify the name of the disk the adapter is managing.
+         * Get a temporary upload URL for the file at the given path.
          *
-         * @param string $disk
-         * @return \Illuminate\Filesystem\LocalFilesystemAdapter
+         * @param string $path
+         * @param \DateTimeInterface $expiration
+         * @param array $options
+         * @return array
+         * @throws \RuntimeException
          * @static
          */
-        public static function diskName($disk)
+        public static function temporaryUploadUrl($path, $expiration, $options = [])
         {
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->diskName($disk);
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->temporaryUploadUrl($path, $expiration, $options);
         }
 
         /**
-         * Indicate that signed URLs should serve the corresponding files.
+         * Get an array of all files in a directory.
          *
-         * @param bool $serve
-         * @param \Closure|null $urlGeneratorResolver
-         * @return \Illuminate\Filesystem\LocalFilesystemAdapter
+         * @param string|null $directory
+         * @param bool $recursive
+         * @return array
          * @static
          */
-        public static function shouldServeSignedUrls($serve = true, $urlGeneratorResolver = null)
+        public static function files($directory = null, $recursive = false)
         {
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->shouldServeSignedUrls($serve, $urlGeneratorResolver);
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->files($directory, $recursive);
+        }
+
+        /**
+         * Get all of the files from the given directory (recursive).
+         *
+         * @param string|null $directory
+         * @return array
+         * @static
+         */
+        public static function allFiles($directory = null)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->allFiles($directory);
+        }
+
+        /**
+         * Get all of the directories within a given directory.
+         *
+         * @param string|null $directory
+         * @param bool $recursive
+         * @return array
+         * @static
+         */
+        public static function directories($directory = null, $recursive = false)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->directories($directory, $recursive);
+        }
+
+        /**
+         * Get all the directories within a given directory (recursive).
+         *
+         * @param string|null $directory
+         * @return array
+         * @static
+         */
+        public static function allDirectories($directory = null)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->allDirectories($directory);
+        }
+
+        /**
+         * Create a directory.
+         *
+         * @param string $path
+         * @return bool
+         * @static
+         */
+        public static function makeDirectory($path)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->makeDirectory($path);
+        }
+
+        /**
+         * Recursively delete a directory.
+         *
+         * @param string $directory
+         * @return bool
+         * @static
+         */
+        public static function deleteDirectory($directory)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->deleteDirectory($directory);
+        }
+
+        /**
+         * Get the Flysystem driver.
+         *
+         * @return \League\Flysystem\FilesystemOperator
+         * @static
+         */
+        public static function getDriver()
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->getDriver();
+        }
+
+        /**
+         * Get the Flysystem adapter.
+         *
+         * @return \League\Flysystem\FilesystemAdapter
+         * @static
+         */
+        public static function getAdapter()
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->getAdapter();
+        }
+
+        /**
+         * Get the configuration values.
+         *
+         * @return array
+         * @static
+         */
+        public static function getConfig()
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            return $instance->getConfig();
+        }
+
+        /**
+         * Define a custom callback that generates file download responses.
+         *
+         * @param \Closure $callback
+         * @return void
+         * @static
+         */
+        public static function serveUsing($callback)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            $instance->serveUsing($callback);
+        }
+
+        /**
+         * Define a custom temporary URL builder callback.
+         *
+         * @param \Closure $callback
+         * @return void
+         * @static
+         */
+        public static function buildTemporaryUrlsUsing($callback)
+        {
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
+            $instance->buildTemporaryUrlsUsing($callback);
         }
 
         /**
@@ -20167,7 +20864,7 @@ namespace Illuminate\Support\Facades {
          */
         public static function when($value = null, $callback = null, $default = null)
         {
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
             return $instance->when($value, $callback, $default);
         }
 
@@ -20184,671 +20881,8 @@ namespace Illuminate\Support\Facades {
          */
         public static function unless($value = null, $callback = null, $default = null)
         {
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
             return $instance->unless($value, $callback, $default);
-        }
-
-        /**
-         * Assert that the given file or directory exists.
-         *
-         * @param string|array $path
-         * @param string|null $content
-         * @return \Illuminate\Filesystem\LocalFilesystemAdapter
-         * @static
-         */
-        public static function assertExists($path, $content = null)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->assertExists($path, $content);
-        }
-
-        /**
-         * Assert that the number of files in path equals the expected count.
-         *
-         * @param string $path
-         * @param int $count
-         * @param bool $recursive
-         * @return \Illuminate\Filesystem\LocalFilesystemAdapter
-         * @static
-         */
-        public static function assertCount($path, $count, $recursive = false)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->assertCount($path, $count, $recursive);
-        }
-
-        /**
-         * Assert that the given file or directory does not exist.
-         *
-         * @param string|array $path
-         * @return \Illuminate\Filesystem\LocalFilesystemAdapter
-         * @static
-         */
-        public static function assertMissing($path)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->assertMissing($path);
-        }
-
-        /**
-         * Assert that the given directory is empty.
-         *
-         * @param string $path
-         * @return \Illuminate\Filesystem\LocalFilesystemAdapter
-         * @static
-         */
-        public static function assertDirectoryEmpty($path)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->assertDirectoryEmpty($path);
-        }
-
-        /**
-         * Determine if a file or directory exists.
-         *
-         * @param string $path
-         * @return bool
-         * @static
-         */
-        public static function exists($path)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->exists($path);
-        }
-
-        /**
-         * Determine if a file or directory is missing.
-         *
-         * @param string $path
-         * @return bool
-         * @static
-         */
-        public static function missing($path)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->missing($path);
-        }
-
-        /**
-         * Determine if a file exists.
-         *
-         * @param string $path
-         * @return bool
-         * @static
-         */
-        public static function fileExists($path)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->fileExists($path);
-        }
-
-        /**
-         * Determine if a file is missing.
-         *
-         * @param string $path
-         * @return bool
-         * @static
-         */
-        public static function fileMissing($path)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->fileMissing($path);
-        }
-
-        /**
-         * Determine if a directory exists.
-         *
-         * @param string $path
-         * @return bool
-         * @static
-         */
-        public static function directoryExists($path)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->directoryExists($path);
-        }
-
-        /**
-         * Determine if a directory is missing.
-         *
-         * @param string $path
-         * @return bool
-         * @static
-         */
-        public static function directoryMissing($path)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->directoryMissing($path);
-        }
-
-        /**
-         * Get the full path to the file that exists at the given relative path.
-         *
-         * @param string $path
-         * @return string
-         * @static
-         */
-        public static function path($path)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->path($path);
-        }
-
-        /**
-         * Get the contents of a file.
-         *
-         * @param string $path
-         * @return string|null
-         * @static
-         */
-        public static function get($path)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->get($path);
-        }
-
-        /**
-         * Get the contents of a file as decoded JSON.
-         *
-         * @param string $path
-         * @param int $flags
-         * @return array|null
-         * @static
-         */
-        public static function json($path, $flags = 0)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->json($path, $flags);
-        }
-
-        /**
-         * Create a streamed response for a given file.
-         *
-         * @param string $path
-         * @param string|null $name
-         * @param array $headers
-         * @param string|null $disposition
-         * @return \Symfony\Component\HttpFoundation\StreamedResponse
-         * @static
-         */
-        public static function response($path, $name = null, $headers = [], $disposition = 'inline')
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->response($path, $name, $headers, $disposition);
-        }
-
-        /**
-         * Create a streamed download response for a given file.
-         *
-         * @param \Illuminate\Http\Request $request
-         * @param string $path
-         * @param string|null $name
-         * @param array $headers
-         * @return \Symfony\Component\HttpFoundation\StreamedResponse
-         * @static
-         */
-        public static function serve($request, $path, $name = null, $headers = [])
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->serve($request, $path, $name, $headers);
-        }
-
-        /**
-         * Create a streamed download response for a given file.
-         *
-         * @param string $path
-         * @param string|null $name
-         * @param array $headers
-         * @return \Symfony\Component\HttpFoundation\StreamedResponse
-         * @static
-         */
-        public static function download($path, $name = null, $headers = [])
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->download($path, $name, $headers);
-        }
-
-        /**
-         * Write the contents of a file.
-         *
-         * @param string $path
-         * @param \Psr\Http\Message\StreamInterface|\Illuminate\Http\File|\Illuminate\Http\UploadedFile|string|resource $contents
-         * @param mixed $options
-         * @return string|bool
-         * @static
-         */
-        public static function put($path, $contents, $options = [])
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->put($path, $contents, $options);
-        }
-
-        /**
-         * Store the uploaded file on the disk.
-         *
-         * @param \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string $path
-         * @param \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string|array|null $file
-         * @param mixed $options
-         * @return string|false
-         * @static
-         */
-        public static function putFile($path, $file = null, $options = [])
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->putFile($path, $file, $options);
-        }
-
-        /**
-         * Store the uploaded file on the disk with a given name.
-         *
-         * @param \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string $path
-         * @param \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string|array|null $file
-         * @param string|array|null $name
-         * @param mixed $options
-         * @return string|false
-         * @static
-         */
-        public static function putFileAs($path, $file, $name = null, $options = [])
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->putFileAs($path, $file, $name, $options);
-        }
-
-        /**
-         * Get the visibility for the given path.
-         *
-         * @param string $path
-         * @return string
-         * @static
-         */
-        public static function getVisibility($path)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->getVisibility($path);
-        }
-
-        /**
-         * Set the visibility for the given path.
-         *
-         * @param string $path
-         * @param string $visibility
-         * @return bool
-         * @static
-         */
-        public static function setVisibility($path, $visibility)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->setVisibility($path, $visibility);
-        }
-
-        /**
-         * Prepend to a file.
-         *
-         * @param string $path
-         * @param string $data
-         * @param string $separator
-         * @return bool
-         * @static
-         */
-        public static function prepend($path, $data, $separator = '
-')
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->prepend($path, $data, $separator);
-        }
-
-        /**
-         * Append to a file.
-         *
-         * @param string $path
-         * @param string $data
-         * @param string $separator
-         * @return bool
-         * @static
-         */
-        public static function append($path, $data, $separator = '
-')
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->append($path, $data, $separator);
-        }
-
-        /**
-         * Delete the file at a given path.
-         *
-         * @param string|array $paths
-         * @return bool
-         * @static
-         */
-        public static function delete($paths)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->delete($paths);
-        }
-
-        /**
-         * Copy a file to a new location.
-         *
-         * @param string $from
-         * @param string $to
-         * @return bool
-         * @static
-         */
-        public static function copy($from, $to)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->copy($from, $to);
-        }
-
-        /**
-         * Move a file to a new location.
-         *
-         * @param string $from
-         * @param string $to
-         * @return bool
-         * @static
-         */
-        public static function move($from, $to)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->move($from, $to);
-        }
-
-        /**
-         * Get the file size of a given file.
-         *
-         * @param string $path
-         * @return int
-         * @static
-         */
-        public static function size($path)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->size($path);
-        }
-
-        /**
-         * Get the checksum for a file.
-         *
-         * @return string|false
-         * @throws UnableToProvideChecksum
-         * @static
-         */
-        public static function checksum($path, $options = [])
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->checksum($path, $options);
-        }
-
-        /**
-         * Get the mime-type of a given file.
-         *
-         * @param string $path
-         * @return string|false
-         * @static
-         */
-        public static function mimeType($path)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->mimeType($path);
-        }
-
-        /**
-         * Get the file's last modification time.
-         *
-         * @param string $path
-         * @return int
-         * @static
-         */
-        public static function lastModified($path)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->lastModified($path);
-        }
-
-        /**
-         * Get a resource to read the file.
-         *
-         * @param string $path
-         * @return resource|null The path resource or null on failure.
-         * @static
-         */
-        public static function readStream($path)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->readStream($path);
-        }
-
-        /**
-         * Write a new file using a stream.
-         *
-         * @param string $path
-         * @param resource $resource
-         * @param array $options
-         * @return bool
-         * @static
-         */
-        public static function writeStream($path, $resource, $options = [])
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->writeStream($path, $resource, $options);
-        }
-
-        /**
-         * Get the URL for the file at the given path.
-         *
-         * @param string $path
-         * @return string
-         * @throws \RuntimeException
-         * @static
-         */
-        public static function url($path)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->url($path);
-        }
-
-        /**
-         * Get a temporary upload URL for the file at the given path.
-         *
-         * @param string $path
-         * @param \DateTimeInterface $expiration
-         * @param array $options
-         * @return array
-         * @throws \RuntimeException
-         * @static
-         */
-        public static function temporaryUploadUrl($path, $expiration, $options = [])
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->temporaryUploadUrl($path, $expiration, $options);
-        }
-
-        /**
-         * Get an array of all files in a directory.
-         *
-         * @param string|null $directory
-         * @param bool $recursive
-         * @return array
-         * @static
-         */
-        public static function files($directory = null, $recursive = false)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->files($directory, $recursive);
-        }
-
-        /**
-         * Get all of the files from the given directory (recursive).
-         *
-         * @param string|null $directory
-         * @return array
-         * @static
-         */
-        public static function allFiles($directory = null)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->allFiles($directory);
-        }
-
-        /**
-         * Get all of the directories within a given directory.
-         *
-         * @param string|null $directory
-         * @param bool $recursive
-         * @return array
-         * @static
-         */
-        public static function directories($directory = null, $recursive = false)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->directories($directory, $recursive);
-        }
-
-        /**
-         * Get all the directories within a given directory (recursive).
-         *
-         * @param string|null $directory
-         * @return array
-         * @static
-         */
-        public static function allDirectories($directory = null)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->allDirectories($directory);
-        }
-
-        /**
-         * Create a directory.
-         *
-         * @param string $path
-         * @return bool
-         * @static
-         */
-        public static function makeDirectory($path)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->makeDirectory($path);
-        }
-
-        /**
-         * Recursively delete a directory.
-         *
-         * @param string $directory
-         * @return bool
-         * @static
-         */
-        public static function deleteDirectory($directory)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->deleteDirectory($directory);
-        }
-
-        /**
-         * Get the Flysystem driver.
-         *
-         * @return \League\Flysystem\FilesystemOperator
-         * @static
-         */
-        public static function getDriver()
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->getDriver();
-        }
-
-        /**
-         * Get the Flysystem adapter.
-         *
-         * @return \League\Flysystem\FilesystemAdapter
-         * @static
-         */
-        public static function getAdapter()
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->getAdapter();
-        }
-
-        /**
-         * Get the configuration values.
-         *
-         * @return array
-         * @static
-         */
-        public static function getConfig()
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            return $instance->getConfig();
-        }
-
-        /**
-         * Define a custom callback that generates file download responses.
-         *
-         * @param \Closure $callback
-         * @return void
-         * @static
-         */
-        public static function serveUsing($callback)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            $instance->serveUsing($callback);
-        }
-
-        /**
-         * Define a custom temporary URL builder callback.
-         *
-         * @param \Closure $callback
-         * @return void
-         * @static
-         */
-        public static function buildTemporaryUrlsUsing($callback)
-        {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
-            $instance->buildTemporaryUrlsUsing($callback);
         }
 
         /**
@@ -20862,8 +20896,7 @@ namespace Illuminate\Support\Facades {
          */
         public static function macro($name, $macro)
         {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            \Illuminate\Filesystem\LocalFilesystemAdapter::macro($name, $macro);
+            \Illuminate\Filesystem\FilesystemAdapter::macro($name, $macro);
         }
 
         /**
@@ -20877,8 +20910,7 @@ namespace Illuminate\Support\Facades {
          */
         public static function mixin($mixin, $replace = true)
         {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            \Illuminate\Filesystem\LocalFilesystemAdapter::mixin($mixin, $replace);
+            \Illuminate\Filesystem\FilesystemAdapter::mixin($mixin, $replace);
         }
 
         /**
@@ -20890,8 +20922,7 @@ namespace Illuminate\Support\Facades {
          */
         public static function hasMacro($name)
         {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            return \Illuminate\Filesystem\LocalFilesystemAdapter::hasMacro($name);
+            return \Illuminate\Filesystem\FilesystemAdapter::hasMacro($name);
         }
 
         /**
@@ -20902,8 +20933,7 @@ namespace Illuminate\Support\Facades {
          */
         public static function flushMacros()
         {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            \Illuminate\Filesystem\LocalFilesystemAdapter::flushMacros();
+            \Illuminate\Filesystem\FilesystemAdapter::flushMacros();
         }
 
         /**
@@ -20917,8 +20947,7 @@ namespace Illuminate\Support\Facades {
          */
         public static function macroCall($method, $parameters)
         {
-            //Method inherited from \Illuminate\Filesystem\FilesystemAdapter 
-            /** @var \Illuminate\Filesystem\LocalFilesystemAdapter $instance */
+            /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
             return $instance->macroCall($method, $parameters);
         }
 
@@ -23776,921 +23805,6 @@ namespace Barryvdh\Debugbar\Facades {
             }
     }
 
-namespace CloudinaryLabs\CloudinaryLaravel\Facades {
-    /**
-     * Class Cloudinary
-     *
-     */
-    class Cloudinary {
-        /**
-         * Create a Cloudinary Config Instance
-         *
-         * @static
-         */
-        public static function setCloudinaryConfig()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->setCloudinaryConfig();
-        }
-
-        /**
-         * Set User Agent and Platform
-         *
-         * @static
-         */
-        public static function setUserPlatform()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->setUserPlatform();
-        }
-
-        /**
-         * Set Analytics
-         *
-         * @static
-         */
-        public static function setAnalytics()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->setAnalytics();
-        }
-
-        /**
-         * Create a Cloudinary Instance
-         *
-         * @static
-         */
-        public static function bootCloudinary()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->bootCloudinary();
-        }
-
-        /**
-         * Expose the Cloudinary Admin Functionality
-         *
-         * @static
-         */
-        public static function admin()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->admin();
-        }
-
-        /**
-         * Expose the Cloudinary Search Functionality
-         *
-         * @static
-         */
-        public static function search()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->search();
-        }
-
-        /**
-         * Uploads an asset to a Cloudinary account.
-         * 
-         * The asset can be:
-         * * a local file path
-         * * the actual data (byte array buffer)
-         * * the Data URI (Base64 encoded), max ~60 MB (62,910,000 chars)
-         * * the remote FTP, HTTP or HTTPS URL address of an existing file
-         * * a private storage bucket (S3 or Google Storage) URL of a whitelisted bucket
-         *
-         * @param string $file The asset to upload.
-         * @param array $options The optional parameters. See the upload API documentation.
-         * @return \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine
-         * @throws ApiError
-         * @see https://cloudinary.com/documentation/image_upload_api_reference#upload_method
-         * @static
-         */
-        public static function upload($file, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->upload($file, $options);
-        }
-
-        /**
-         * Expose the Cloudinary Upload Functionality
-         *
-         * @static
-         */
-        public static function uploadApi()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->uploadApi();
-        }
-
-        /**
-         * Uploads an asset to a Cloudinary account.
-         * 
-         * The upload is not signed so an upload preset is required.
-         *
-         * @param string $file The asset to upload.
-         * @param string $uploadPreset The name of an upload preset.
-         * @param array $options The optional parameters. See the upload API documentation.
-         * @return \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine
-         * @throws ApiError
-         * @see https://cloudinary.com/documentation/image_upload_api_reference#unsigned_upload_syntax
-         * @static
-         */
-        public static function unsignedUpload($file, $uploadPreset, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->unsignedUpload($file, $uploadPreset, $options);
-        }
-
-        /**
-         * Uploads an asset to a Cloudinary account.
-         * 
-         * The upload is not signed so an upload preset is required.
-         * 
-         * This is asynchronous
-         *
-         * @throws ApiError
-         * @static
-         */
-        public static function unsignedUploadAsync($file, $uploadPreset, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->unsignedUploadAsync($file, $uploadPreset, $options);
-        }
-
-        /**
-         * @return \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine
-         * @throws ApiError
-         * @static
-         */
-        public static function uploadFile($file, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->uploadFile($file, $options);
-        }
-
-        /**
-         * @return \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine
-         * @throws ApiError
-         * @static
-         */
-        public static function uploadVideo($file, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->uploadVideo($file, $options);
-        }
-
-        /**
-         * @static
-         */
-        public static function getResponse()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getResponse();
-        }
-
-        /**
-         * @static
-         */
-        public static function getAssetId()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getAssetId();
-        }
-
-        /**
-         * Get the name of the file after it has been uploaded to Cloudinary
-         *
-         * @static
-         */
-        public static function getFileName()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getFileName();
-        }
-
-        /**
-         * Get the public id of the file (also known as the name of the file) after it has been uploaded to Cloudinary
-         *
-         * @static
-         */
-        public static function getPublicId()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getPublicId();
-        }
-
-        /**
-         * Get the name of the file before it was uploaded to Cloudinary
-         *
-         * @static
-         */
-        public static function getOriginalFileName()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getOriginalFileName();
-        }
-
-        /**
-         * @static
-         */
-        public static function getVersion()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getVersion();
-        }
-
-        /**
-         * @static
-         */
-        public static function getVersionId()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getVersionId();
-        }
-
-        /**
-         * @static
-         */
-        public static function getSignature()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getSignature();
-        }
-
-        /**
-         * @static
-         */
-        public static function getWidth()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getWidth();
-        }
-
-        /**
-         * @static
-         */
-        public static function getHeight()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getHeight();
-        }
-
-        /**
-         * @static
-         */
-        public static function getExtension()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getExtension();
-        }
-
-        /**
-         * @static
-         */
-        public static function getFileType()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getFileType();
-        }
-
-        /**
-         * @static
-         */
-        public static function getTimeUploaded()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getTimeUploaded();
-        }
-
-        /**
-         * @static
-         */
-        public static function getTags()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getTags();
-        }
-
-        /**
-         * @static
-         */
-        public static function getPages()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getPages();
-        }
-
-        /**
-         * @static
-         */
-        public static function getReadableSize()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getReadableSize();
-        }
-
-        /**
-         * Formats filesize in the way every human understands
-         *
-         * @return string Formatted Filesize, e.g. "113.24 MB".
-         * @static
-         */
-        public static function getHumanReadableSize($sizeInBytes)
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getHumanReadableSize($sizeInBytes);
-        }
-
-        /**
-         * @static
-         */
-        public static function getSize()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getSize();
-        }
-
-        /**
-         * @static
-         */
-        public static function getPlaceHolder()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getPlaceHolder();
-        }
-
-        /**
-         * @static
-         */
-        public static function getPath()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getPath();
-        }
-
-        /**
-         * @static
-         */
-        public static function getSecurePath()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getSecurePath();
-        }
-
-        /**
-         * @static
-         */
-        public static function getPhash()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getPhash();
-        }
-
-        /**
-         * @static
-         */
-        public static function getEtag()
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getEtag();
-        }
-
-        /**
-         * Fetches a new Image with current instance configuration.
-         *
-         * @param string $publicId The public ID of the image.
-         * @static
-         */
-        public static function getImage($publicId)
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getImage($publicId);
-        }
-
-        /**
-         * Fetches a new Video with current instance configuration.
-         *
-         * @param string|mixed $publicId The public ID of the video.
-         * @static
-         */
-        public static function getVideo($publicId)
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getVideo($publicId);
-        }
-
-        /**
-         * Fetches a raw file with current instance configuration.
-         *
-         * @param string|mixed $publicId The public ID of the file.
-         * @static
-         */
-        public static function getFile($publicId)
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getFile($publicId);
-        }
-
-        /**
-         * @static
-         */
-        public static function getImageTag($publicId)
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getImageTag($publicId);
-        }
-
-        /**
-         * @static
-         */
-        public static function getVideoTag($publicId)
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getVideoTag($publicId);
-        }
-
-        /**
-         * Adds a tag to the assets specified.
-         *
-         * @param string $tag The name of the tag to add.
-         * @param array $publicIds The public IDs of the assets to add the tag to.
-         * @param array $options The optional parameters. See the upload API documentation.
-         * @see https://cloudinary.com/documentation/image_upload_api_reference#tags_method
-         * @static
-         */
-        public static function addTag($tag, $publicIds = [], $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->addTag($tag, $publicIds, $options);
-        }
-
-        /**
-         * Adds a tag to the assets specified.
-         * 
-         * This is an asynchronous function.
-         *
-         * @static
-         */
-        public static function addTagAsync($tag, $publicIds = [], $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->addTagAsync($tag, $publicIds, $options);
-        }
-
-        /**
-         * Removes a tag from the assets specified.
-         *
-         * @param string $tag The name of the tag to remove.
-         * @param array|string $publicIds The public IDs of the assets to remove the tags from.
-         * @param array $options The optional parameters. See the upload API documentation.
-         * @see https://cloudinary.com/documentation/image_upload_api_reference#tags_method
-         * @static
-         */
-        public static function removeTag($tag, $publicIds = [], $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->removeTag($tag, $publicIds, $options);
-        }
-
-        /**
-         * Removes a tag from the assets specified.
-         * 
-         * This is an asynchronous function.
-         *
-         * @static
-         */
-        public static function removeTagAsync($tag, $publicIds = [], $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->removeTagAsync($tag, $publicIds, $options);
-        }
-
-        /**
-         * Removes all tags from the assets specified.
-         *
-         * @param array $publicIds The public IDs of the assets to remove all tags from.
-         * @param array $options The optional parameters. See the upload API documentation.
-         * @see https://cloudinary.com/documentation/image_upload_api_reference#tags_method
-         * @static
-         */
-        public static function removeAllTags($publicIds = [], $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->removeAllTags($publicIds, $options);
-        }
-
-        /**
-         * Removes all tags from the assets specified.
-         * 
-         * This is an asynchronous function.
-         *
-         * @static
-         */
-        public static function removeAllTagsAsync($publicIds = [], $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->removeAllTagsAsync($publicIds, $options);
-        }
-
-        /**
-         * Replaces all existing tags on the assets specified with the tag specified.
-         *
-         * @param string $tag The new tag with which to replace the existing tags.
-         * @param array|string $publicIds The public IDs of the assets to replace the tags of.
-         * @param array $options The optional parameters. See the upload API documentation.
-         * @see https://cloudinary.com/documentation/image_upload_api_reference#tags_method
-         * @static
-         */
-        public static function replaceTag($tag, $publicIds = [], $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->replaceTag($tag, $publicIds, $options);
-        }
-
-        /**
-         * Replaces all existing tags on the assets specified with the tag specified.
-         * 
-         * This is an asynchronous function.
-         *
-         * @static
-         */
-        public static function replaceTagAsync($tag, $publicIds = [], $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->replaceTagAsync($tag, $publicIds, $options);
-        }
-
-        /**
-         * Creates a sprite from all images that have been assigned a specified tag.
-         * 
-         * The process produces two files:
-         * * A single image file containing all the images with the specified tag (PNG by default).
-         * * A CSS file that includes the style class names and the location of the individual images in the sprite.
-         *
-         * @param string $tag The tag that indicates which images to include in the sprite.
-         * @param array $options The optional parameters. See the upload API documentation.
-         * @see https://cloudinary.com/documentation/image_upload_api_reference#sprite_method
-         * @static
-         */
-        public static function generateSprite($tag, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->generateSprite($tag, $options);
-        }
-
-        /**
-         * Creates a sprite from all images that have been assigned a specified tag.
-         * 
-         * This is an asynchronous function.
-         *
-         * @static
-         */
-        public static function generateSpriteAsync($tag, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->generateSpriteAsync($tag, $options);
-        }
-
-        /**
-         * Creates a PDF file from images in your media library that have been assigned a specific tag.
-         * 
-         * Important note for free accounts:
-         * By default, while you can use this method to generate PDF files, free Cloudinary accounts are blocked from delivering
-         * files in PDF format for security reasons.
-         * For details or to request that this limitation be removed for your free account, see Media delivery.
-         *
-         * @see https://cloudinary.com/documentation/paged_and_layered_media#creating_pdf_files_from_images
-         * @static
-         */
-        public static function generatePDF($tag, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->generatePDF($tag, $options);
-        }
-
-        /**
-         * @static
-         */
-        public static function generatePDFAsync($tag, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->generatePDFAsync($tag, $options);
-        }
-
-        /**
-         * @static
-         */
-        public static function generateAnimatedGIF($tag, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->generateAnimatedGIF($tag, $options);
-        }
-
-        /**
-         * @static
-         */
-        public static function generateAnimatedPNG($tag, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->generateAnimatedPNG($tag, $options);
-        }
-
-        /**
-         * @static
-         */
-        public static function generateAnimatedPNGAsync($tag, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->generateAnimatedPNGAsync($tag, $options);
-        }
-
-        /**
-         * @static
-         */
-        public static function generateAnimatedWEBP($tag, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->generateAnimatedWEBP($tag, $options);
-        }
-
-        /**
-         * @static
-         */
-        public static function generateAnimatedWEBPAsync($tag, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->generateAnimatedWEBPAsync($tag, $options);
-        }
-
-        /**
-         * @static
-         */
-        public static function generateAnimatedMP4($tag, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->generateAnimatedMP4($tag, $options);
-        }
-
-        /**
-         * @static
-         */
-        public static function generateAnimatedMP4Async($tag, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->generateAnimatedMP4Async($tag, $options);
-        }
-
-        /**
-         * @static
-         */
-        public static function generateAnimatedWEBM($tag, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->generateAnimatedWEBM($tag, $options);
-        }
-
-        /**
-         * @static
-         */
-        public static function generateAnimatedWEBMAsync($tag, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->generateAnimatedWEBMAsync($tag, $options);
-        }
-
-        /**
-         * @static
-         */
-        public static function multi($tag, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->multi($tag, $options);
-        }
-
-        /**
-         * @static
-         */
-        public static function multiAsync($tag, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->multiAsync($tag, $options);
-        }
-
-        /**
-         * @static
-         */
-        public static function explode($publicId, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->explode($publicId, $options);
-        }
-
-        /**
-         * @static
-         */
-        public static function explodeAsync($publicId, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->explodeAsync($publicId, $options);
-        }
-
-        /**
-         * Dynamically generates an image from a given textual string.
-         *
-         * @param string $text The text string to generate an image for.
-         * @param array $options The optional parameters.  See the upload API documentation.
-         * @return \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine
-         * @see https://cloudinary.com/documentation/image_upload_api_reference#text_method
-         * @static
-         */
-        public static function generateImageFromText($text, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->generateImageFromText($text, $options);
-        }
-
-        /**
-         * @static
-         */
-        public static function generateImageFromTextAsync($text, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->generateImageFromTextAsync($text, $options);
-        }
-
-        /**
-         * @param null $targetFormat
-         * @static
-         */
-        public static function createArchive($options = [], $targetFormat = null)
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->createArchive($options, $targetFormat);
-        }
-
-        /**
-         * @param null $targetFormat
-         * @static
-         */
-        public static function createArchiveAsync($options = [], $targetFormat = null)
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->createArchiveAsync($options, $targetFormat);
-        }
-
-        /**
-         * @static
-         */
-        public static function createZip($options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->createZip($options);
-        }
-
-        /**
-         * @static
-         */
-        public static function createZipAsync($options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->createZipAsync($options);
-        }
-
-        /**
-         * @static
-         */
-        public static function downloadZipUrl($options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->downloadZipUrl($options);
-        }
-
-        /**
-         * @static
-         */
-        public static function downloadArchiveUrl($options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->downloadArchiveUrl($options);
-        }
-
-        /**
-         * @static
-         */
-        public static function addContext($context, $publicIds = [], $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->addContext($context, $publicIds, $options);
-        }
-
-        /**
-         * @static
-         */
-        public static function addContextAsync($context, $publicIds = [], $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->addContextAsync($context, $publicIds, $options);
-        }
-
-        /**
-         * @static
-         */
-        public static function removeAllContext($publicIds = [], $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->removeAllContext($publicIds, $options);
-        }
-
-        /**
-         * @static
-         */
-        public static function removeAllContextAsync($publicIds = [], $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->removeAllContextAsync($publicIds, $options);
-        }
-
-        /**
-         * @static
-         */
-        public static function destroy($publicId, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->destroy($publicId, $options);
-        }
-
-        /**
-         * @static
-         */
-        public static function destroyAsync($publicId, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->destroyAsync($publicId, $options);
-        }
-
-        /**
-         * @static
-         */
-        public static function rename($from, $to, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->rename($from, $to, $options);
-        }
-
-        /**
-         * @static
-         */
-        public static function renameAsync($from, $to, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->renameAsync($from, $to, $options);
-        }
-
-        /**
-         * @static
-         */
-        public static function explicit($publicId, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->explicit($publicId, $options);
-        }
-
-        /**
-         * @static
-         */
-        public static function explicitAsync($publicId, $options = [])
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->explicitAsync($publicId, $options);
-        }
-
-        /**
-         * Get Resource data
-         *
-         * @return \Cloudinary\Api\ApiResponse|\CloudinaryLabs\CloudinaryLaravel\string;
-         * @static
-         */
-        public static function getResource($path)
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getResource($path);
-        }
-
-        /**
-         * Get the url of a file
-         *
-         * @return string|false
-         * @static
-         */
-        public static function getUrl($publicId)
-        {
-            /** @var \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine $instance */
-            return $instance->getUrl($publicId);
-        }
-
-            }
-    }
-
 namespace L5Swagger {
     /**
      */
@@ -25814,6 +24928,33 @@ namespace Livewire {
         /**
          * @static
          */
+        public static function addComponent($name, $viewPath = null, $class = null)
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->addComponent($name, $viewPath, $class);
+        }
+
+        /**
+         * @static
+         */
+        public static function addLocation($viewPath = null, $classNamespace = null)
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->addLocation($viewPath, $classNamespace);
+        }
+
+        /**
+         * @static
+         */
+        public static function addNamespace($namespace, $viewPath = null, $classNamespace = null, $classPath = null, $classViewPath = null)
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->addNamespace($namespace, $viewPath, $classNamespace, $classPath, $classViewPath);
+        }
+
+        /**
+         * @static
+         */
         public static function componentHook($hook)
         {
             /** @var \Livewire\LivewireManager $instance */
@@ -25850,6 +24991,15 @@ namespace Livewire {
         /**
          * @static
          */
+        public static function prepareViewsForCompilationUsing($callback)
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->prepareViewsForCompilationUsing($callback);
+        }
+
+        /**
+         * @static
+         */
         public static function new($name, $id = null)
         {
             /** @var \Livewire\LivewireManager $instance */
@@ -25857,12 +25007,22 @@ namespace Livewire {
         }
 
         /**
+         * @deprecated This method will be removed in a future version. Use exists() instead.
          * @static
          */
         public static function isDiscoverable($componentNameOrClass)
         {
             /** @var \Livewire\LivewireManager $instance */
             return $instance->isDiscoverable($componentNameOrClass);
+        }
+
+        /**
+         * @static
+         */
+        public static function exists($componentNameOrClass)
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->exists($componentNameOrClass);
         }
 
         /**
@@ -25877,10 +25037,10 @@ namespace Livewire {
         /**
          * @static
          */
-        public static function mount($name, $params = [], $key = null)
+        public static function mount($name, $params = [], $key = null, $slots = [])
         {
             /** @var \Livewire\LivewireManager $instance */
-            return $instance->mount($name, $params, $key);
+            return $instance->mount($name, $params, $key, $slots);
         }
 
         /**
@@ -25985,6 +25145,15 @@ namespace Livewire {
         /**
          * @static
          */
+        public static function getUriPrefix()
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->getUriPrefix();
+        }
+
+        /**
+         * @static
+         */
         public static function getUpdateUri()
         {
             /** @var \Livewire\LivewireManager $instance */
@@ -26064,6 +25233,10 @@ namespace Livewire {
         }
 
         /**
+         * @template TComponent of \Livewire\Component
+         * @param class-string<TComponent>|TComponent|string|array<array-key, \Livewire\Component> $name
+         * @param array $params
+         * @return Testable<TComponent>
          * @static
          */
         public static function test($name, $params = [])
@@ -26075,10 +25248,10 @@ namespace Livewire {
         /**
          * @static
          */
-        public static function visit($name)
+        public static function visit($name, $args = [])
         {
             /** @var \Livewire\LivewireManager $instance */
-            return $instance->visit($name);
+            return $instance->visit($name, $args);
         }
 
         /**
@@ -26129,6 +25302,15 @@ namespace Livewire {
         /**
          * @static
          */
+        public static function zap()
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->zap();
+        }
+
+        /**
+         * @static
+         */
         public static function flushState()
         {
             /** @var \Livewire\LivewireManager $instance */
@@ -26160,6 +25342,15 @@ namespace Livewire {
         {
             /** @var \Livewire\LivewireManager $instance */
             return $instance->originalMethod();
+        }
+
+        /**
+         * @static
+         */
+        public static function isCspSafe()
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->isCspSafe();
         }
 
             }
@@ -26307,31 +25498,6 @@ namespace Illuminate\Http {
         public static function transformEnums($transformations)
         {
             \Illuminate\Http\Request::transformEnums($transformations);
-        }
-
-            }
-    /**
-     */
-    class UploadedFile extends \Symfony\Component\HttpFoundation\File\UploadedFile {
-        /**
-         * @see \CloudinaryLabs\CloudinaryLaravel\CloudinaryServiceProvider::bootMacros()
-         * @param mixed $folder
-         * @static
-         */
-        public static function storeOnCloudinary($folder = null)
-        {
-            return \Illuminate\Http\UploadedFile::storeOnCloudinary($folder);
-        }
-
-        /**
-         * @see \CloudinaryLabs\CloudinaryLaravel\CloudinaryServiceProvider::bootMacros()
-         * @param mixed $folder
-         * @param mixed $publicId
-         * @static
-         */
-        public static function storeOnCloudinaryAs($folder = null, $publicId = null)
-        {
-            return \Illuminate\Http\UploadedFile::storeOnCloudinaryAs($folder, $publicId);
         }
 
             }
@@ -26619,6 +25785,18 @@ namespace Illuminate\Routing {
             return \Illuminate\Routing\Router::enum($key, $class);
         }
 
+        /**
+         * @see \Livewire\Features\SupportRouting\SupportRouting::provide()
+         * @param mixed $uri
+         * @param mixed $component
+         * @return \Illuminate\Routing\Route
+         * @static
+         */
+        public static function livewire($uri, $component)
+        {
+            return \Illuminate\Routing\Router::livewire($uri, $component);
+        }
+
             }
     /**
      */
@@ -26631,6 +25809,16 @@ namespace Illuminate\Routing {
         public static function lazy($enabled = true)
         {
             return \Illuminate\Routing\Route::lazy($enabled);
+        }
+
+        /**
+         * @see \Livewire\Features\SupportLazyLoading\SupportLazyLoading::registerRouteMacro()
+         * @param mixed $enabled
+         * @static
+         */
+        public static function defer($enabled = true)
+        {
+            return \Illuminate\Routing\Route::defer($enabled);
         }
 
         /**
@@ -29281,6 +28469,20 @@ namespace  {
         }
 
         /**
+         * Add a select expression to the query.
+         *
+         * @param \Illuminate\Contracts\Database\Query\Expression $expression
+         * @param string $as
+         * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @static
+         */
+        public static function selectExpression($expression, $as)
+        {
+            /** @var \Illuminate\Database\Query\Builder $instance */
+            return $instance->selectExpression($expression, $as);
+        }
+
+        /**
          * Add a new "raw" select expression to the query.
          *
          * @param string $expression
@@ -29309,7 +28511,7 @@ namespace  {
         }
 
         /**
-         * Add a raw from clause to the query.
+         * Add a raw "from" clause to the query.
          *
          * @param string $expression
          * @param mixed $bindings
@@ -29333,6 +28535,21 @@ namespace  {
         {
             /** @var \Illuminate\Database\Query\Builder $instance */
             return $instance->addSelect($column);
+        }
+
+        /**
+         * Add a vector-similarity selection to the query.
+         *
+         * @param \Illuminate\Contracts\Database\Query\Expression|string $column
+         * @param \Illuminate\Support\Collection<int, float>|\Illuminate\Contracts\Support\Arrayable|array<int, float>|string $vector
+         * @param string|null $as
+         * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @static
+         */
+        public static function selectVectorDistance($column, $vector, $as = null)
+        {
+            /** @var \Illuminate\Database\Query\Builder $instance */
+            return $instance->selectVectorDistance($column, $vector, $as);
         }
 
         /**
@@ -29401,7 +28618,7 @@ namespace  {
         }
 
         /**
-         * Add a join clause to the query.
+         * Add a "join" clause to the query.
          *
          * @param \Illuminate\Contracts\Database\Query\Expression|string $table
          * @param \Closure|\Illuminate\Contracts\Database\Query\Expression|string $first
@@ -29436,7 +28653,7 @@ namespace  {
         }
 
         /**
-         * Add a subquery join clause to the query.
+         * Add a "subquery join" clause to the query.
          *
          * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*>|string $query
          * @param string $as
@@ -29456,7 +28673,7 @@ namespace  {
         }
 
         /**
-         * Add a lateral join clause to the query.
+         * Add a "lateral join" clause to the query.
          *
          * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*>|string $query
          * @return \Illuminate\Database\Eloquent\Builder<static>
@@ -29610,7 +28827,7 @@ namespace  {
         }
 
         /**
-         * Merge an array of where clauses and bindings.
+         * Merge an array of "where" clauses and bindings.
          *
          * @param array $wheres
          * @param array $bindings
@@ -29671,7 +28888,54 @@ namespace  {
         }
 
         /**
-         * Add a raw where clause to the query.
+         * Add a vector similarity clause to the query, filtering by minimum similarity and ordering by similarity.
+         *
+         * @param \Illuminate\Contracts\Database\Query\Expression|string $column
+         * @param \Illuminate\Support\Collection<int, float>|\Illuminate\Contracts\Support\Arrayable|array<int, float>|string $vector
+         * @param float $minSimilarity A value between 0.0 and 1.0, where 1.0 is identical.
+         * @param bool $order
+         * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @static
+         */
+        public static function whereVectorSimilarTo($column, $vector, $minSimilarity = 0.6, $order = true)
+        {
+            /** @var \Illuminate\Database\Query\Builder $instance */
+            return $instance->whereVectorSimilarTo($column, $vector, $minSimilarity, $order);
+        }
+
+        /**
+         * Add a vector distance "where" clause to the query.
+         *
+         * @param \Illuminate\Contracts\Database\Query\Expression|string $column
+         * @param \Illuminate\Support\Collection<int, float>|\Illuminate\Contracts\Support\Arrayable|array<int, float>|string $vector
+         * @param float $maxDistance
+         * @param string $boolean
+         * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @static
+         */
+        public static function whereVectorDistanceLessThan($column, $vector, $maxDistance, $boolean = 'and')
+        {
+            /** @var \Illuminate\Database\Query\Builder $instance */
+            return $instance->whereVectorDistanceLessThan($column, $vector, $maxDistance, $boolean);
+        }
+
+        /**
+         * Add a vector distance "or where" clause to the query.
+         *
+         * @param \Illuminate\Contracts\Database\Query\Expression|string $column
+         * @param \Illuminate\Support\Collection<int, float>|\Illuminate\Contracts\Support\Arrayable|array<int, float>|string $vector
+         * @param float $maxDistance
+         * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @static
+         */
+        public static function orWhereVectorDistanceLessThan($column, $vector, $maxDistance)
+        {
+            /** @var \Illuminate\Database\Query\Builder $instance */
+            return $instance->orWhereVectorDistanceLessThan($column, $vector, $maxDistance);
+        }
+
+        /**
+         * Add a raw "where" clause to the query.
          *
          * @param \Illuminate\Contracts\Database\Query\Expression|string $sql
          * @param mixed $bindings
@@ -29686,7 +28950,7 @@ namespace  {
         }
 
         /**
-         * Add a raw or where clause to the query.
+         * Add a raw "or where" clause to the query.
          *
          * @param string $sql
          * @param mixed $bindings
@@ -29906,9 +29170,9 @@ namespace  {
         }
 
         /**
-         * Add a where between statement to the query.
+         * Add a "where between" statement to the query.
          *
-         * @param \Illuminate\Contracts\Database\Query\Expression|string $column
+         * @param \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*>|\Illuminate\Contracts\Database\Query\Expression|string $column
          * @param string $boolean
          * @param bool $not
          * @return \Illuminate\Database\Eloquent\Builder<static>
@@ -29921,7 +29185,7 @@ namespace  {
         }
 
         /**
-         * Add a where between statement using columns to the query.
+         * Add a "where between" statement using columns to the query.
          *
          * @param \Illuminate\Contracts\Database\Query\Expression|string $column
          * @param string $boolean
@@ -29936,9 +29200,9 @@ namespace  {
         }
 
         /**
-         * Add an or where between statement to the query.
+         * Add an "or where between" statement to the query.
          *
-         * @param \Illuminate\Contracts\Database\Query\Expression|string $column
+         * @param \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*>|\Illuminate\Contracts\Database\Query\Expression|string $column
          * @return \Illuminate\Database\Eloquent\Builder<static>
          * @static
          */
@@ -29949,7 +29213,7 @@ namespace  {
         }
 
         /**
-         * Add an or where between statement using columns to the query.
+         * Add an "or where between" statement using columns to the query.
          *
          * @param \Illuminate\Contracts\Database\Query\Expression|string $column
          * @return \Illuminate\Database\Eloquent\Builder<static>
@@ -29962,9 +29226,9 @@ namespace  {
         }
 
         /**
-         * Add a where not between statement to the query.
+         * Add a "where not between" statement to the query.
          *
-         * @param \Illuminate\Contracts\Database\Query\Expression|string $column
+         * @param \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*>|\Illuminate\Contracts\Database\Query\Expression|string $column
          * @param string $boolean
          * @return \Illuminate\Database\Eloquent\Builder<static>
          * @static
@@ -29976,7 +29240,7 @@ namespace  {
         }
 
         /**
-         * Add a where not between statement using columns to the query.
+         * Add a "where not between" statement using columns to the query.
          *
          * @param \Illuminate\Contracts\Database\Query\Expression|string $column
          * @param string $boolean
@@ -29990,9 +29254,9 @@ namespace  {
         }
 
         /**
-         * Add an or where not between statement to the query.
+         * Add an "or where not between" statement to the query.
          *
-         * @param \Illuminate\Contracts\Database\Query\Expression|string $column
+         * @param \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*>|\Illuminate\Contracts\Database\Query\Expression|string $column
          * @return \Illuminate\Database\Eloquent\Builder<static>
          * @static
          */
@@ -30003,7 +29267,7 @@ namespace  {
         }
 
         /**
-         * Add an or where not between statement using columns to the query.
+         * Add an "or where not between" statement using columns to the query.
          *
          * @param \Illuminate\Contracts\Database\Query\Expression|string $column
          * @return \Illuminate\Database\Eloquent\Builder<static>
@@ -30016,7 +29280,7 @@ namespace  {
         }
 
         /**
-         * Add a where between columns statement using a value to the query.
+         * Add a "where between columns" statement using a value to the query.
          *
          * @param mixed $value
          * @param array{\Illuminate\Contracts\Database\Query\Expression|string, \Illuminate\Contracts\Database\Query\Expression|string} $columns
@@ -30032,7 +29296,7 @@ namespace  {
         }
 
         /**
-         * Add an or where between columns statement using a value to the query.
+         * Add an "or where between columns" statement using a value to the query.
          *
          * @param mixed $value
          * @param array{\Illuminate\Contracts\Database\Query\Expression|string, \Illuminate\Contracts\Database\Query\Expression|string} $columns
@@ -30046,7 +29310,7 @@ namespace  {
         }
 
         /**
-         * Add a where not between columns statement using a value to the query.
+         * Add a "where not between columns" statement using a value to the query.
          *
          * @param mixed $value
          * @param array{\Illuminate\Contracts\Database\Query\Expression|string, \Illuminate\Contracts\Database\Query\Expression|string} $columns
@@ -30061,7 +29325,7 @@ namespace  {
         }
 
         /**
-         * Add an or where not between columns statement using a value to the query.
+         * Add an "or where not between columns" statement using a value to the query.
          *
          * @param mixed $value
          * @param array{\Illuminate\Contracts\Database\Query\Expression|string, \Illuminate\Contracts\Database\Query\Expression|string} $columns
@@ -30243,7 +29507,7 @@ namespace  {
         }
 
         /**
-         * Add a nested where statement to the query.
+         * Add a nested "where" statement to the query.
          *
          * @param string $boolean
          * @return \Illuminate\Database\Eloquent\Builder<static>
@@ -30282,7 +29546,7 @@ namespace  {
         }
 
         /**
-         * Add an exists clause to the query.
+         * Add an "exists" clause to the query.
          *
          * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*> $callback
          * @param string $boolean
@@ -30297,7 +29561,7 @@ namespace  {
         }
 
         /**
-         * Add an or exists clause to the query.
+         * Add an "or where exists" clause to the query.
          *
          * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*> $callback
          * @param bool $not
@@ -30311,7 +29575,7 @@ namespace  {
         }
 
         /**
-         * Add a where not exists clause to the query.
+         * Add a "where not exists" clause to the query.
          *
          * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*> $callback
          * @param string $boolean
@@ -30325,7 +29589,7 @@ namespace  {
         }
 
         /**
-         * Add a where not exists clause to the query.
+         * Add an "or where not exists" clause to the query.
          *
          * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*> $callback
          * @return \Illuminate\Database\Eloquent\Builder<static>
@@ -30338,7 +29602,7 @@ namespace  {
         }
 
         /**
-         * Add an exists clause to the query.
+         * Add an "exists" clause to the query.
          *
          * @param string $boolean
          * @param bool $not
@@ -30617,7 +29881,7 @@ namespace  {
         }
 
         /**
-         * Add a "or where fulltext" clause to the query.
+         * Add an "or where fulltext" clause to the query.
          *
          * @param string|string[] $columns
          * @param string $value
@@ -30737,7 +30001,7 @@ namespace  {
         }
 
         /**
-         * Add a raw groupBy clause to the query.
+         * Add a raw "groupBy" clause to the query.
          *
          * @param string $sql
          * @return \Illuminate\Database\Eloquent\Builder<static>
@@ -30781,7 +30045,7 @@ namespace  {
         }
 
         /**
-         * Add a nested having statement to the query.
+         * Add a nested "having" statement to the query.
          *
          * @param string $boolean
          * @return \Illuminate\Database\Eloquent\Builder<static>
@@ -30863,7 +30127,7 @@ namespace  {
         }
 
         /**
-         * Add a "having between " clause to the query.
+         * Add a "having between" clause to the query.
          *
          * @param string $column
          * @param string $boolean
@@ -30878,7 +30142,50 @@ namespace  {
         }
 
         /**
-         * Add a raw having clause to the query.
+         * Add a "having not between" clause to the query.
+         *
+         * @param string $column
+         * @param iterable $values
+         * @param string $boolean
+         * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @static
+         */
+        public static function havingNotBetween($column, $values, $boolean = 'and')
+        {
+            /** @var \Illuminate\Database\Query\Builder $instance */
+            return $instance->havingNotBetween($column, $values, $boolean);
+        }
+
+        /**
+         * Add an "or having between" clause to the query.
+         *
+         * @param string $column
+         * @param iterable $values
+         * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @static
+         */
+        public static function orHavingBetween($column, $values)
+        {
+            /** @var \Illuminate\Database\Query\Builder $instance */
+            return $instance->orHavingBetween($column, $values);
+        }
+
+        /**
+         * Add an "or having not between" clause to the query.
+         *
+         * @param string $column
+         * @param iterable $values
+         * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @static
+         */
+        public static function orHavingNotBetween($column, $values)
+        {
+            /** @var \Illuminate\Database\Query\Builder $instance */
+            return $instance->orHavingNotBetween($column, $values);
+        }
+
+        /**
+         * Add a raw "having" clause to the query.
          *
          * @param string $sql
          * @param string $boolean
@@ -30892,7 +30199,7 @@ namespace  {
         }
 
         /**
-         * Add a raw or having clause to the query.
+         * Add a raw "or having" clause to the query.
          *
          * @param string $sql
          * @return \Illuminate\Database\Eloquent\Builder<static>
@@ -30930,6 +30237,20 @@ namespace  {
         {
             /** @var \Illuminate\Database\Query\Builder $instance */
             return $instance->orderByDesc($column);
+        }
+
+        /**
+         * Add a vector-distance "order by" clause to the query.
+         *
+         * @param \Illuminate\Contracts\Database\Query\Expression|string $column
+         * @param \Illuminate\Support\Collection<int, float>|\Illuminate\Contracts\Support\Arrayable|array<int, float> $vector
+         * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @static
+         */
+        public static function orderByVectorDistance($column, $vector)
+        {
+            /** @var \Illuminate\Database\Query\Builder $instance */
+            return $instance->orderByVectorDistance($column, $vector);
         }
 
         /**
@@ -31097,7 +30418,7 @@ namespace  {
         }
 
         /**
-         * Add a union statement to the query.
+         * Add a "union" statement to the query.
          *
          * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*> $query
          * @param bool $all
@@ -31111,7 +30432,7 @@ namespace  {
         }
 
         /**
-         * Add a union all statement to the query.
+         * Add a "union all" statement to the query.
          *
          * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder<*> $query
          * @return \Illuminate\Database\Eloquent\Builder<static>
@@ -31519,7 +30840,7 @@ namespace  {
         }
 
         /**
-         * Run a truncate statement on the table.
+         * Run a "truncate" statement on the table.
          *
          * @return void
          * @static
@@ -32098,7 +31419,6 @@ namespace  {
     class View extends \Illuminate\Support\Facades\View {}
     class Vite extends \Illuminate\Support\Facades\Vite {}
     class Debugbar extends \Barryvdh\Debugbar\Facades\Debugbar {}
-    class Cloudinary extends \CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary {}
     class L5Swagger extends \L5Swagger\L5SwaggerFacade {}
     class GoogleTranslate extends \Datlechin\GoogleTranslate\Facades\GoogleTranslate {}
     class Nightwatch extends \Laravel\Nightwatch\Facades\Nightwatch {}
@@ -32107,11 +31427,6 @@ namespace  {
 }
 
 
-namespace Facades\Livewire\Features\SupportFileUploads {
-    /**
-     * @mixin \Livewire\Features\SupportFileUploads\GenerateSignedUploadUrl     */
-    class GenerateSignedUploadUrl extends \Livewire\Features\SupportFileUploads\GenerateSignedUploadUrl {}
-}
 
 
 

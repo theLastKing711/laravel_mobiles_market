@@ -18,7 +18,7 @@ namespace App\Data\Shared\Media{
  * @method static \Illuminate\Database\Eloquent\Builder|ModelAndMediable newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ModelAndMediable newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ModelAndMediable query()
- * @method static  joinRelationship()
+ * @method static joinRelationship()
  * @method static Illuminate\Database\Eloquent\Builder<static> orderByLeftPowerJoins(string|array<string, \Illuminate\Contracts\Database\Query\Expression> $column)
  * @method static Illuminate\Database\Eloquent\Builder<static> orderByLeftPowerJoinsCount(string $column, string|null $order)
  * @method static Illuminate\Database\Eloquent\Builder<static> orderByPowerJoins(string|array<string, \Illuminate\Contracts\Database\Query\Expression> $column)
@@ -77,7 +77,7 @@ namespace App\Models{
  * @method static Illuminate\Database\Eloquent\Builder<static> orderByPowerLeftJoinsMin(string $column, string|null $order)
  * @method static Illuminate\Database\Eloquent\Builder<static> orderByPowerLeftJoinsSum(string $column, string|null $order)
  * @method static Illuminate\Database\Eloquent\Builder<static> powerJoinHas(string $relations, mixed operater, mixed value)
- * @method static Illuminate\Database\Eloquent\Builder<static> powerJoinWhereHas(string $relations, \Closure(Illuminate\Database\Query\JoinClause $join)|array $join_callback_or_array)
+ * @method static Illuminate\Database\Eloquent\Builder<static> powerJoinWhereHas(stri ng $relations, \Closure(Illuminate\Database\Query\JoinClause $join)|array $join_callback_or_array)
  * @mixin \Eloquent
  * @property string $collection_name
  * @property string $thumbnail_url
@@ -150,8 +150,8 @@ namespace App\Models{
  * @property-read int|null $favourite_by_users_count
  * @property-read \App\Data\Shared\ModelwithPivotCollection<\App\Models\MobileOfferFeature,\Illuminate\Database\Eloquent\Relations\Pivot> $features
  * @property-read int|null $features_count
- * @property-read Media|null $mainImage
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Media> $medially
+ * @property-read \App\Models\Media|null $mainImage
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Media> $medially
  * @property-read int|null $medially_count
  * @property-read \App\Models\User $user
  * @method static \Database\Factories\MobileOfferFactory factory($count = null, $state = [])
@@ -336,7 +336,7 @@ namespace App\Models{
  * @property string $phone_number
  * @property-read \App\Data\Shared\ModelwithPivotCollection<\App\Models\MobileOffer,\Illuminate\Database\Eloquent\Relations\Pivot> $favouriteMobileOffers
  * @property-read int|null $favourite_mobile_offers_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Media> $medially
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Media> $medially
  * @property-read int|null $medially_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\MobileOffer> $mobileOffers
  * @property-read int|null $mobile_offers_count
@@ -349,7 +349,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User user()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePhoneNumber($value)
  */
-	class User extends \Eloquent implements \App\Interfaces\IUploadable, \App\Interfaces\Mediable {}
+	class User extends \Eloquent {}
 }
 
 namespace App\Models{
