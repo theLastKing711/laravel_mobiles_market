@@ -1,11 +1,9 @@
 <?php
 
-use App\Constants\RotueName;
 use App\Http\Controllers\Admin\AuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admins')
-    ->name(RotueName::ADMIN)
     ->middleware(['api'])
     ->group(function () {
 
