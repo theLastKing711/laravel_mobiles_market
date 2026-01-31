@@ -11,6 +11,8 @@ use App\Models\TemporaryUploadedImages;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+use function App\Helpers\getUrlToDbPublicIdFormat;
+
 class mediaService
 {
     public function createTemporaryUploadedImageFromCloudinaryUploadSuccessNotification(

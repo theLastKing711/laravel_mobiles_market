@@ -7,6 +7,8 @@ use Spatie\LaravelData\Attributes\FromRouteParameter;
 use Spatie\LaravelData\Data;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
+use function App\Helpers\getUrlToDbPublicIdFormat;
+
 #[TypeScript]
 #[Oat\Schema()]
 class MediaPublicIdPathParameterData extends Data
