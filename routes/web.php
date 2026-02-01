@@ -1,10 +1,11 @@
 <?php
 
+use App\Constants\Routes\FileRoute;
 use App\Enum\Auth\RolesEnum;
 use App\Http\Controllers\FileController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('files')
+Route::prefix(FileRoute::MAIN_ROUTE)
     ->middleware(
         [
             'api',
@@ -16,21 +17,21 @@ Route::prefix('files')
 
         Route::get('cloudinary-presigned-urls', [FileController::class, 'getTestCloudinaryPresignedUrls'])
             ->name(
-                'files.cloudinary-presigned-urls'
+                FileRoute::ROUTES['files.cloudinary-presigned-urls']['name']
             );
 
         Route::post('cloudinary-notifications-url', [FileController::class, 'saveTemporaryUploadedImageToDBOnCloudinaryUploadNotificationSuccess'])
             ->name(
-                'files.cloudinary-notifications-url'
+                FileRoute::ROUTES['files.cloudinary-notifications-url']['name']
             );
 
-        Route::delete('medias/{public_id}', [FileController::class, 'deleteMediaByPublicId'])
+        Route::delete('media/{public_id}', [FileController::class, 'deleteMediaByPublicId'])
             ->name(
-                'files.media.{public_id}'
+                FileRoute::ROUTES['files.media.{public_id}.delete']['name']
             );
 
-        Route::delete('tempoaray-uploaded-images/{public_id}', [FileController::class, 'deleteTemporaryUploadedImageByPublicId'])
+        Route::delete('temporary-uploaded-images/{public_id}', [FileController::class, 'deleteTemporaryUploadedImageByPublicId'])
             ->name(
-                'files.temporary-uploaded-image.{public_id}'
+                FileRoute::ROUTES['files.temporary-uploaded-images.{public_id}.delete']['name']
             );
     });

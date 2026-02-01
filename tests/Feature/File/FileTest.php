@@ -116,7 +116,7 @@ class FileTest extends FileTestCase
            $this
                ->withRouteName(
                    route(
-                       'files.media.{public_id}',
+                       'files.media.{public_id}.delete',
                        [
                            'public_id' => $public_id,
                        ]
@@ -187,7 +187,7 @@ class FileTest extends FileTestCase
            $this
                ->withRouteName(
                    route(
-                       'files.temporary-uploaded-image.{public_id}',
+                       'files.temporary-uploaded-images.{public_id}.delete',
                        [
                            'public_id' => $public_id,
                        ]

@@ -25,7 +25,7 @@ class MyMobileOfferFileController extends MyMobileOfferFileControllerAbstract
 
     const MAIN_ROUTE = '/users/my-mobile-offers/files';
 
-    #[OAT\Get(path: SwaggerRoute::MY_MOBILE_OFFER_FILE['CHILD_ROUTES']['cloudinary-presigned-urls'], tags: [SwaggerTag::MY_MOBILE_OFFER_FILE])]
+    #[OAT\Get(path: SwaggerRoute::MY_MOBILE_OFFER_FILE['cloudinary-presigned-urls'], tags: [SwaggerTag::MY_MOBILE_OFFER_FILE])]
     #[QueryParameter('urls_count')]
     #[SuccessItemResponse('string', 'Fetched presigned upload successfully')]
     public function getCloudinaryPresignedUrls(Request $request): Collection
@@ -39,7 +39,7 @@ class MyMobileOfferFileController extends MyMobileOfferFileControllerAbstract
 
     }
 
-    #[OAT\Post(path: SwaggerRoute::MY_MOBILE_OFFER_FILE['CHILD_ROUTES']['cloudinary-notifications-url'], tags: [SwaggerTag::MY_MOBILE_OFFER_FILE])]
+    #[OAT\Post(path: SwaggerRoute::MY_MOBILE_OFFER_FILE['cloudinary-notifications-url'], tags: [SwaggerTag::MY_MOBILE_OFFER_FILE])]
     #[RequestBody(CloudinaryNotificationUrlRequestData::class)]
     #[SuccessNoContentResponse]
     public function saveTemporaryUploadedImageToDBOnCloudinaryUploadNotificationSuccess(CloudinaryNotificationUrlRequestData $request)
@@ -52,7 +52,7 @@ class MyMobileOfferFileController extends MyMobileOfferFileControllerAbstract
 
     }
 
-    #[OAT\Delete(path: SwaggerRoute::MY_MOBILE_OFFER_FILE['CHILD_ROUTES']['temporary-uploaded-images'], tags: [SwaggerTag::MY_MOBILE_OFFER_FILE])]
+    #[OAT\Delete(path: SwaggerRoute::MY_MOBILE_OFFER_FILE['temporary-uploaded-images'], tags: [SwaggerTag::MY_MOBILE_OFFER_FILE])]
     #[SuccessNoContentResponse]
     public function deleteTemporaryUploadedImageByPublicId(FilePublicIdPathParameterData $deleteFileData)
     {
@@ -65,7 +65,7 @@ class MyMobileOfferFileController extends MyMobileOfferFileControllerAbstract
 
     }
 
-    #[OAT\Delete(path: SwaggerRoute::MY_MOBILE_OFFER_FILE['CHILD_ROUTES']['media'], tags: [SwaggerTag::MY_MOBILE_OFFER_FILE])]
+    #[OAT\Delete(path: SwaggerRoute::MY_MOBILE_OFFER_FILE['media'], tags: [SwaggerTag::MY_MOBILE_OFFER_FILE])]
     #[SuccessNoContentResponse]
     public function deleteMediaByPublicId(MediaPublicIdPathParameterData $request)
     {

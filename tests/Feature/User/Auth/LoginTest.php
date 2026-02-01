@@ -78,9 +78,9 @@ class LoginTest extends UserTestCase
     #[
         Test,
         Group('login'),
-        Group('success')
+        Group('error')
     ]
-    public function login_success_with_200_response(): void
+    public function login_with_wrong_credintials_error_with_403(): void
     {
         $new_user =
             User::factory()
@@ -104,13 +104,13 @@ class LoginTest extends UserTestCase
                        ->toArray()
                );
 
-        $response->assertStatus(HttpStatusCode::UNAUTHORIZED);
+        $response->assertStatus(HttpStatusCode::FORBIDDEN);
 
     }
 
-    /**
-     * @param  callable(): LoginRequestData  $request
-     **/
+    // /**
+    //  * @param  callable(): LoginRequestData  $request
+    //  **/
     #[
         Test,
         Group('login'),
@@ -119,6 +119,7 @@ class LoginTest extends UserTestCase
     ]
     public function login_with_wrong_username_errors_with_401_response($request): void
     {
+
         $login_request_data =
             new LoginRequestData(
                 $request()->phone_number,
@@ -137,28 +138,31 @@ class LoginTest extends UserTestCase
                        ->toArray()
                );
 
-        $response->assertStatus(HttpStatusCode::UNAUTHORIZED);
+        $response->assertStatus(HttpStatusCode::FORBIDDEN);
 
     }
 
-    /**
-     * @return array<callable(): LoginRequestData>
-     **/
     public static function wrong_phonenumber_password_provider(): array
     {
 
         return [
-            [function (): LoginRequestData {
-                $user = User::factory()->create();
+            [
+                function (): LoginRequestData {
+                    $user = User::factory()->create();
 
-                return new LoginRequestData('wrong_phone_number', $user->password);
-            }],
-            [function (): LoginRequestData {
-                $user = User::factory()->create();
+                    return new LoginRequestData('wrong_phone_number', $user->password);
+                },
+            ],
+            [
+                function (): LoginRequestData {
+                    $user = User::factory()->create();
 
-                return new LoginRequestData($user->phone_number, 'wrong_password');
-            }],
-            [fn () => new LoginRequestData('wrong_username', 'wrong_password')],
+                    return new LoginRequestData($user->phone_number, 'wrong_password');
+                },
+            ],
+            [
+                fn () => new LoginRequestData('wrong_username', 'wrong_password'),
+            ],
         ];
 
     }

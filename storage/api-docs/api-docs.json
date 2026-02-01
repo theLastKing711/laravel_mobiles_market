@@ -12,12 +12,12 @@
                 }
             ]
         },
-        "/users/my-mobile-offers/files/medias/{public_id}": {
+        "files/medias/{public_id}": {
             "delete": {
                 "tags": [
                     "files"
                 ],
-                "operationId": "842042ca49eadef6f70c2b88d72be3dd",
+                "operationId": "cc21cd463ff4ce05bbecde11f32e0036",
                 "responses": {
                     "204": {
                         "description": "",
@@ -31,16 +31,16 @@
             },
             "parameters": [
                 {
-                    "$ref": "#/components/parameters/filesPublicIdPathParameterData"
+                    "$ref": "#/components/parameters/filesMediaPublicIdPathParameterData"
                 }
             ]
         },
-        "/users/my-mobile-offers/files/temporary-uploaded-images/{public_id}": {
+        "files/temporary-uploaded-images/{public_id}": {
             "delete": {
                 "tags": [
                     "files"
                 ],
-                "operationId": "5bb7196993b9e322c65771270ae8ab44",
+                "operationId": "c5beba8fce5f283e69c54be2ea1aef48",
                 "responses": {
                     "204": {
                         "description": "",
@@ -528,12 +528,12 @@
                 }
             }
         },
-        "/users/my-mobile-offers/files/cloudinary-presigned-urls": {
+        "files/cloudinary-notifications-url": {
             "get": {
                 "tags": [
                     "files"
                 ],
-                "operationId": "bbd12e50d1dc40ab17e7a1e01456f1a0",
+                "operationId": "fad55bd6dbe228abc202569053fb77e4",
                 "parameters": [
                     {
                         "name": "urls_count",
@@ -555,14 +555,12 @@
                         }
                     }
                 }
-            }
-        },
-        "/users/my-mobile-offers/files/cloudinary-notifications-url": {
+            },
             "post": {
                 "tags": [
                     "files"
                 ],
-                "operationId": "4f73bf1588ebbb5d839ae56853a22499",
+                "operationId": "7946008f09916ea7b4df0f7f933047d6",
                 "requestBody": {
                     "$ref": "#/components/schemas/CloudinaryNotificationUrlRequestData"
                 },
@@ -894,12 +892,12 @@
                 }
             }
         },
-        "/cloudinary-presigned-urls": {
+        "/users/my-mobile-offers/files/cloudinary-presigned-urls": {
             "get": {
                 "tags": [
                     "myMobileOfferFiles"
                 ],
-                "operationId": "64b5e4a185c01e333c0d07256143b517",
+                "operationId": "bda347e31f42ef15e07a651ed306feaf",
                 "parameters": [
                     {
                         "name": "urls_count",
@@ -923,12 +921,12 @@
                 }
             }
         },
-        "/cloudinary-notifications-url": {
+        "/users/my-mobile-offers/files/cloudinary-notifications-url": {
             "post": {
                 "tags": [
                     "myMobileOfferFiles"
                 ],
-                "operationId": "39ac9ce967b56a32479fecab82da8d8c",
+                "operationId": "ca45d1621eff4033989b2c29b1bf487c",
                 "requestBody": {
                     "$ref": "#/components/schemas/CloudinaryNotificationUrlRequestData"
                 },
@@ -944,12 +942,12 @@
                 }
             }
         },
-        "/temporary-uploaded-images/{public_id}": {
+        "/users/my-mobile-offers/files/temporary-uploaded-images/{public_id}": {
             "delete": {
                 "tags": [
                     "myMobileOfferFiles"
                 ],
-                "operationId": "e7859e2943ab66d4c6901e227b8bfd5b",
+                "operationId": "d9225e6f6aec1c804dbd75c2a9418033",
                 "responses": {
                     "204": {
                         "description": "",
@@ -962,12 +960,12 @@
                 }
             }
         },
-        "/medias/{public_id}": {
+        "/users/my-mobile-offers/files/medias/{public_id}": {
             "delete": {
                 "tags": [
                     "myMobileOfferFiles"
                 ],
-                "operationId": "b3d0168449b5c5fa422126d3bc354968",
+                "operationId": "99ba7f9ff906c4b17eeff9b166f0487d",
                 "responses": {
                     "204": {
                         "description": "",

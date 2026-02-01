@@ -2,11 +2,16 @@
 
 namespace Tests\Feature\User\Auth;
 
+use App\Actions\Auth\CreateUser\CreateUser;
+use App\Actions\Auth\CreateUser\CreateUserInput;
+use App\Actions\Auth\CreateUser\CreateUserResult;
 use App\Data\User\Auth\Registeration\AddPhoneNumberRegisterationStep\Request\AddPhoneNumberRegisterationStepRequestData;
 use App\Data\User\Auth\Registeration\Register\Request\RegisterRequestData;
+use App\Data\User\Auth\Registeration\Register\Response\RegisterResponseData;
 use App\Enum\Auth\RolesEnum;
 use App\Models\User;
 use Cloudinary\Api\HttpStatusCode;
+use Mockery\MockInterface;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\User\Abstractions\UserTestCase;
@@ -33,13 +38,13 @@ class RegisterationTest extends UserTestCase
                        'users.auth.registeration.phone-number-step'
                    )
                )
-
                ->postJsonData(
                    $registeration_step_request_data
                        ->toArray()
                );
 
-        $response->assertStatus(200);
+        $response
+            ->assertStatus(200);
 
     }
 
@@ -73,7 +78,8 @@ class RegisterationTest extends UserTestCase
                        ->toArray()
                );
 
-        $response->assertStatus(HttpStatusCode::CONFLICT);
+        $response
+            ->assertStatus(HttpStatusCode::CONFLICT);
 
     }
 
@@ -91,6 +97,29 @@ class RegisterationTest extends UserTestCase
                 fake()->password()
             );
 
+        $create_user_result =
+            new CreateUserResult(
+                fake()->name(),
+                fake()->randomElement(RolesEnum::cases())->value
+            );
+
+        $this
+            ->mock(
+                CreateUser::class,
+                function (MockInterface $mock) use ($create_user_result, $registeration_request_data) {
+                    $mock
+                        ->expects('handle')
+                        ->withArgs(
+                            fn (CreateUserInput $input) => $input->phone_number === $registeration_request_data->phone_number
+                        &&
+                        $input->password === $registeration_request_data->password
+
+                        )
+                        ->andReturn(
+                            $create_user_result
+                        );
+                });
+
         $response =
            $this
                ->withRouteName(
@@ -103,30 +132,26 @@ class RegisterationTest extends UserTestCase
                        ->toArray()
                );
 
-        $response->assertStatus(201);
+        $response
+            ->assertStatus(201);
 
-        $this
-            ->assertDatabaseHas(
-                User::class,
-                [
-                    'phone_number' => $registeration_request_data->phone_number,
-                ]
+        $resposne_data =
+            RegisterResponseData::from(
+                $response
+                    ->json()
             );
 
-        $created_user_is_user =
-            User::query()
-                ->where(
-                    'phone_number',
-                    $registeration_request_data->phone_number
-                )
-                ->first()
-                ->hasRole(RolesEnum::USER);
-
         $this
-            ->assertTrue(
-                $created_user_is_user
+            ->assertEquals(
+                $resposne_data->token,
+                $create_user_result->token
             );
 
+        $this
+            ->assertEquals(
+                $resposne_data->role,
+                $create_user_result->role
+            );
     }
 
     #[
