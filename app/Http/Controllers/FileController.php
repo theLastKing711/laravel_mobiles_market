@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\SwaggerRoute;
 use App\Data\Shared\File\CloudinaryNotificationUrlRequestData;
 use App\Data\Shared\File\PathParameters\FilePublicIdPathParameterData;
 use App\Data\Shared\File\PathParameters\MediaPublicIdPathParameterData;
@@ -17,7 +18,17 @@ use OpenApi\Attributes\RequestBody;
 
 #[
     OAT\PathItem(
-        path: FileController::MAIN_ROUTE.'/{public_id}',
+        path: SwaggerRoute::FILE['MAIN_ROUTE'].SwaggerRoute::FILE['CHILD_ROUTES']['media'],
+        parameters: [
+            new OAT\PathParameter(
+                ref: '#/components/parameters/filesPublicIdPathParameterData',
+            ),
+        ],
+    ),
+]
+#[
+    OAT\PathItem(
+        path: SwaggerRoute::FILE['MAIN_ROUTE'].SwaggerRoute::FILE['CHILD_ROUTES']['temporary-uploaded-images'],
         parameters: [
             new OAT\PathParameter(
                 ref: '#/components/parameters/filesPublicIdPathParameterData',
@@ -27,11 +38,10 @@ use OpenApi\Attributes\RequestBody;
 ]
 class FileController extends Controller
 {
-    const MAIN_ROUTE = '/files';
+    const MAIN_ROUTE = SwaggerRoute::FILE['MAIN_ROUTE'];
 
-    #[OAT\Get(path: self::MAIN_ROUTE.'/cloudinary-presigned-urls', tags: ['files'])]
+    #[OAT\Get(path: self::MAIN_ROUTE.SwaggerRoute::FILE['CHILD_ROUTES']['cloudinary-presigned-urls'], tags: ['files'])]
     #[QueryParameter('urls_count')]
-    #[QueryParameter('resource')]
     #[SuccessItemResponse('string', 'Fetched presigned upload successfully')]
     public function getTestCloudinaryPresignedUrls(Request $request)
     {
@@ -42,7 +52,7 @@ class FileController extends Controller
 
     }
 
-    #[OAT\Post(path: self::MAIN_ROUTE.'/cloudinary-notifications-url', tags: ['files'])]
+    #[OAT\Post(path: self::MAIN_ROUTE.SwaggerRoute::FILE['CHILD_ROUTES']['cloudinary-notifications-url'], tags: ['files'])]
     #[RequestBody(CloudinaryNotificationUrlRequestData::class)]
     #[SuccessNoContentResponse]
     public function saveTemporaryUploadedImageToDBOnCloudinaryUploadNotificationSuccess(CloudinaryNotificationUrlRequestData $request)
@@ -55,7 +65,7 @@ class FileController extends Controller
 
     }
 
-    #[OAT\Delete(path: self::MAIN_ROUTE.'/media/{public_id}', tags: ['files'])]
+    #[OAT\Delete(path: SwaggerRoute::FILE['MAIN_ROUTE'].SwaggerRoute::FILE['CHILD_ROUTES']['media'], tags: ['files'])]
     #[SuccessNoContentResponse]
     public function deleteMediaByPublicId(MediaPublicIdPathParameterData $request)
     {
@@ -68,7 +78,7 @@ class FileController extends Controller
 
     }
 
-    #[OAT\Delete(path: self::MAIN_ROUTE.'/temporary-uploaded-image/{public_id}', tags: ['files'])]
+    #[OAT\Delete(path: SwaggerRoute::FILE['MAIN_ROUTE'].SwaggerRoute::FILE['CHILD_ROUTES']['temporary-uploaded-images'], tags: ['files'])]
     #[SuccessNoContentResponse]
     public function deleteTemporaryUploadedImageByPublicId(FilePublicIdPathParameterData $request)
     {

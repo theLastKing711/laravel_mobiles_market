@@ -20,9 +20,7 @@ class TestCase extends BaseTestCase
         $this
             ->route_builder
             =
-            $this
-                ->route_builder
-                ->withRouteName($route_name);
+            RouteBuilder::withMainRoute($route_name);
 
         return $this;
     }

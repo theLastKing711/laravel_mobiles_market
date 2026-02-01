@@ -13,10 +13,17 @@ Route::prefix('files')
         ]
     )
     ->group(function () {
-        Route::post('', [FileController::class, 'store'])
+
+        Route::get('cloudinary-presigned-urls', [FileController::class, 'getTestCloudinaryPresignedUrls'])
             ->name(
-                'files'
+                'files.cloudinary-presigned-urls'
             );
+
+        Route::post('cloudinary-notifications-url', [FileController::class, 'saveTemporaryUploadedImageToDBOnCloudinaryUploadNotificationSuccess'])
+            ->name(
+                'files.cloudinary-notifications-url'
+            );
+
         Route::delete('medias/{public_id}', [FileController::class, 'deleteMediaByPublicId'])
             ->name(
                 'files.media.{public_id}'
@@ -25,13 +32,5 @@ Route::prefix('files')
         Route::delete('tempoaray-uploaded-images/{public_id}', [FileController::class, 'deleteTemporaryUploadedImageByPublicId'])
             ->name(
                 'files.temporary-uploaded-image.{public_id}'
-            );
-        Route::get('cloudinary-presigned-urls', [FileController::class, 'getTestCloudinaryPresignedUrls'])
-            ->name(
-                'files.cloudinary-presigned-urls'
-            );
-        Route::post('cloudinary-notifications-url', [FileController::class, 'saveTemporaryUploadedImageToDBOnCloudinaryUploadNotificationSuccess'])
-            ->name(
-                'files.cloudinary-notifications-url'
             );
     });

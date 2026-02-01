@@ -16,11 +16,6 @@ class FileTest extends FileTestCase
 {
     use CloudUploadServiceMocks, MediaServiceMocks;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-    }
-
     #[
         Test,
         Group('getCloudinaryPresignedUrls'),
@@ -36,16 +31,18 @@ class FileTest extends FileTestCase
                 $urls_count
             );
 
-        $this
-            ->withRoutePaths(
-                'cloudinary-presigned-urls'
-            );
-
         $response =
            $this
-               ->withQueryParameters([
-                   'urls_count' => $urls_count,
-               ])
+               ->withRouteName(
+                   route(
+                       'files.cloudinary-presigned-urls',
+
+                       [
+                           'urls_count' => $urls_count,
+                       ]
+                   )
+               )
+
                ->getJsonData();
 
         $response->assertStatus(200);
@@ -67,16 +64,8 @@ class FileTest extends FileTestCase
                 $urls_count
             );
 
-        $this
-            ->withRoutePaths(
-                'cloudinary-presigned-urls'
-            );
-
         $response =
            $this
-            //    ->withQueryParameters([
-            //        'urls_count' => $urls_count,
-            //    ])
                ->withRouteName(
                    route(
                        'files.cloudinary-presigned-urls',

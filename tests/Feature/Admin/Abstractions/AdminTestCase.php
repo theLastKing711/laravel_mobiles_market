@@ -20,8 +20,6 @@ class AdminTestCase extends TestCase
     {
         parent::setUp();
 
-        //        parent::withHeader('Accept', 'application/json');
-
         $this->seed(RolesAndPermissionsSeeder::class);
 
         $this->CreateAdmin();

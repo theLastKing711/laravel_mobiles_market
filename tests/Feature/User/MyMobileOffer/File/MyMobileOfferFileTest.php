@@ -14,9 +14,10 @@ use Tests\Feature\User\Abstractions\UserTestCase;
 use Tests\TraitMocks\MediaServiceMocks;
 use Tests\Traits\StoreTrait;
 
-#[Group(
-    MyMobileOfferFileController::class
-)
+#[
+    Group(
+        MyMobileOfferFileController::class
+    )
 ]
 class MyMobileOfferFileTest extends UserTestCase
 {

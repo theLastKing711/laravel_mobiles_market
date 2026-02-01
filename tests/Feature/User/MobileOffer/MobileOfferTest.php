@@ -28,11 +28,6 @@ class MobileOfferTest extends UserTestCase
         $this->initializeUser();
 
         $this
-            ->withRoutePaths(
-                'mobile-offers'
-            );
-
-        $this
             ->seed(
                 [
                     MobileOfferFeatureSeeder::class,
