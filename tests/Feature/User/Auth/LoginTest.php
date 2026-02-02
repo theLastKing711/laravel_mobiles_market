@@ -115,7 +115,7 @@ class LoginTest extends UserTestCase
         Test,
         Group('login'),
         Group('error'),
-        DataProvider('wrong_phonenumber_password_provider')
+        DataProvider('wrong_phone_number_and_password_provider')
     ]
     public function login_with_wrong_username_errors_with_401_response($request): void
     {
@@ -142,7 +142,7 @@ class LoginTest extends UserTestCase
 
     }
 
-    public static function wrong_phonenumber_password_provider(): array
+    public static function wrong_phone_number_and_password_provider(): array
     {
 
         return [
