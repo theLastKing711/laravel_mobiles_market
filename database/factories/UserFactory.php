@@ -35,6 +35,15 @@ class UserFactory extends Factory
         ];
     }
 
+    // User::factory()->create() return hash
+    // we can you use withPassword(unhashed) for testing
+    public function withPassword(string $password): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'password' => $password,
+        ]);
+    }
+
     public function staticAdmin(): static
     {
         return $this->state(fn (array $attributes) => [
@@ -53,17 +62,22 @@ class UserFactory extends Factory
         });
     }
 
-    public function user(): static
+    public function staticUser(): static
     {
-        return $this->afterCreating(function (User $user) {
+        return $this->state(fn (array $attributes) => [
+            'name' => 'user',
+            'email' => 'user@user.com',
+            'phone_number' => '0968259852',
+            'password' => Hash::make('2280'),
+        ])->afterCreating(function (User $user) {
             $user->assignRole(RolesEnum::USER);
         });
     }
 
-    public function storeUser(): static
+    public function user(): static
     {
         return $this->afterCreating(function (User $user) {
-            $user->assignRole(RolesEnum::STORE);
+            $user->assignRole(RolesEnum::USER);
         });
     }
 
@@ -79,15 +93,10 @@ class UserFactory extends Factory
         });
     }
 
-    public function staticUser(): static
+    public function storeUser(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'name' => 'user',
-            'email' => 'user@user.com',
-            'phone_number' => '0968259852',
-            'password' => Hash::make('2280'),
-        ])->afterCreating(function (User $user) {
-            $user->assignRole(RolesEnum::USER);
+        return $this->afterCreating(function (User $user) {
+            $user->assignRole(RolesEnum::STORE);
         });
     }
 
