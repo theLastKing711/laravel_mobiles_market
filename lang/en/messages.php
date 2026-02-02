@@ -7,8 +7,23 @@ return [
         'my-mobile-offers' => [
             'empty_number_of_images' => 'يرجى تحميل صورة واحدة على الأقل.',
         ],
+        'auth' => [
+            'registeration' => [
+                'add-phone-number-step' => [
+                    'phone_number' => [
+                        'unique' => 'لديك حساب مسجل مسبقا. سجل الدخول بالرقم المدخل ؟',
+                    ],
+                ],
+            ],
+            'login' => [
+                'add-phone-number-step' => [
+                    'phone_number' => [
+                        'exist' => 'الرقم المدخل لا يوجد حساب له, يرجى المحاولة مرة أخرى.',
+                    ],
+                ],
+            ],
+        ],
     ],
-
     //     'classroom_course_teacher' => [
     //         'overlap' => 'يوحد تضارب في يوم وتوقيت الحصة, يرجى اختيار وقت ويوم آخر.',
     //     ],

@@ -9,8 +9,8 @@ use App\Data\User\Auth\Registeration\AddPhoneNumberRegisterationStep\Request\Add
 use App\Data\User\Auth\Registeration\Register\Request\RegisterRequestData;
 use App\Data\User\Auth\Registeration\Register\Response\RegisterResponseData;
 use App\Enum\Auth\RolesEnum;
+use App\Http\Controllers\User\Auth\Registeration\AddPhoneNumberRegisterationStepController;
 use App\Models\User;
-use Cloudinary\Api\HttpStatusCode;
 use Mockery\MockInterface;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
@@ -20,10 +20,12 @@ class RegisterationTest extends UserTestCase
 {
     #[
         Test,
+        Group(AddPhoneNumberRegisterationStepController::class),
         Group('phone-number-step'),
-        Group('success')
+        Group('success'),
+        Group('status 200')
     ]
-    public function create_phone_number_in_registeration_success_with_200_response(): void
+    public function phone_number_step_success_with_200_response(): void
     {
 
         $registeration_step_request_data =
@@ -50,15 +52,26 @@ class RegisterationTest extends UserTestCase
 
     #[
         Test,
+        Group(AddPhoneNumberRegisterationStepController::class),
         Group('phone-number-step'),
-        Group('error')
+        Group('error'),
+        Group('status 422')
     ]
-    public function create_duplicated_phone_number_in_registeration_errors_with_409_response(): void
+    public function phone_number_step_sending_duplicated_phone_number_errors_with_422(): void
     {
+
+        $duplicated_phone_number =
+            fake()
+                ->randomElement(
+                    config('constants.store_users_numbers')
+                );
 
         $new_user =
             User::factory()
-                ->withPhoneAndPasswordAuth('0968259851', '2280')
+                ->withPhoneAndPasswordAuth(
+                    $duplicated_phone_number,
+                    '2280'
+                )
                 ->create();
 
         $registeration_step_request_data =
@@ -79,14 +92,25 @@ class RegisterationTest extends UserTestCase
                );
 
         $response
-            ->assertStatus(HttpStatusCode::CONFLICT);
+            ->assertStatus(422);
+
+        $response
+            ->assertOnlyJsonValidationErrors(
+                [
+                    'phone_number' => __(
+                        'messages.users.auth.registeration.add-phone-number-step.phone_number.unique'
+                    ),
+                ]
+            );
 
     }
 
     #[
         Test,
+        Group(AddPhoneNumberRegisterationStepRequestData::class),
         Group('register'),
-        Group('success')
+        Group('success'),
+        Group('status 201')
     ]
     public function register_user_success_with_201_response(): void
     {
@@ -156,22 +180,22 @@ class RegisterationTest extends UserTestCase
 
     #[
         Test,
+        Group(AddPhoneNumberRegisterationStepRequestData::class),
         Group('register'),
-        Group('success')
+        Group('error'),
+        Group('status 422')
     ]
-    public function register_store_success_with_201_response(): void
+    public function register_user_with_duplicate_phone_number_errors_with_422(): void
     {
 
-        /** @var array<string> $store_users_numbers */
-        $store_users_numbers = config('constants.store_users_numbers');
-
-        $store_phone_number =
-            collect($store_users_numbers)
-                ->first();
+        $user =
+            User::factory()
+                ->user()
+                ->create();
 
         $registeration_request_data =
             new RegisterRequestData(
-                $store_phone_number,
+                $user->phone_number,
                 fake()->password()
             );
 
@@ -187,33 +211,17 @@ class RegisterationTest extends UserTestCase
                        ->toArray()
                );
 
-        $response->assertStatus(201);
+        $response
+            ->assertStatus(422);
 
-        $this
-            ->assertDatabaseCount(
-                User::class,
-                1
-            );
-
-        $this
-            ->assertDatabaseHas(
-                User::class,
+        $response
+            ->assertOnlyJsonValidationErrors(
                 [
-                    'phone_number' => $registeration_request_data->phone_number,
+                    'phone_number' => __(
+                        'messages.users.auth.registeration.add-phone-number-step.phone_number.unique'
+                    ),
                 ]
             );
 
-        $created_user_is_user =
-            User::query()
-                ->firstWhere(
-                    'phone_number',
-                    $registeration_request_data->phone_number
-                )
-                ->hasRole(RolesEnum::STORE);
-
-        $this
-            ->assertTrue(
-                $created_user_is_user
-            );
     }
 }

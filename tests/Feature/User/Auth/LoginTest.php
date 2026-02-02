@@ -8,6 +8,8 @@ use App\Actions\Auth\LoginUser\LoginUserResult;
 use App\Data\User\Auth\Login\AddPhoneNumberLoginStep\Request\AddPhoneNumberLoginStepRequestData;
 use App\Data\User\Auth\Login\Login\Request\LoginRequestData;
 use App\Enum\Auth\RolesEnum;
+use App\Http\Controllers\User\Auth\Login\AddPhoneNumberLoginStepController;
+use App\Http\Controllers\User\Auth\Login\LoginController;
 use App\Models\User;
 use Mockery\MockInterface;
 use PHPUnit\Framework\Attributes\Group;
@@ -19,15 +21,57 @@ class LoginTest extends UserTestCase
 {
     #[
         Test,
+        Group(AddPhoneNumberLoginStepController::class),
         Group('phone-number-step'),
-        Group('error')
+        Group('success'),
+        Group('status 200')
     ]
-    public function enter_non_existing_phone_number_in_login_phone_step_errors_with_404_response(): void
+    public function login_phone_number_step_success_with_200(): void
+    {
+
+        $user =
+            User::factory()
+                ->user()
+                ->create();
+
+        $login_phone_number_step_request_data =
+            new AddPhoneNumberLoginStepRequestData(
+                $user->phone_number
+            );
+
+        $response =
+           $this
+               ->withRouteName(
+                   route(
+                       'users.auth.login.phone-number-step'
+                   )
+               )
+               ->postJsonData(
+                   $login_phone_number_step_request_data
+                       ->toArray()
+               );
+
+        $response
+            ->assertStatus(
+                200
+            );
+
+    }
+
+    #[
+        Test,
+        Group(AddPhoneNumberLoginStepController::class),
+        Group('phone-number-step'),
+        Group('error'),
+        Group('status 422')
+    ]
+    public function login_phone_number_step_entering_non_existing_phone_number_errors_with_422_response(): void
     {
 
         $login_phone_number_steprequest_data =
             new AddPhoneNumberLoginStepRequestData(
-                phone_number: fake()->phoneNumber()
+                phone_number: fake()
+                    ->phoneNumber()
             );
 
         $response =
@@ -42,7 +86,17 @@ class LoginTest extends UserTestCase
                        ->toArray()
                );
 
-        $response->assertStatus(404);
+        $response
+            ->assertStatus(422);
+
+        $response
+            ->assertOnlyJsonValidationErrors(
+                [
+                    'phone_number' => __(
+                        'messages.users.auth.login.add-phone-number-step.phone_number.exist'
+                    ),
+                ]
+            );
 
     }
 
@@ -104,6 +158,7 @@ class LoginTest extends UserTestCase
 
     #[
         Test,
+        Group(LoginController::class),
         Group('login'),
         Group('success'),
     ]
@@ -170,6 +225,7 @@ class LoginTest extends UserTestCase
      **/
     #[
         Test,
+        Group(LoginController::class),
         Group('login'),
         Group('error with 401 status'),
     ]
@@ -223,6 +279,7 @@ class LoginTest extends UserTestCase
 
     #[
         Test,
+        Group(LoginController::class),
         Group('login'),
         Group('error with 422 status'),
     ]

@@ -180,6 +180,11 @@ return [
         'temporary_uploaded_images_ids' => [
             'required' => __('messages.users.my-mobile-offers.empty_number_of_images'),
         ],
+        'phone_number' => [
+            'unique' => __('messages.users.auth.registeration.add-phone-number-step.phone_number.unique'),
+            'exists' => __('messages.users.auth.login.add-phone-number-step.phone_number.exist'),
+        ],
+
     ],
 
     /*
@@ -199,6 +204,7 @@ return [
         'ram' => 'الرامات',
         'storage' => 'التخزين',
         'price_in_usd' => 'السعر بالدولار',
+        'phone_number' => 'رقم الهاتف',
     ],
 
 ];

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data\User\Auth\Registeration\AddPhoneNumberRegisterationStep\Request;
+namespace App\Data\User\Auth\Login\Login\AddPhoneNumberLoginStep\Request;
 
 use App\Models\User;
 use OpenApi\Attributes as OAT;
@@ -10,8 +10,17 @@ use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
 #[TypeScript]
 #[Oat\Schema()]
-class AddPhoneNumberRegisterationStepRequestData extends Data
+class AddPhoneNumberLoginStepRequestData extends Data
 {
+    public static function messages(...$args): array
+    {
+        return [
+            'phone_number.unique' => __(
+                'messages.users.auth.registeration.add-phone-number-step.phone_number.unique'
+            ),
+        ];
+    }
+
     public function __construct(
         #[
             OAT\Property,
