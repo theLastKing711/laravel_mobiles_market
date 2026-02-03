@@ -2,12 +2,8 @@
 
 namespace Tests\Feature\User\MobileOffer;
 
-use App\Data\Store\MobileOffer\GetMobileOffers\Response\GetMobileOffersResponsePaginationResultData;
 use App\Data\User\MobileOffer\SearchMobilesOffers\Response\SearchMobilesOffersResponsePaginationResultData;
-use App\Http\Controllers\User\MobileOffer\FavouriteMobileOfferController;
 use App\Http\Controllers\User\MobileOffer\GetFavouriteMobileOffersController;
-use App\Http\Controllers\User\MobileOffer\GetMobileOfferController;
-use App\Http\Controllers\User\MobileOffer\SearchMobilesOffersController;
 use App\Models\MobileOffer;
 use App\Models\UserFavouritesMobileOffer;
 use Database\Seeders\MobileOfferFeatureSeeder;
@@ -15,186 +11,22 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Feature\User\Abstractions\UserTestCase;
-use Tests\Feature\User\MobileOffer\Providers\GetMobileOffersProviderParameters;
 use Tests\Feature\User\MobileOffer\Providers\SearchMobileOffersProviderParameters;
-use Tests\TraitMocks\TranslationServiceMock;
 use Tests\Traits\StoreTrait;
-use Tests\Traits\UserTrait;
 
-class MobileOfferTest extends UserTestCase
+class GetFavouriteMobileOffersTest extends UserTestCase
 {
-    use StoreTrait, TranslationServiceMock, UserTrait;
+    use StoreTrait;
 
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->initializeUser();
 
         $this
             ->seed(
                 [
                     MobileOfferFeatureSeeder::class,
                 ]
-            );
-
-    }
-
-    public static function get_mobile_offers_provider()
-    {
-
-        return [
-            'with empty search name' => [
-                new GetMobileOffersProviderParameters(
-                    [
-                        ['name_in_english' => 'first name'],
-                        ['name_in_english' => 'fi name'],
-                        ['name_in_english' => 'third name'],
-                        ['name_in_arabic' => 'أبس'],
-                    ],
-                    '',
-                    7,
-                    expected_number_of_response_items: 4
-                ),
-            ],
-            'with empty search name and no mobile offers' => [
-                new GetMobileOffersProviderParameters(
-                    [],
-                    '',
-                    7,
-                    expected_number_of_response_items: 0
-                ),
-            ],
-            'with english search name' => [
-                new GetMobileOffersProviderParameters(
-                    [
-                        ['name_in_english' => 'fi'],
-                        ['name_in_english' => 'fi name'],
-                        ['name_in_english' => 'third name'],
-                        ['name_in_arabic' => 'أبس'],
-                    ],
-                    'fi',
-                    7,
-                    expected_number_of_response_items: 2
-                ),
-            ],
-            'with arabic search name' => [
-                new GetMobileOffersProviderParameters(
-                    [
-                        ['name_in_english' => 'first name'],
-                        ['name_in_english' => 'fi name'],
-                        ['name_in_english' => 'third name'],
-                        ['name_in_arabic' => 'أبس'],
-                        ['name_in_arabic' => 'ششش'],
-                        ['name_in_arabic' => 'شششص'],
-                        ['name_in_arabic' => 'أبسش شسي'],
-                        ['name_in_arabic' => 'أبسشششسي'],
-                    ],
-                    'أب',
-                    7,
-                    expected_number_of_response_items: 3
-                ),
-            ],
-            'with per page less than matching items in database' => [
-                new GetMobileOffersProviderParameters(
-                    [
-                        ['name_in_english' => 'first name'],
-                        ['name_in_english' => 'fi name'],
-                        ['name_in_english' => 'third name'],
-                        ['name_in_arabic' => 'أبل'],
-                        ['name_in_arabic' => 'أبل ستور'],
-                        ['name_in_arabic' => 'شششص'],
-                        ['name_in_arabic' => 'أبسش شسي'],
-                        ['name_in_arabic' => 'أبسشششسي'],
-                        ['name_in_arabic' => 'أبل محل'],
-                        ['name_in_arabic' => 'أبلي'],
-
-                    ],
-                    'أبل',
-                    per_page: 3,
-                    expected_number_of_response_items: 3
-                ),
-            ],
-        ];
-
-    }
-
-    #[
-        Test,
-        Group(SearchMobilesOffersController::class),
-        Group('success'),
-        Group('200'),
-        DataProvider('get_mobile_offers_provider')
-    ]
-    public function search_mobile_offers_success_with_200_status(GetMobileOffersProviderParameters $data_provider): void
-    {
-
-        MobileOffer::factory()
-            ->forUserWithId($this->user->id)
-            ->createMany(
-                $data_provider->recrods
-            );
-
-        $response =
-            $this
-                ->withRouteName(
-                    route(
-                        'users.mobile-offers.search',
-                        [
-                            'search' => $data_provider->search,
-                            'perPage' => $data_provider->per_page,
-                        ]
-                    )
-                )
-                ->getJsonData();
-
-        $response
-            ->assertStatus(
-                200
-            );
-
-        $response_data =
-                    GetMobileOffersResponsePaginationResultData::from(
-                        $response->json()
-                    );
-
-        $this
-            ->assertEquals(
-                min($data_provider->expected_number_of_response_items, $data_provider->per_page),
-                $response_data->data->count(),
-            );
-
-    }
-
-    #[
-        Test,
-        Group(GetMobileOfferController::class),
-        Group('success'),
-        Group('200'),
-        Group('GetMobileOfferController'),
-    ]
-    public function get_mobile_offer_success_with_200_status(): void
-    {
-        $mobile_offer =
-            MobileOffer::factory()
-                ->forUserWithId($this->user->id)
-                ->create();
-
-        $response =
-            $this
-                ->withRouteName(
-                    route(
-                        'users.mobile-offers.{id}',
-                        [
-                            'id' => $mobile_offer->id,
-                        ]
-                    )
-                )
-                ->getJsonData();
-
-        $response
-            ->assertStatus(
-                200
             );
 
     }
@@ -458,98 +290,6 @@ class MobileOfferTest extends UserTestCase
             ->assertEquals(
                 min($data_provider->expected_number_of_response_items, $data_provider->per_page),
                 $response_data->data->count(),
-            );
-
-    }
-
-    #[
-        Test,
-        Group(FavouriteMobileOfferController::class),
-        Group('success'),
-        Group('200'),
-    ]
-    public function favourite_mobile_offer_success_with_200_status(): void
-    {
-
-        $mobile_offer =
-            MobileOffer::factory()
-                ->forUserWithId($this->user->id)
-                ->create();
-
-        $response =
-            $this
-                ->withRouteName(
-                    route(
-                        'users.mobile-offers.{id}.favourite',
-                        [
-                            'id' => $mobile_offer->id,
-                        ]
-                    )
-                )
-                ->patchJsonData();
-
-        $response
-            ->assertStatus(
-                200
-            );
-
-        $this
-            ->assertDatabaseCount(
-                UserFavouritesMobileOffer::class,
-                1
-            );
-
-        $this
-            ->assertDatabaseHas(
-                UserFavouritesMobileOffer::class,
-                [
-                    'user_id' => $this->user->id,
-                    'mobile_offer_id' => $mobile_offer->id,
-                ]
-            );
-
-    }
-
-    #[
-        Test,
-        Group(FavouriteMobileOfferController::class),
-        Group('success'),
-        Group('200'),
-    ]
-    public function unfavourite_mobile_offer_success_with_200_status(): void
-    {
-
-        $mobile_offer =
-            MobileOffer::factory()
-                ->forUserWithId($this->user->id)
-                ->create();
-
-        $this
-            ->user
-            ->favouriteMobileOffers()
-            ->attach($mobile_offer->id);
-
-        $response =
-            $this
-                ->withRouteName(
-                    route(
-                        'users.mobile-offers.{id}.favourite',
-                        [
-                            'id' => $mobile_offer->id,
-                        ]
-                    )
-                )
-                ->patchJsonData();
-
-        $response
-            ->assertStatus(
-                200
-            );
-
-        $this
-            ->assertDatabaseCount(
-                UserFavouritesMobileOffer::class,
-                0
             );
 
     }
