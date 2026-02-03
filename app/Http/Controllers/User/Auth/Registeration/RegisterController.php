@@ -10,9 +10,12 @@ use App\Data\User\Auth\Registeration\Register\Request\RegisterRequestData;
 use App\Data\User\Auth\Registeration\Register\Response\RegisterResponseData;
 use App\Http\Controllers\Controller;
 use OpenApi\Attributes as OAT;
+use Tests\Feature\User\Auth\RegisterationTest;
 
 class RegisterController extends Controller
 {
+    const TEST_CLASS = RegisterationTest::class;
+
     #[OAT\Post(path: '/users/auth/registeration/register', tags: ['usersAuth'])]
     #[JsonRequestBody(RegisterRequestData::class)]
     #[SuccessItemResponse(RegisterResponseData::class)]

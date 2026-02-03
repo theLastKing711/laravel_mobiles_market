@@ -10,9 +10,12 @@ use App\Data\User\Auth\Login\Login\Request\LoginRequestData;
 use App\Data\User\Auth\Login\Login\Response\LoginResponseData;
 use App\Http\Controllers\Controller;
 use OpenApi\Attributes as OAT;
+use Tests\Feature\User\Auth\LoginTest;
 
 class LoginController extends Controller
 {
+    const TEST_CLASS = LoginTest::class;
+
     #[OAT\Post(path: '/users/auth/login/login', tags: ['usersAuth'])]
     #[JsonRequestBody(LoginRequestData::class)]
     #[SuccessItemResponse(LoginResponseData::class)]

@@ -10,9 +10,12 @@ use App\Data\User\Auth\Registeration\AddPhoneNumberRegisterationStep\Request\Add
 use App\Http\Controllers\Controller;
 use Cloudinary\Api\HttpStatusCode;
 use OpenApi\Attributes as OAT;
+use Tests\Feature\User\Auth\LoginTest;
 
 class AddPhoneNumberLoginStepController extends Controller
 {
+    const TEST_CLASS = LoginTest::class;
+
     #[OAT\Post(path: '/users/auth/login/phone-number-step', tags: ['usersAuth'])]
     #[JsonRequestBody(AddPhoneNumberRegisterationStepRequestData::class)]
     #[SuccessItemResponse(AddPhoneNumberLoginStepResponseData::class)]
