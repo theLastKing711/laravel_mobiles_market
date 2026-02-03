@@ -8,6 +8,13 @@ return [
             'empty_number_of_images' => 'يرجى تحميل صورة واحدة على الأقل.',
         ],
         'auth' => [
+            'account' => [
+                'change-phone-number' => [
+                    'phone_number' => [
+                        'unique' => 'رقم الهاتف مفعل مسبقا, يرجى إدخال رقم جديد.',
+                    ],
+                ],
+            ],
             'registeration' => [
                 'add-phone-number-step' => [
                     'phone_number' => [
