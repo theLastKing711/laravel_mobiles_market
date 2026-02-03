@@ -10,6 +10,7 @@ use App\Data\User\Auth\Registeration\Register\Request\RegisterRequestData;
 use App\Data\User\Auth\Registeration\Register\Response\RegisterResponseData;
 use App\Enum\Auth\RolesEnum;
 use App\Http\Controllers\User\Auth\Registeration\AddPhoneNumberRegisterationStepController;
+use App\Http\Controllers\User\Auth\Registeration\RegisterController;
 use App\Models\User;
 use Mockery\MockInterface;
 use PHPUnit\Framework\Attributes\Group;
@@ -21,9 +22,8 @@ class RegisterationTest extends UserTestCase
     #[
         Test,
         Group(AddPhoneNumberRegisterationStepController::class),
-        Group('phone-number-step'),
         Group('success'),
-        Group('status 200')
+        Group('200')
     ]
     public function phone_number_step_success_with_200_response(): void
     {
@@ -53,9 +53,8 @@ class RegisterationTest extends UserTestCase
     #[
         Test,
         Group(AddPhoneNumberRegisterationStepController::class),
-        Group('phone-number-step'),
         Group('error'),
-        Group('status 422')
+        Group('422')
     ]
     public function phone_number_step_sending_duplicated_phone_number_errors_with_422(): void
     {
@@ -107,10 +106,9 @@ class RegisterationTest extends UserTestCase
 
     #[
         Test,
-        Group(AddPhoneNumberRegisterationStepRequestData::class),
-        Group('register'),
+        Group(RegisterController::class),
         Group('success'),
-        Group('status 201')
+        Group('201')
     ]
     public function register_user_success_with_201_response(): void
     {
@@ -180,10 +178,9 @@ class RegisterationTest extends UserTestCase
 
     #[
         Test,
-        Group(AddPhoneNumberRegisterationStepRequestData::class),
-        Group('register'),
+        Group(RegisterController::class),
         Group('error'),
-        Group('status 422')
+        Group('422')
     ]
     public function register_user_with_duplicate_phone_number_errors_with_422(): void
     {

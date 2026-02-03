@@ -4,7 +4,7 @@ namespace App\Actions\Auth\LoginUser;
 
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
-use Tests\Feature\Feature\User\Actions\LoginUserTest;
+use Tests\Feature\Actions\LoginUserTest;
 
 class LoginUser
 {

@@ -34,7 +34,10 @@ class MyMobileOfferFileTest extends UserTestCase
 
     #[
         Test,
-        Group('getCloudinaryPresignedUrls')
+        Group(MyMobileOfferFileController::class),
+        Group('getCloudinaryPresignedUrls'),
+        Group('success'),
+        Group('200')
     ]
     public function get_cloudinary_presigned_urls_success_with_200_response(): void
     {
@@ -65,8 +68,10 @@ class MyMobileOfferFileTest extends UserTestCase
 
     #[
         Test,
+        Group(MyMobileOfferFileController::class),
         Group('getCloudinaryPresignedUrls'),
-        Group('error')
+        Group('error'),
+        Group('500')
 
     ]
     public function get_cloudinary_presigned_urls_with_duplicate_sign_request_signature_thrown_errors_with_500(): void
@@ -98,8 +103,10 @@ class MyMobileOfferFileTest extends UserTestCase
 
     #[
         Test,
+        Group(MyMobileOfferFileController::class),
         Group('updateMediaOnCloudinaryUploadNotificationSuccess'),
-        Group('success')
+        Group('success'),
+        Group('200')
     ]
     public function save_temporary_uploaded_images_for_mobile_model_to_database_on_cloudinary_upload_success_notificatoin_from_front_end_with_200_status(): void
     {
@@ -144,8 +151,10 @@ class MyMobileOfferFileTest extends UserTestCase
 
     #[
         Test,
+        Group(MyMobileOfferFileController::class),
         Group('deleteTemporaryUploadedImageByPublicId'),
-        Group('success')
+        Group('success'),
+        Group('200')
     ]
     public function delete_temporary_uploaded_file_success()
     {
@@ -175,8 +184,10 @@ class MyMobileOfferFileTest extends UserTestCase
 
     #[
         Test,
+        Group(MyMobileOfferFileController::class),
         Group('deleteTemporaryUploadedImageByPublicId'),
-        Group('error')
+        Group('error'),
+        Group('500')
     ]
     public function delete_temporary_uploaded_file_errors_with_500_when_on_cloudinay_delete_file_fail()
     {
@@ -221,10 +232,12 @@ class MyMobileOfferFileTest extends UserTestCase
 
     #[
         Test,
+        Group(MyMobileOfferFileController::class),
         Group('deleteMediaByPublicId'),
-        Group('success')
+        Group('success'),
+        Group('200')
     ]
-    public function delete_media_success()
+    public function delete_media_success_with_200()
     {
 
         $media =
@@ -253,10 +266,12 @@ class MyMobileOfferFileTest extends UserTestCase
 
     #[
         Test,
+        Group(MyMobileOfferFileController::class),
         Group('deleteMediaByPublicId'),
-        Group('error')
+        Group('error'),
+        Group('500')
     ]
-    public function delete_media_errors_with_500_when_on_cloudinay_delete_file_fail()
+    public function delete_media_errors_with_500_when_on_cloudinay_delete_file_fail_errors_with_500()
     {
 
         $mobile_offer =

@@ -22,9 +22,8 @@ class LoginTest extends UserTestCase
     #[
         Test,
         Group(AddPhoneNumberLoginStepController::class),
-        Group('phone-number-step'),
         Group('success'),
-        Group('status 200')
+        Group('200')
     ]
     public function login_phone_number_step_success_with_200(): void
     {
@@ -61,9 +60,8 @@ class LoginTest extends UserTestCase
     #[
         Test,
         Group(AddPhoneNumberLoginStepController::class),
-        Group('phone-number-step'),
         Group('error'),
-        Group('status 422')
+        Group('422')
     ]
     public function login_phone_number_step_entering_non_existing_phone_number_errors_with_422_response(): void
     {
@@ -159,8 +157,8 @@ class LoginTest extends UserTestCase
     #[
         Test,
         Group(LoginController::class),
-        Group('login'),
         Group('success'),
+        Group('201'),
     ]
     public function login_with_valid_credintials_success_with_201(): void
     {
@@ -226,8 +224,9 @@ class LoginTest extends UserTestCase
     #[
         Test,
         Group(LoginController::class),
-        Group('login'),
-        Group('error with 401 status'),
+        Group('error'),
+        Group('401'),
+
     ]
     public function login_with_wrong_credintials_error_with_401(): void
     {
@@ -280,8 +279,8 @@ class LoginTest extends UserTestCase
     #[
         Test,
         Group(LoginController::class),
-        Group('login'),
-        Group('error with 422 status'),
+        Group('error'),
+        Group('422'),
     ]
     public function login_with_non_existing_phone_number_error_with_422(): void
     {

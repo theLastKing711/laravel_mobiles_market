@@ -9,12 +9,12 @@ use App\Http\Controllers\User\MobileOffer\Abstract\MobileOfferController;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OAT;
 
-class favouriteMobileOfferController extends MobileOfferController
+class FavouriteMobileOfferController extends MobileOfferController
 {
     #[OAT\Patch(path: '/users/mobile-offers/{id}/favourite', tags: ['usersMobileOffers'])]
     #[JsonRequestBody(FavouriteMobileOfferRequestData::class)]
     #[SuccessNoContentResponse]
-    public function __invoke(FavouriteMobileOfferRequestData $request)
+    public function __invoke(FavouriteMobileOfferRequestData $request): void
     {
 
         Auth::User()

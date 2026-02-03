@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Feature\User\Actions;
+namespace Tests\Feature\Actions;
 
 use App\Actions\Auth\loginUser\loginUser;
 use App\Actions\Auth\LoginUser\LoginUserInput;

@@ -4,6 +4,10 @@ namespace Tests\Feature\User\MobileOffer;
 
 use App\Data\Store\MobileOffer\GetMobileOffers\Response\GetMobileOffersResponsePaginationResultData;
 use App\Data\User\MobileOffer\SearchMobilesOffers\Response\SearchMobilesOffersResponsePaginationResultData;
+use App\Http\Controllers\User\MobileOffer\FavouriteMobileOfferController;
+use App\Http\Controllers\User\MobileOffer\GetFavouriteMobileOffersController;
+use App\Http\Controllers\User\MobileOffer\GetMobileOfferController;
+use App\Http\Controllers\User\MobileOffer\SearchMobilesOffersController;
 use App\Models\MobileOffer;
 use App\Models\UserFavouritesMobileOffer;
 use Database\Seeders\MobileOfferFeatureSeeder;
@@ -117,10 +121,12 @@ class MobileOfferTest extends UserTestCase
 
     #[
         Test,
-        Group('SearchMobilesOffersController'),
+        Group(SearchMobilesOffersController::class),
+        Group('success'),
+        Group('200'),
         DataProvider('get_mobile_offers_provider')
     ]
-    public function get_mobile_offers_success_with_200_status(GetMobileOffersProviderParameters $data_provider): void
+    public function search_mobile_offers_success_with_200_status(GetMobileOffersProviderParameters $data_provider): void
     {
 
         MobileOffer::factory()
@@ -162,6 +168,9 @@ class MobileOfferTest extends UserTestCase
 
     #[
         Test,
+        Group(GetMobileOfferController::class),
+        Group('success'),
+        Group('200'),
         Group('GetMobileOfferController'),
     ]
     public function get_mobile_offer_success_with_200_status(): void
@@ -281,7 +290,9 @@ class MobileOfferTest extends UserTestCase
 
     #[
         Test,
-        Group('GetFavouriteMobileOffersController'),
+        Group(GetFavouriteMobileOffersController::class),
+        Group('success'),
+        Group('200'),
         DataProvider('get_favourite_mobile_offers_provider')
     ]
     public function get_user_favourite_mobile_offers_success_with_200_status(SearchMobileOffersProviderParameters $data_provider): void
@@ -363,7 +374,9 @@ class MobileOfferTest extends UserTestCase
 
     #[
         Test,
-        Group('GetFavouriteMobileOffersController'),
+        Group(GetFavouriteMobileOffersController::class),
+        Group('success'),
+        Group('200'),
         DataProvider('get_favourite_mobile_offers_provider')
     ]
     public function get_store_favourite_mobile_offers_success_with_200_status(SearchMobileOffersProviderParameters $data_provider): void
@@ -451,7 +464,9 @@ class MobileOfferTest extends UserTestCase
 
     #[
         Test,
-        Group('FavouriteMobileOfferController')
+        Group(FavouriteMobileOfferController::class),
+        Group('success'),
+        Group('200'),
     ]
     public function favourite_mobile_offer_success_with_200_status(): void
     {
@@ -497,7 +512,9 @@ class MobileOfferTest extends UserTestCase
 
     #[
         Test,
-        Group('FavouriteMobileOfferController')
+        Group(FavouriteMobileOfferController::class),
+        Group('success'),
+        Group('200'),
     ]
     public function unfavourite_mobile_offer_success_with_200_status(): void
     {

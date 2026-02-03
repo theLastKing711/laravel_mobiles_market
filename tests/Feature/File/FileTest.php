@@ -19,7 +19,8 @@ class FileTest extends FileTestCase
     #[
         Test,
         Group('getCloudinaryPresignedUrls'),
-        Group('success')
+        Group('success'),
+        Group('200')
     ]
     public function get_cloudinary_presigned_urls_success_with_200_response(): void
     {
@@ -51,7 +52,8 @@ class FileTest extends FileTestCase
 
     #[Test,
         Group('getCloudinaryPresignedUrls'),
-        Group('error')
+        Group('error'),
+        Group('500')
     ]
     public function get_cloudinary_presigned_urls_with_duplicate_sign_request_signature_thrown_errors_with_500(): void
     {
@@ -82,7 +84,8 @@ class FileTest extends FileTestCase
 
     #[Test,
         Group('saveTemporaryUploadedImageToDBOnCloudinaryUploadNotificationSuccess'),
-        Group('success')
+        Group('success'),
+        Group('200'),
     ]
     public function cloudinary_notification_url_saves_temporary_uploaded_images_for_user_model_to_database_on_cloudinary_successfull_notificatoin_from_front_end_with_200_status(): void
     {
@@ -128,6 +131,7 @@ class FileTest extends FileTestCase
     #[Test,
         Group('deleteMediaByPublicId'),
         Group('success'),
+        roup('200'),
     ]
     public function delete_media_file_by_public_id_success_with_200_repsonse(): void
     {
@@ -155,6 +159,7 @@ class FileTest extends FileTestCase
     #[Test,
         Group('deleteMediaByPublicId'),
         Group('error'),
+        Group('500'),
     ]
     public function delete_non_existing_media_file_on_cloudinary_by_public_id_errors_with_500_repsonse(): void
     {
@@ -199,7 +204,8 @@ class FileTest extends FileTestCase
     #[
         Test,
         Group('deleteTemporaryUploadedImageByPublicId'),
-        Group('success')
+        Group('success'),
+        Group('200')
     ]
     public function delete_temporary_uploaded_file_by_public_id_success_with_200_repsonse(): void
     {
@@ -228,7 +234,8 @@ class FileTest extends FileTestCase
     #[
         Test,
         Group('deleteTemporaryUploadedImageByPublicId'),
-        Group('error')
+        Group('error'),
+        Group('500')
     ]
     public function delete_non_existing_temporary_uploaded_file_on_cloudinary_by_public_id_errors_with_500_repsonse(): void
     {
