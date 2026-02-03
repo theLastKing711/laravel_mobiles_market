@@ -3,8 +3,6 @@
 // user validation
 // user product valdiation
 
-use App\Enum\Auth\StorageUnit;
-use App\Models\MobileOffer;
 use App\Models\User;
 
 $userProductValidationAr = [
@@ -53,14 +51,8 @@ return [
             'en' => $userValidationEn,
         ],
     ],
-    'resource_to_model' => [
-        'mobile_offers' => MobileOffer::class,
-        'users' => User::class,
-    ],
     'store_users_numbers' => [
         '0968316079',
         '0968259851',
-        // '0968316079',
     ],
-    'storage_units' => StorageUnit::cases(),
 ];
