@@ -52,15 +52,28 @@ class SearchMobileOffersTest extends UserTestCase
                     expected_number_of_response_items: 0
                 ),
             ],
-            'with english search name' => [
+            'with empty matching result' => [
                 new GetMobileOffersProviderParameters(
                     [
-                        ['name_in_english' => 'fi'],
+                        ['name_in_english' => 'first name'],
                         ['name_in_english' => 'fi name'],
                         ['name_in_english' => 'third name'],
                         ['name_in_arabic' => 'أبس'],
                     ],
-                    'fi',
+                    'aslkdj lkajsd lkajsdlkasjd',
+                    7,
+                    expected_number_of_response_items: 0
+                ),
+            ],
+            'with english search name' => [
+                new GetMobileOffersProviderParameters(
+                    [
+                        ['name_in_english' => 'firot'],
+                        ['name_in_english' => 'fir name'],
+                        ['name_in_english' => 'third name'],
+                        ['name_in_arabic' => 'أبس'],
+                    ],
+                    'fir',
                     7,
                     expected_number_of_response_items: 2
                 ),
@@ -94,12 +107,25 @@ class SearchMobileOffersTest extends UserTestCase
                         ['name_in_arabic' => 'أبسش شسي'],
                         ['name_in_arabic' => 'أبسشششسي'],
                         ['name_in_arabic' => 'أبل محل'],
-                        ['name_in_arabic' => 'أبلي'],
+                        ['name_in_arabic' => 'أبل'],
 
                     ],
                     'أبل',
+                    per_page: 2,
+                    expected_number_of_response_items: 2
+                ),
+            ],
+            'testing' => [
+                new GetMobileOffersProviderParameters(
+                    [
+                        ['name_in_english' => 'iphone xr'],
+                        ['name_in_english' => 'iphone 2020'],
+                        ['name_in_english' => 'third name'],
+                        ['name_in_english' => 'lak askldj aslkdj'],
+                    ],
+                    'iph',
                     per_page: 3,
-                    expected_number_of_response_items: 3
+                    expected_number_of_response_items: 2
                 ),
             ],
         ];
@@ -147,7 +173,7 @@ class SearchMobileOffersTest extends UserTestCase
 
         $this
             ->assertEquals(
-                min($data_provider->expected_number_of_response_items, $data_provider->per_page),
+                $data_provider->expected_number_of_response_items,
                 $response_data->data->count(),
             );
 

@@ -48,6 +48,19 @@ class GetFavouriteMobileOffersTest extends UserTestCase
                     expected_number_of_response_items: 3
                 ),
             ],
+            'with empty matching result' => [
+                new SearchMobileOffersProviderParameters(
+                    [
+                        ['name_in_english' => 'first name', 'is_favourited' => true],
+                        ['name_in_english' => 'fi name'],
+                        ['name_in_english' => 'third name'],
+                        ['name_in_arabic' => 'أبس'],
+                    ],
+                    'aslkdj lkajsd lkajsdlkasjd',
+                    7,
+                    expected_number_of_response_items: 0
+                ),
+            ],
             'with empty search name and no offers' => [
                 new SearchMobileOffersProviderParameters(
                     [],

@@ -44,6 +44,27 @@ class GetMyMobileOffersTest extends StoreTestCase
                     expected_number_of_response_items: 4
                 ),
             ],
+            'with empty search name and no mobile offers' => [
+                new GetMyMobileOffersProviderParameters(
+                    [],
+                    '',
+                    7,
+                    expected_number_of_response_items: 0
+                ),
+            ],
+            'with empty matching result' => [
+                new GetMyMobileOffersProviderParameters(
+                    [
+                        ['name_in_english' => 'first name'],
+                        ['name_in_english' => 'fi name'],
+                        ['name_in_english' => 'third name'],
+                        ['name_in_arabic' => 'أبس'],
+                    ],
+                    'aslkdj lkajsd lkajsdlkasjd',
+                    7,
+                    expected_number_of_response_items: 0
+                ),
+            ],
             'with english search name' => [
                 new GetMyMobileOffersProviderParameters(
                     [
@@ -139,7 +160,7 @@ class GetMyMobileOffersTest extends StoreTestCase
 
         $this
             ->assertEquals(
-                min($data_provider->expected_number_of_response_items, $data_provider->per_page),
+                $data_provider->expected_number_of_response_items,
                 $response_data->data->count(),
             );
 

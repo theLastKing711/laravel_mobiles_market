@@ -52,14 +52,19 @@ class DeleteMediaByPublicIdTest extends StoreTestCase
             $media
                 ->public_id;
 
-        $this->deleteMediaByPublicIdSuccess($public_id);
+        $this
+            ->deleteMediaByPublicIdSuccess(
+                $public_id
+            );
+
+        $response =
+            $this
+                ->deleteMediaByPublicIdRequest(
+                    $public_id
+                );
 
         $response
-            =
-            $this
-                ->deleteMediaByPublicIdRequest($public_id);
-
-        $response->assertStatus(200);
+            ->assertStatus(200);
 
     }
 

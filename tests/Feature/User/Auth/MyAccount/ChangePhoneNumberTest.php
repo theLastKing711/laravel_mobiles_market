@@ -64,7 +64,7 @@ class ChangePhoneNumberTest extends UserTestCase
         Group('error'),
         Group('422')
     ]
-    public function change_password_success_with_phone_number_for_other_user_error_with_422(): void
+    public function change_password_success_with_phone_number_for_other_user_errors_with_422(): void
     {
 
         $user_phone_number =
