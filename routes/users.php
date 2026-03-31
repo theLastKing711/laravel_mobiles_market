@@ -104,10 +104,10 @@ Route::prefix('users')
                                 'users.mobile-offers.favourites'
                             );
 
-                        // Route::get('{id}', GetMobileOfferController::class)
-                        //     ->name(
-                        //         'users.mobile-offers.{id}'
-                        //     );
+                        Route::get('{id}', GetMobileOfferController::class)
+                            ->name(
+                                'users.mobile-offers.{id}'
+                            );
 
                         Route::patch('{id}/favourite', FavouriteMobileOfferController::class)
                             ->name(
