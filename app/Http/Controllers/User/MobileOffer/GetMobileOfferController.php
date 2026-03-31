@@ -21,7 +21,7 @@ class GetMobileOfferController extends MobileOfferController
             MobileOffer::query()
                 ->with(
                     relations: [
-                        'features',
+                        // 'features',
                         'medially',
                     ]
                 )
