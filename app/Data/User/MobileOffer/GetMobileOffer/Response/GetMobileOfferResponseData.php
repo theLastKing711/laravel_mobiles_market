@@ -5,6 +5,7 @@ namespace App\Data\User\MobileOffer\GetMobileOffer\Response;
 use App\Data\Shared\Media\MediaData;
 use App\Data\Shared\Swagger\Property\ArrayProperty;
 use App\Data\User\MobileOffer\GetMobileOffer\Request\FeatureData;
+use App\Models\Media;
 use Illuminate\Support\Collection;
 use OpenApi\Attributes as OAT;
 use Spatie\LaravelData\Attributes\MapInputName;
@@ -35,12 +36,17 @@ class GetMobileOfferResponseData extends Data
         /** @var Collection<FeatureData> */
         public Collection $features,
 
-        #[
-            ArrayProperty(MediaData::class),
-            MapInputName('medially')
-        ]
-        /** @var Collection<MediaData> */
-        public Collection $images,
+        // #[
+        //     ArrayProperty(MediaData::class),
+        //     MapInputName('medially')
+        // ]
+        // /** @var Collection<MediaData> */
+        // public Collection $images,
+
+
+        #[ArrayProperty(Media::class)]
+        /** @var Collection<Media> */
+        public Collection $medially,
 
         #[OAT\Property]
         public string $phone_number,
