@@ -31,9 +31,9 @@ class GetMobileOfferResponseData extends Data
         #[OAT\Property]
         public ?int $battery_health,
 
-        #[ArrayProperty(FeatureData::class)]
-        /** @var Collection<FeatureData> */
-        public Collection $features,
+        // #[ArrayProperty(FeatureData::class)]
+        // /** @var Collection<FeatureData> */
+        // public Collection $features,
 
         #[
             ArrayProperty(MediaData::class),
