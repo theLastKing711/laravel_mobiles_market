@@ -40,8 +40,11 @@ class GetMobileOfferResponseData extends Data
             ArrayProperty(MediaData::class),
             MapInputName('medially')
         ]
+
+        #[ArrayProperty(Media::class)]
         /** @var Collection<Media> */
-        public Collection $images,
+        public Collection $medially,
+
         #[OAT\Property]
         public string $phone_number,
         // #[
