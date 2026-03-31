@@ -92,36 +92,36 @@ Route::prefix('users')
 
                     });
 
-            //     Route::prefix('mobile-offers')
-            //         ->group(function () {
-            //             Route::get('search', SearchMobilesOffersController::class)
-            //                 ->name(
-            //                     'users.mobile-offers.search'
-            //                 );
+                // Route::prefix('mobile-offers')
+                //     ->group(function () {
+                //         Route::get('search', SearchMobilesOffersController::class)
+                //             ->name(
+                //                 'users.mobile-offers.search'
+                //             );
 
-            //             Route::get('favourites', GetFavouriteMobileOffersController::class)
-            //                 ->name(
-            //                     'users.mobile-offers.favourites'
-            //                 );
+                //         Route::get('favourites', GetFavouriteMobileOffersController::class)
+                //             ->name(
+                //                 'users.mobile-offers.favourites'
+                //             );
 
-            //             Route::get('{id}', GetMobileOfferController::class)
-            //                 ->name(
-            //                     'users.mobile-offers.{id}'
-            //                 );
+                //         Route::get('{id}', GetMobileOfferController::class)
+                //             ->name(
+                //                 'users.mobile-offers.{id}'
+                //             );
 
-            //             Route::patch('{id}/favourite', FavouriteMobileOfferController::class)
-            //                 ->name(
-            //                     'users.mobile-offers.{id}.favourite'
-            //                 );
+                //         Route::patch('{id}/favourite', FavouriteMobileOfferController::class)
+                //             ->name(
+                //                 'users.mobile-offers.{id}.favourite'
+                //             );
 
-            //         });
+                //     });
 
-            //     Route::prefix('mobile-offer-features')
-            //         ->group(function () {
-            //             Route::get('list', GetMobileOfferFeaturesListController::class);
-            //         });
+                Route::prefix('mobile-offer-features')
+                    ->group(function () {
+                        Route::get('list', GetMobileOfferFeaturesListController::class);
+                    });
 
-            // });
+            });
 
         Route::prefix('auth')->group(function () {
 
