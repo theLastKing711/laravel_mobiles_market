@@ -869,7 +869,7 @@
                 "tags": [
                     "usersMobileOffers"
                 ],
-                "operationId": "7653556c983493f1f859f70bb27b1ca3",
+                "operationId": "5542dda029b8283050c98857d1cbedf4",
                 "requestBody": {
                     "required": true,
                     "content": {

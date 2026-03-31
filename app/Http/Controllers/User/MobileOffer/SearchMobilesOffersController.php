@@ -31,7 +31,7 @@ class SearchMobilesOffersController extends Controller
             MobileOffer::search(
                 $request_search
             )
-    // gets called on client side after remote query success
+                 // gets called on client side after remote query success
                 ->query(
                     fn (Builder $query) => $query
                         ->with([
