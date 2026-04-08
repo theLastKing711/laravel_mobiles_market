@@ -37,6 +37,14 @@ class MediaFactory extends Factory
         ]);
     }
 
+    public function withImageUrl(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'file_url' => 'https://media.wired.com/photos/5b22c5c4b878a15e9ce80d92/master/pass/iphonex-TA.jpg',
+            'thumbnail_url' => 'https://media.wired.com/photos/5b22c5c4b878a15e9ce80d92/master/pass/iphonex-TA.jpg',
+        ]);
+    }
+
     public function forMobileOfferWithId(int $id): static
     {
         return $this->state(fn (array $attributes) => [
