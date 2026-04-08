@@ -16,7 +16,6 @@ class FavouriteMobileOfferController extends MobileOfferController
     #[SuccessNoContentResponse]
     public function __invoke(FavouriteMobileOfferRequestData $request)
     {
-        return true;
         Auth::User()
             ->favouriteMobileOffers()
             ->toggle(
