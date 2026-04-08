@@ -8,7 +8,7 @@ use Database\Factories\MediaFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class mobileOfferImagesSeeder extends Seeder
+class MobileOfferImagesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
