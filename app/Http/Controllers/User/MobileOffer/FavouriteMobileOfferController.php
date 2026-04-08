@@ -14,8 +14,9 @@ class FavouriteMobileOfferController extends MobileOfferController
     #[OAT\Patch(path: '/users/mobile-offers/{id}/favourite', tags: ['usersMobileOffers'])]
     #[JsonRequestBody(FavouriteMobileOfferRequestData::class)]
     #[SuccessNoContentResponse]
-    public function __invoke(FavouriteMobileOfferRequestData $request): void
+    public function __invoke(FavouriteMobileOfferRequestData $request)
     {
+        return true;
         Auth::User()
             ->favouriteMobileOffers()
             ->toggle(
