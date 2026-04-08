@@ -109,10 +109,10 @@ Route::prefix('users')
                                 'users.mobile-offers.{id}'
                             );
 
-                        // Route::patch('{id}/favourite', FavouriteMobileOfferController::class)
-                        //     ->name(
-                        //         'users.mobile-offers.{id}.favourite'
-                        //     );
+                        Route::patch('{id}/favourite', FavouriteMobileOfferController::class)
+                            ->name(
+                                'users.mobile-offers.{id}.favourite'
+                            );
 
                     });
 
