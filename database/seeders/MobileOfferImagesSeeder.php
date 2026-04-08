@@ -18,7 +18,7 @@ class MobileOfferImagesSeeder extends Seeder
         $mobile_offers =
             MobileOffer
                 ::query()
-                ->all();
+                ->get();
 
 
         $mobile_offers
