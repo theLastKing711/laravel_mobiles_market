@@ -27,6 +27,36 @@ class SearchMobilesOffersController extends Controller
             $request
                 ->search;
 
+        $is_users_logged_in =
+            Auth::check();
+
+        if(! $is_users_logged_in) {
+             $remote_mobiles_offers_search =
+            MobileOffer::search(
+                $request_search
+            )
+                 // gets called on client side after remote query success
+                ->query(
+                    fn (Builder $query) => $query
+                        ->with([
+                            'features',
+                            'mainImage',
+                        ])
+                        ->selectRaw(
+                            '
+                            *,
+                            select false as is_favourite
+                        ',
+                        )
+                )
+                // also get called on client side
+                ->paginate($request->perPage ?? 5);
+
+                return SearchMobilesOffersResponseData::collect(
+                    $remote_mobiles_offers_search
+                );
+        }
+
         $remote_mobiles_offers_search =
             MobileOffer::search(
                 $request_search
