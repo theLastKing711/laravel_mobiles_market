@@ -31,26 +31,27 @@ class SearchMobilesOffersController extends Controller
             Auth::check();
 
         if(! $is_users_logged_in) {
-             $remote_mobiles_offers_search =
-            MobileOffer::search(
-                $request_search
-            )
-                 // gets called on client side after remote query success
-                ->query(
-                    fn (Builder $query) => $query
-                        ->with([
-                            'features',
-                            'mainImage',
-                        ])
-                        ->selectRaw(
-                            '
-                            *,
-                            select false as is_favourite
-                        ',
-                        )
+
+            $remote_mobiles_offers_search =
+                MobileOffer::search(
+                    $request_search
                 )
-                // also get called on client side
-                ->paginate($request->perPage ?? 5);
+                        // gets called on client side after remote query success
+                    ->query(
+                        fn (Builder $query) => $query
+                            ->with([
+                                'features',
+                                'mainImage',
+                            ])
+                            ->selectRaw(
+                                '
+                                    *,
+                                    (select false) as is_favourite
+                                ',
+                            )
+                    )
+                    // also get called on client side
+                    ->paginate($request->perPage ?? 5);
 
                 return SearchMobilesOffersResponseData::collect(
                     $remote_mobiles_offers_search
@@ -70,9 +71,9 @@ class SearchMobilesOffersController extends Controller
                         ])
                         ->selectRaw(
                             '
-                            *,
-                            (select exists (select 1 from user_favourites_mobile_offer where user_id=? AND mobile_offer_id=mobile_offers.id)) as is_favourite
-                        ',
+                                *,
+                                (select exists (select 1 from user_favourites_mobile_offer where user_id=? AND mobile_offer_id=mobile_offers.id)) as is_favourite
+                            ',
                             [Auth::User()->id]
                         )
                 )

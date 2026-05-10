@@ -17,6 +17,35 @@ class GetMobileOfferController extends MobileOfferController
     public function __invoke(GetMobileOfferRequestData $request)
     {
 
+
+        $is_users_logged_in =
+                Auth::check();
+
+        if(! $is_users_logged_in) {
+
+                return GetMobileOfferResponseData::from(
+                    MobileOffer::query()
+                        ->with(
+                            relations: [
+                                'features',
+                                'medially',
+                            ]
+                        )
+                        ->selectRaw(
+                            '
+                                    *,
+                                    (select false) as is_favourite,
+                                    (select phone_number from users where users.id=mobile_offers.user_id) as phone_number
+                            ',
+                        )
+                        ->firstWhere(
+                            'id',
+                            $request->id
+                        )
+                );
+        }
+
+
         return GetMobileOfferResponseData::from(
             MobileOffer::query()
                 ->with(
@@ -30,7 +59,7 @@ class GetMobileOfferController extends MobileOfferController
                             *,
                             (select exists (select 1 from user_favourites_mobile_offer where user_id=? AND mobile_offer_id=mobile_offers.id)) as is_favourite,
                             (select phone_number from users where users.id=mobile_offers.user_id) as phone_number
-                        ',
+                    ',
                     [Auth::User()->id]
                 )
                 ->firstWhere(

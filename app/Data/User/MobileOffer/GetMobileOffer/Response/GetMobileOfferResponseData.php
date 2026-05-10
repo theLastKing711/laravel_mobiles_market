@@ -50,10 +50,10 @@ class GetMobileOfferResponseData extends Data
 
         #[OAT\Property]
         public string $phone_number,
-        // #[
-        //     OAT\Property,
-        // ]
-        // public bool $is_favourite,
+        #[
+            OAT\Property,
+        ]
+        public bool $is_favourite,
     ) {}
 
 }

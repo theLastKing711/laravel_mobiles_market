@@ -28,6 +28,8 @@ Route::prefix('users')
     ->group(function () {
         $userRole = RolesEnum::USER->value;
 
+
+        //does not require to be logged in, only sanctum token
         Route::prefix('mobile-offers')
             ->middleware(
                 [
