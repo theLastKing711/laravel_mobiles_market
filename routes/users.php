@@ -20,12 +20,43 @@ use App\Http\Controllers\User\MobileOffer\SearchMobilesOffersController;
 use App\Http\Controllers\User\MobileOffer\SellMobileOfferController;
 use App\Http\Controllers\User\MobileOffer\UpdateMobileOfferController;
 use App\Http\Controllers\User\MobileOfferFeature\GetMobileOfferFeaturesListController;
+use App\Http\Middleware\OptionalAuthSanctum;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('users')
     ->middleware(['api'])
     ->group(function () {
         $userRole = RolesEnum::USER->value;
+
+        Route::prefix('mobile-offers')
+            ->middleware(
+                [
+                    OptionalAuthSanctum::class, // if token is passed, and user valid using token, sign him in, to access him in controller using Auth::user(), if not passed or failed to sign in, guest can view the page and Auth::User returns null
+                ]
+            )
+            ->group(function () {
+                Route::get('search', SearchMobilesOffersController::class)
+                    ->name(
+                        'users.mobile-offers.search'
+                    );
+
+                Route::get('favourites', GetFavouriteMobileOffersController::class)
+                    ->name(
+                        'users.mobile-offers.favourites'
+                    );
+
+                Route::get('{id}', GetMobileOfferController::class)
+                    ->name(
+                        'users.mobile-offers.{id}'
+                    );
+
+                Route::patch('{id}/favourite', FavouriteMobileOfferController::class)
+                    ->name(
+                        'users.mobile-offers.{id}.favourite'
+                    );
+
+            });
+
 
         // must be logged in after making request to /sanctum and obtaining token to send here
         Route::middleware(
@@ -92,29 +123,6 @@ Route::prefix('users')
 
                     });
 
-                Route::prefix('mobile-offers')
-                    ->group(function () {
-                        Route::get('search', SearchMobilesOffersController::class)
-                            ->name(
-                                'users.mobile-offers.search'
-                            );
-
-                        Route::get('favourites', GetFavouriteMobileOffersController::class)
-                            ->name(
-                                'users.mobile-offers.favourites'
-                            );
-
-                        Route::get('{id}', GetMobileOfferController::class)
-                            ->name(
-                                'users.mobile-offers.{id}'
-                            );
-
-                        Route::patch('{id}/favourite', FavouriteMobileOfferController::class)
-                            ->name(
-                                'users.mobile-offers.{id}.favourite'
-                            );
-
-                    });
 
                 Route::prefix('mobile-offer-features')
                     ->group(function () {
