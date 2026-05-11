@@ -29,6 +29,7 @@ class SearchMobilesOffersController extends Controller
 
         $is_users_logged_in =
             Auth::check();
+
         if(! $is_users_logged_in) {
 
             $remote_mobiles_offers_search =
