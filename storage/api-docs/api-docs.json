@@ -632,6 +632,24 @@
                 }
             }
         },
+        "/users/auth": {
+            "delete": {
+                "tags": [
+                    "usersAuth"
+                ],
+                "operationId": "db24d7e97eaae6692ce382e9905ce537",
+                "responses": {
+                    "204": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/users/auth/get-user-phone-number": {
             "get": {
                 "tags": [
@@ -1687,14 +1705,17 @@
                             "$ref": "#/components/schemas/UserMyMobileOfferGetMobileOfferRequestFeatuerDataGetMobileOfferResponseData"
                         }
                     },
-                    "images": {
+                    "medially": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/MediaData"
+                            "type": "App\\Models\\Media"
                         }
                     },
                     "phone_number": {
                         "type": "string"
+                    },
+                    "is_favourite": {
+                        "type": "boolean"
                     }
                 },
                 "type": "object"

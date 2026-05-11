@@ -3,6 +3,7 @@
 use App\Enum\Auth\RolesEnum;
 use App\Http\Controllers\User\Auth\ChangePasswordController;
 use App\Http\Controllers\User\Auth\ChangePhoneNumberController;
+use App\Http\Controllers\User\Auth\DeleteAccountController;
 use App\Http\Controllers\User\Auth\GetUserPhoneNumberController;
 use App\Http\Controllers\User\Auth\Login\AddPhoneNumberLoginStepController;
 use App\Http\Controllers\User\Auth\Login\LoginController;
@@ -85,6 +86,8 @@ Route::prefix('users')
                             'users.auth.change-phone-number'
                         );
 
+                    Route::delete('', DeleteAccountController::class);
+
                 });
 
                 route::prefix('my-mobile-offers')
@@ -130,6 +133,7 @@ Route::prefix('users')
                     ->group(function () {
                         Route::get('list', GetMobileOfferFeaturesListController::class);
                     });
+
 
             });
 
