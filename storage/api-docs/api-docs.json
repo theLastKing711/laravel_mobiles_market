@@ -790,6 +790,24 @@
                 }
             }
         },
+        "/users/auth/sign-out": {
+            "patch": {
+                "tags": [
+                    "usersAuth"
+                ],
+                "operationId": "118a430b468291a6fc158a2bb07876d4",
+                "responses": {
+                    "204": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/users/mobile-offer-features": {
             "get": {
                 "tags": [

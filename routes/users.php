@@ -4,6 +4,7 @@ use App\Enum\Auth\RolesEnum;
 use App\Http\Controllers\User\Auth\ChangePasswordController;
 use App\Http\Controllers\User\Auth\ChangePhoneNumberController;
 use App\Http\Controllers\User\Auth\DeleteAccountController;
+use App\Http\Controllers\User\Auth\SignOutController;
 use App\Http\Controllers\User\Auth\GetUserPhoneNumberController;
 use App\Http\Controllers\User\Auth\Login\AddPhoneNumberLoginStepController;
 use App\Http\Controllers\User\Auth\Login\LoginController;
@@ -87,6 +88,9 @@ Route::prefix('users')
                         );
 
                     Route::delete('', DeleteAccountController::class);
+
+                    Route::patch('sign-out', SignOutController::class);
+
 
                 });
 
