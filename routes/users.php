@@ -22,6 +22,7 @@ use App\Http\Controllers\User\MobileOffer\SearchMobilesOffersController;
 use App\Http\Controllers\User\MobileOffer\SellMobileOfferController;
 use App\Http\Controllers\User\MobileOffer\UpdateMobileOfferController;
 use App\Http\Controllers\User\MobileOfferFeature\GetMobileOfferFeaturesListController;
+use App\Http\Controllers\User\Reporting\BlockUserController;
 use App\Http\Middleware\OptionalAuthSanctum;
 use Illuminate\Support\Facades\Route;
 
@@ -71,6 +72,16 @@ Route::prefix('users')
         )
             // auth:sanctum check if user is logged in (middleware('auth')),
             ->group(function () {
+
+                Route::prefix('reportings')->group(function () {
+
+                    Route::prefix('block-user')->group(function () {
+
+                        Route::patch('{id}', BlockUserController::class);
+
+                    });
+
+                });
 
                 Route::prefix('auth')->group(function () {
 

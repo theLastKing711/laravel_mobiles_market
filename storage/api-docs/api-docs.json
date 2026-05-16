@@ -199,6 +199,39 @@
                 }
             ]
         },
+        "/users/reportings/block-user/{id}": {
+            "patch": {
+                "tags": [
+                    "usersReportings"
+                ],
+                "operationId": "7ce38df23ec998125a2a53026f82dca6",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "App\\Data\\User\\Reporting\\BlockUser\\Request\\BlockUserRequestData"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            },
+            "parameters": [
+                {
+                    "$ref": "#/components/parameters/usersBlockUserRequestPathParameterData"
+                }
+            ]
+        },
         "/admin/users": {
             "get": {
                 "tags": [
@@ -1991,7 +2024,8 @@
                 ]
             },
             "UserMobileOfferController": {},
-            "UserMyMobileOfferOfferController": {}
+            "UserMyMobileOfferOfferController": {},
+            "BlockUserAbstractController": {}
         },
         "responses": {
             "200": {
@@ -2109,6 +2143,14 @@
                 "schema": {
                     "type": "integer"
                 }
+            },
+            "usersBlockUserRequestPathParameterData": {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
             }
         },
         "securitySchemes": {
@@ -2163,6 +2205,10 @@
         {
             "name": "storesMobileOffers",
             "description": "storesMobileOffers"
+        },
+        {
+            "name": "usersReportings",
+            "description": "usersReportings"
         }
     ]
 }

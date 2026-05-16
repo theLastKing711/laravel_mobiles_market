@@ -123,6 +123,14 @@ class User extends Authenticatable
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<User, $this, UserBlocksUser>
+     */
+    public function blocksUsers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_blocks_user', 'blocker_id', 'blocked_id');
+    }
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

@@ -57,6 +57,12 @@ class SearchMobilesOffersController extends Controller
                 );
         }
 
+        $blocked_users_ids =
+            Auth::User()
+                ->blocksUsers()
+                ->pluck('blocked_id')
+                ->toArray();
+
         $remote_mobiles_offers_search =
             MobileOffer::search(
                 $request_search
@@ -68,6 +74,7 @@ class SearchMobilesOffersController extends Controller
                             'features',
                             'mainImage',
                         ])
+                        ->whereNotIn('user_id', $blocked_users_ids)
                         ->selectRaw(
                             '
                                 *,
