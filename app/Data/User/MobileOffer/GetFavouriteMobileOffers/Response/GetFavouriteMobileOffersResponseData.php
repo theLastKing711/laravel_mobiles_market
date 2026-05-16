@@ -15,6 +15,8 @@ class GetFavouriteMobileOffersResponseData extends Data
         #[OAT\Property]
         public int $id,
         #[OAT\Property]
+        public int $user_id,
+        #[OAT\Property]
         public string $name_in_english,
         #[OAT\Property]
         public string $name_in_arabic,

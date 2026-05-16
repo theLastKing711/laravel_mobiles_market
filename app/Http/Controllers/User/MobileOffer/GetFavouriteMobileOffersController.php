@@ -25,6 +25,12 @@ class GetFavouriteMobileOffersController extends MobileOfferController
         $logged_user_id =
             Auth::User()->id;
 
+        $blocked_users_ids =
+            Auth::User()
+                ->blocksUsers()
+                ->pluck('blocked_id')
+                ->toArray();
+
         return GetFavouriteMobileOffersResponseData::collect(
             MobileOffer::search($request->search)
                  // gets called on client side after remote query success
@@ -34,11 +40,12 @@ class GetFavouriteMobileOffersController extends MobileOfferController
                             'features',
                             'mainImage',
                         ])
+                        ->whereNotIn('user_id', $blocked_users_ids)
                         ->selectRaw(
                             '
-                        *,
-                        true is_favourite
-                    ',
+                                *,
+                                true is_favourite
+                            ',
                         )
                         ->whereRelation(
                             'favouriteByUsers',
