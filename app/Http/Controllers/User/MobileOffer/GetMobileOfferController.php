@@ -35,6 +35,7 @@ class GetMobileOfferController extends MobileOfferController
                             '
                                     *,
                                     (select false) as is_favourite,
+                                    (select false) as is_flagged_by_user,
                                     (select phone_number from users where users.id=mobile_offers.user_id) as phone_number
                             ',
                         )
@@ -58,6 +59,7 @@ class GetMobileOfferController extends MobileOfferController
                     '
                             *,
                             (select exists (select 1 from user_favourites_mobile_offer where user_id=? AND mobile_offer_id=mobile_offers.id)) as is_favourite,
+                            (select exists (select 1 from user_flags_mobile_offer where user_id=? AND mobile_offer_id=mobile_offers.id)) as is_flagged_by_user,
                             (select phone_number from users where users.id=mobile_offers.user_id) as phone_number
                     ',
                     [Auth::User()->id]

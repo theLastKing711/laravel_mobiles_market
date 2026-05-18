@@ -56,6 +56,9 @@ class GetMobileOfferResponseData extends Data
             OAT\Property,
         ]
         public bool $is_favourite,
+
+        #[OAT\Property]
+        public int $is_flagged_by_user,
     ) {}
 
 }

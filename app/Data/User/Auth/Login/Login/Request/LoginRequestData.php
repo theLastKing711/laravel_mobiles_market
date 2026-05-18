@@ -14,11 +14,11 @@ class LoginRequestData extends Data
 {
     public function __construct(
         #[
-            OAT\Property,
+            OAT\Property(default: "0968259851"),
             Exists(User::class, 'phone_number')
         ]
         public string $phone_number,
-        #[OAT\Property]
+        #[OAT\Property(default:'2280')]
         public string $password,
     ) {}
 

@@ -23,6 +23,7 @@ use App\Http\Controllers\User\MobileOffer\SellMobileOfferController;
 use App\Http\Controllers\User\MobileOffer\UpdateMobileOfferController;
 use App\Http\Controllers\User\MobileOfferFeature\GetMobileOfferFeaturesListController;
 use App\Http\Controllers\User\Reporting\BlockUserController;
+use App\Http\Controllers\User\Reporting\FlagMobileOfferController;
 use App\Http\Middleware\OptionalAuthSanctum;
 use Illuminate\Support\Facades\Route;
 
@@ -81,6 +82,11 @@ Route::prefix('users')
 
                     });
 
+                    Route::prefix('flag-mobile-offer')->group(function () {
+
+                        Route::patch('{id}', FlagMobileOfferController::class);
+
+                    });
                 });
 
                 Route::prefix('auth')->group(function () {
