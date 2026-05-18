@@ -156,8 +156,7 @@ class MobileOfferSeeder extends Seeder
 
         $second_store =
             User::query()
-                ->user()
-                ->skip(1)
+                ->store()
                 ->first();
 
         $second_store
