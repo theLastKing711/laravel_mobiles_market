@@ -131,6 +131,43 @@ class MobileOfferSeeder extends Seeder
         ],
 
     ];
+    public const MOBILE_OFFERS_2 = [
+        [
+            'name_in_english' => 'iPhone 10',
+            'name_in_arabic' => 'أيفون 10',
+            'mobile_name_language_when_uploaded' => Language::EN,
+            'price_in_usd' => 300,
+            'is_sold' => false,
+            'screen_size' => '6.1',
+            'screen_type' => 'IPS',
+            'cpu' => 'A12 Bionic chip',
+            'ram' => '3GB',
+            'storage' => '256GB',
+            'battery_size' => 2900,
+            'battery_health' => 90,
+            'number_of_sims' => 1,
+            'number_of_esims' => 0,
+            'color' => 'blue',
+        ],
+        [
+            'name_in_english' => 'iPhone 17',
+            'name_in_arabic' => 'أيفون 17',
+            'mobile_name_language_when_uploaded' => Language::EN,
+            'price_in_usd' => 400,
+            'is_sold' => false,
+            'screen_size' => '6.1',
+            'screen_type' => 'IPS',
+            'cpu' => 'A13 Bionic chip',
+            'ram' => '4GB',
+            'storage' => '256GB',
+            'battery_size' => 3110,
+            'battery_health' => 85,
+            'number_of_sims' => 1,
+            'number_of_esims' => 0,
+            'color' => 'blue',
+        ],
+    ];
+
 
     /**
      * Run the database seeds.
@@ -162,7 +199,7 @@ class MobileOfferSeeder extends Seeder
         $second_store
           ->mobileOffers()
           ->createMany(
-              $mobile_offers->take(4)->toArray()
+              MobileOfferSeeder::MOBILE_OFFERS_2
           );
 
         Context::add(
