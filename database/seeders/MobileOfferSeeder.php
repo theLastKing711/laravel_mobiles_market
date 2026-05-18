@@ -154,6 +154,18 @@ class MobileOfferSeeder extends Seeder
                 MobileOfferSeeder::MOBILE_OFFERS
             );
 
+        $second_store =
+            User::query()
+                ->user()
+                ->skip(1)
+                ->first();
+
+        $second_store
+          ->mobileOffers()
+          ->createMany(
+              $mobile_offers->take(4)->toArray()
+          );
+
         Context::add(
             'mobile_offers',
             $store->mobileOffers
