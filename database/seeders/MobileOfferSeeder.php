@@ -168,7 +168,6 @@ class MobileOfferSeeder extends Seeder
         ],
     ];
 
-
     /**
      * Run the database seeds.
      */
